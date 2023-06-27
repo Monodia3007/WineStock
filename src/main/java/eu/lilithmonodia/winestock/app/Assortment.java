@@ -37,4 +37,12 @@ public class Assortment {
     public List<Wine> getWineList() {
         return wineList;
     }
+
+    public int getPrice () {
+        int price = 0;
+        for (Wine wine: wineList) {
+            price += wine.getPrice();
+        }
+        return price;
+    }
 }
