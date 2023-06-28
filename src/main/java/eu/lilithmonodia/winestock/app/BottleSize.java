@@ -4,8 +4,8 @@ import java.util.List;
 
 public enum BottleSize {
     PICCOLA(20),
-    CHOPINE (25),
-    FILLETTE (37.5),
+    CHOPINE(25),
+    FILLETTE(37.5),
     MEDIUM(50),
     BOUTEILLE(75),
     MAGNUM(150),
@@ -19,22 +19,22 @@ public enum BottleSize {
     SOUVERAIN(2625),
     PRIMAT(2700),
     MIDAS(3000);
-    
+
     private final double volume;
-    
-    BottleSize (double volume) {
+
+    BottleSize(double volume) {
         this.volume = volume;
+    }
+
+    public static BottleSize doubleToBottleSize(double volume) {
+        List<BottleSize> bottleSizes = List.of(BottleSize.values());
+        for (BottleSize bottleSize : bottleSizes) {
+            if (bottleSize.getVolume() == volume) return bottleSize;
+        }
+        return null;
     }
 
     public double getVolume() {
         return volume;
-    }
-    
-    public static BottleSize doubleToBottleSize(double volume) {
-        List<BottleSize> bottleSizes = List.of(BottleSize.values());
-        for (BottleSize bottleSize: bottleSizes) {
-            if (bottleSize.getVolume() == volume) return bottleSize;
-        }
-        return null;
     }
 }

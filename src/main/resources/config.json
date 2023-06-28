@@ -1,0 +1,5 @@
+{
+  "database-host": "jdbc:postgresql://lilith-monodia.eu:5432/winestock",
+  "database-user": "monodia",
+  "user-password": "P13rr3/3007/"
+}

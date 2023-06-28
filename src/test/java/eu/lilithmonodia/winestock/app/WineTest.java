@@ -12,13 +12,13 @@ public class WineTest {
 
     @BeforeEach
     public void initialization () {
-        w1 = new Wine("Romanée-Conti", Year.of(1999), 75, "rouge", 2000);
-        w2 = new Wine("Grand Echézeau", Year.of(2000), 150, "rouge", 5000, "Étiquette légèrement abimée");
+        w1 = new Wine("Romanée-Conti", 1999, 75, "rouge", 2000);
+        w2 = new Wine("Grand Echézeau", 2000, 150, "rouge", 5000, "Étiquette légèrement abimée");
     }
 
     @Test
     public void testEquals () {
-        Wine wine = new Wine("Grand Echézeau", Year.of(2000), 150, "rouge", 5000, "truc");
+        Wine wine = new Wine("Grand Echézeau", 2000, 150, "rouge", 5000, "truc");
         assertEquals(wine, w2);
     }
 

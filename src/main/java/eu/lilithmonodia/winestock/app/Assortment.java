@@ -1,10 +1,7 @@
 package eu.lilithmonodia.winestock.app;
 
-import eu.lilithmonodia.winestock.exceptions.WrongYearException;
-
 import java.time.Year;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 public class Assortment {
@@ -15,18 +12,13 @@ public class Assortment {
         this.wineList = new ArrayList<>();
     }
 
-    public boolean add (Wine wine) {
-        try {
-            if (this.year != null && !wine.getYear().equals(this.year)) throw new WrongYearException();
-            this.year = wine.getYear();
-            return this.wineList.add(wine);
-        } catch (WrongYearException e) {
-            System.err.println(Arrays.toString(e.getStackTrace()));
-            return false;
-        }
+    public boolean add(Wine wine) {
+        if (this.year != null && !wine.getYear().equals(this.year)) return false;
+        this.year = wine.getYear();
+        return this.wineList.add(wine);
     }
 
-    public boolean remove (Wine wine) {
+    public boolean remove(Wine wine) {
         return this.wineList.remove(wine);
     }
 
@@ -38,9 +30,9 @@ public class Assortment {
         return wineList;
     }
 
-    public int getPrice () {
+    public int getPrice() {
         int price = 0;
-        for (Wine wine: wineList) {
+        for (Wine wine : wineList) {
             price += wine.getPrice();
         }
         return price;

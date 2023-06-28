@@ -7,16 +7,16 @@ public class Wine {
     private Year year;
     private BottleSize volume;
     private Color color;
-    private int price;
+    private double price;
     private String comment;
 
-    public Wine(String name, Year year, double volume, String color, int price) {
+    public Wine(String name, int year, double volume, String color, double price) {
         this(name, year, volume, color, price, "");
     }
 
-    public Wine(String name, Year year, double volume, String  color, int price, String comment) {
+    public Wine(String name, int year, double volume, String color, double price, String comment) {
         this.name = name;
-        this.year = year;
+        this.year = Year.of(year);
         this.volume = BottleSize.doubleToBottleSize(volume);
         this.color = Color.valueOf(color.toUpperCase());
         this.price = price;
@@ -56,7 +56,7 @@ public class Wine {
     }
 
 
-    public int getPrice() {
+    public double getPrice() {
         return price;
     }
 
@@ -77,7 +77,7 @@ public class Wine {
         if (this == o) return true;
         if (!(o instanceof Wine wine)) return false;
 
-        if (getPrice() != wine.getPrice()) return false;
+        if (Double.compare(wine.getPrice(), getPrice()) != 0) return false;
         if (!getName().equals(wine.getName())) return false;
         if (!getYear().equals(wine.getYear())) return false;
         if (getVolume() != wine.getVolume()) return false;
@@ -86,11 +86,14 @@ public class Wine {
 
     @Override
     public int hashCode() {
-        int result = getName().hashCode();
+        int result;
+        long temp;
+        result = getName().hashCode();
         result = 31 * result + getYear().hashCode();
         result = 31 * result + getVolume().hashCode();
         result = 31 * result + getColor().hashCode();
-        result = 31 * result + getPrice();
+        temp = Double.doubleToLongBits(getPrice());
+        result = 31 * result + (int) (temp ^ (temp >>> 32));
         return result;
     }
 
