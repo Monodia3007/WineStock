@@ -1,11 +1,12 @@
 package eu.lilithmonodia.winestock.app;
 
-import static org.junit.jupiter.api.Assertions.*;
 import org.junit.jupiter.api.Test;
+
+import static org.junit.jupiter.api.Assertions.assertNull;
 
 public class BottleSizeTest {
     @Test
-    public void testInvalidVolume () {
+    public void testInvalidVolume() {
         assertNull(BottleSize.doubleToBottleSize(39));
     }
 }

@@ -9,6 +9,7 @@ public class Wine {
     private Color color;
     private double price;
     private String comment;
+    private boolean inAssortment;
 
     public Wine(String name, int year, double volume, String color, double price) {
         this(name, year, volume, color, price, "");
@@ -21,6 +22,7 @@ public class Wine {
         this.color = Color.valueOf(color.toUpperCase());
         this.price = price;
         this.comment = comment;
+        this.inAssortment = false;
     }
 
     public String getName() {
@@ -60,7 +62,7 @@ public class Wine {
         return price;
     }
 
-    public void setPrice(int price) {
+    public void setPrice(double price) {
         this.price = price;
     }
 
@@ -70,6 +72,14 @@ public class Wine {
 
     public void setComment(String comment) {
         this.comment = comment;
+    }
+
+    public boolean isInAssortment() {
+        return inAssortment;
+    }
+
+    public void setInAssortment(boolean inAssortment) {
+        this.inAssortment = inAssortment;
     }
 
     @Override

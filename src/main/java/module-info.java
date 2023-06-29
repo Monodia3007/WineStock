@@ -1,4 +1,4 @@
-module WineStock.main {
+module eu.lilithmonodia.winestock {
     requires javafx.controls;
     requires javafx.fxml;
     requires java.sql;

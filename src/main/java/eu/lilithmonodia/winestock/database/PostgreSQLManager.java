@@ -13,7 +13,7 @@ public class PostgreSQLManager {
     private final String user;
     private final String password;
 
-    public PostgreSQLManager() throws IOException{
+    public PostgreSQLManager() throws IOException {
         this.url = Configuration.fromConfig().host();
         this.user = Configuration.fromConfig().user();
         this.password = Configuration.fromConfig().password();
@@ -29,7 +29,7 @@ public class PostgreSQLManager {
         return DriverManager.getConnection(url, user, password);
     }
 
-    public List<Wine> getAllWine () {
+    public List<Wine> getAllWine() {
         String SQL = "SELECT * FROM public.wine";
         ArrayList<Wine> result = new ArrayList<>();
 

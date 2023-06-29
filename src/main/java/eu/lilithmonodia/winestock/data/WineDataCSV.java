@@ -2,7 +2,6 @@ package eu.lilithmonodia.winestock.data;
 
 import eu.lilithmonodia.winestock.app.Wine;
 
-import java.time.Year;
 import java.util.ArrayList;
 import java.util.List;
 
