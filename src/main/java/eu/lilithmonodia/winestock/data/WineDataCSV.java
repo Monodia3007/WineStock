@@ -5,11 +5,24 @@ import eu.lilithmonodia.winestock.app.Wine;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * The type Wine data csv.
+ */
 public class WineDataCSV extends DataCSV {
+    /**
+     * Instantiates a new Wine data csv.
+     *
+     * @param fileName the file name
+     */
     public WineDataCSV(String fileName) {
         super(fileName);
     }
 
+    /**
+     * To wine list.
+     *
+     * @return the list
+     */
     public List<Wine> toWine() {
         List<Wine> wineList = new ArrayList<>();
         for (ArrayList<String> wine : this.getTab()) {

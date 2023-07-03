@@ -6,18 +6,35 @@ import java.util.Collection;
 import java.util.List;
 import java.util.Objects;
 
+/**
+ * The type Assortment.
+ */
 public class Assortment {
     private final List<Wine> wineList;
     private Year year;
 
+    /**
+     * Instantiates a new Assortment.
+     */
     public Assortment() {
         this.wineList = new ArrayList<>();
     }
 
+    /**
+     * Instantiates a new Assortment.
+     *
+     * @param wineCollection the wine collection
+     */
     public Assortment(Collection<Wine> wineCollection) {
         this.wineList = new ArrayList<>(wineCollection);
     }
 
+    /**
+     * Add boolean.
+     *
+     * @param wine the wine
+     * @return the boolean
+     */
     public boolean add(Wine wine) {
         if (this.year != null && !wine.getYear().equals(this.year)) return false;
         this.year = wine.getYear();
@@ -25,6 +42,12 @@ public class Assortment {
         return this.wineList.add(wine);
     }
 
+    /**
+     * Remove boolean.
+     *
+     * @param wine the wine
+     * @return the boolean
+     */
     public boolean remove(Wine wine) {
         if (this.wineList.contains(wine)) {
             wine.setInAssortment(false);
@@ -33,10 +56,20 @@ public class Assortment {
         return false;
     }
 
+    /**
+     * Gets wine list.
+     *
+     * @return the wine list
+     */
     public List<Wine> getWineList() {
         return wineList;
     }
 
+    /**
+     * Gets price.
+     *
+     * @return the price
+     */
     public double getPrice() {
         double price = 0;
         for (Wine wine : wineList) {

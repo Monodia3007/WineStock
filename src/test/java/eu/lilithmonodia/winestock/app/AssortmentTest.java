@@ -7,10 +7,16 @@ import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+/**
+ * The type Assortment test.
+ */
 public class AssortmentTest {
     private Wine w1, w2, w3, w4;
     private Assortment a1, a2;
 
+    /**
+     * Initialisation.
+     */
     @BeforeEach
     public void initialisation() {
         w1 = new Wine("Romanée-Conti", 1999, 75, "rouge", 2000);
@@ -21,6 +27,9 @@ public class AssortmentTest {
         a2 = new Assortment(List.of(w3, w4));
     }
 
+    /**
+     * Test add.
+     */
     @Test
     public void testAdd() {
         assertTrue(a1.add(w1));
@@ -28,12 +37,18 @@ public class AssortmentTest {
         assertFalse(a1.add(w2));
     }
 
+    /**
+     * Test remove.
+     */
     @Test
     public void testRemove() {
         assertFalse(a2.remove(w2));
         assertTrue(a2.remove(w3));
     }
 
+    /**
+     * Test get price.
+     */
     @Test
     public void testGetPrice() {
         assertEquals(4499.99, a2.getPrice());

@@ -5,5 +5,7 @@ module eu.lilithmonodia.winestock {
     requires org.json;
 
     opens eu.lilithmonodia.winestock to javafx.fxml;
+    opens eu.lilithmonodia.winestock.app to java.base;
     exports eu.lilithmonodia.winestock;
+    exports eu.lilithmonodia.winestock.app;
 }

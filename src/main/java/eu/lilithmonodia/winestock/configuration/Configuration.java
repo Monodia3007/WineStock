@@ -7,7 +7,16 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 
+/**
+ * The type Configuration.
+ */
 public record Configuration(String host, String user, String password) {
+    /**
+     * From config configuration.
+     *
+     * @return the configuration
+     * @throws IOException the io exception
+     */
     public static Configuration fromConfig() throws IOException {
         InputStream config = Configuration.class.getResourceAsStream("config.json");
         InputStreamReader isReader = new InputStreamReader(config);

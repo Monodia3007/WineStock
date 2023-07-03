@@ -5,17 +5,28 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
 
+/**
+ * The type Data csv.
+ */
 public class DataCSV {
     private final String DELIMITER = ";";
     private final String fileName;
     private final ArrayList<ArrayList<String>> tab;
 
+    /**
+     * Instantiates a new Data csv.
+     *
+     * @param fileName the file name
+     */
     public DataCSV(String fileName) {
         this.fileName = fileName;
         this.tab = new ArrayList<>();
         this.load();
     }
 
+    /**
+     * Load.
+     */
     public void load() {
         String line;
         try {
@@ -45,6 +56,11 @@ public class DataCSV {
                 '}';
     }
 
+    /**
+     * Gets tab.
+     *
+     * @return the tab
+     */
     public ArrayList<ArrayList<String>> getTab() {
         return tab;
     }
