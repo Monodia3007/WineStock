@@ -8,6 +8,7 @@ import java.util.ArrayList;
 /**
  * The type Data csv.
  */
+@Deprecated
 public class DataCSV {
     private final String DELIMITER = ";";
     private final String fileName;

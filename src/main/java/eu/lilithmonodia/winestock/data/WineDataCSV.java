@@ -8,6 +8,7 @@ import java.util.List;
 /**
  * The type Wine data csv.
  */
+@Deprecated
 public class WineDataCSV extends DataCSV {
     /**
      * Instantiates a new Wine data csv.
