@@ -3,7 +3,11 @@ package eu.lilithmonodia.winestock.app;
 import java.time.Year;
 
 /**
- * The type Wine.
+ * This class represents a specific type of wine which encapsulates various
+ * attributes of the wine such as its name, production year, bottle size,
+ * color, price, and user comments.
+ * <p>
+ * The wine can also be part of an assortment (collection of wines).
  */
 public class Wine {
     private String name;
@@ -15,27 +19,27 @@ public class Wine {
     private boolean inAssortment;
 
     /**
-     * Instantiates a new Wine.
+     * Constructs a new `Wine` without any comment.
      *
-     * @param name   the name
-     * @param year   the year
-     * @param volume the volume
-     * @param color  the color
-     * @param price  the price
+     * @param name   the name of the wine
+     * @param year   the production year of the wine
+     * @param volume the bottle size of the wine
+     * @param color  the color of the wine
+     * @param price  the price of the wine
      */
     public Wine(String name, int year, double volume, String color, double price) {
         this(name, year, volume, color, price, "");
     }
 
     /**
-     * Instantiates a new Wine.
+     * Constructs a new `Wine` with a comment.
      *
-     * @param name    the name
-     * @param year    the year
-     * @param volume  the volume
-     * @param color   the color
-     * @param price   the price
-     * @param comment the comment
+     * @param name    the name of the wine
+     * @param year    the production year of the wine
+     * @param volume  the bottle size of the wine
+     * @param color   the color of the wine
+     * @param price   the price of the wine
+     * @param comment the seller's comment about the wine
      */
     public Wine(String name, int year, double volume, String color, double price, String comment) {
         this.name = name;
@@ -174,6 +178,12 @@ public class Wine {
         this.inAssortment = inAssortment;
     }
 
+    /**
+     * Determines whether the current `Wine` object equals another object.
+     *
+     * @param o The object to compare against for equality.
+     * @return true if the objects are the same; false otherwise.
+     */
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -186,6 +196,11 @@ public class Wine {
         return getColor() == wine.getColor();
     }
 
+    /**
+     * Generates a hash code for the `Wine` object.
+     *
+     * @return the hash code.
+     */
     @Override
     public int hashCode() {
         int result;
@@ -199,6 +214,11 @@ public class Wine {
         return result;
     }
 
+    /**
+     * Returns a string representation of the `Wine` object.
+     *
+     * @return a string description of the wine.
+     */
     @Override
     public String toString() {
         return "Wine{" +

@@ -7,33 +7,38 @@ import java.util.List;
 import java.util.Objects;
 
 /**
- * The type Assortment.
+ * This class represents an assortment of wine. Each assortment contains a list
+ * of wines (`Wine` objects) and a year. An assortment can be instantiated with
+ * an empty list or a provided collection of wines. Wines may be added or
+ * removed from the assortment.
  */
 public class Assortment {
     private final List<Wine> wineList;
     private Year year;
 
     /**
-     * Instantiates a new Assortment.
+     * Constructs a new `Assortment` with an empty list of `Wine` objects.
      */
     public Assortment() {
         this.wineList = new ArrayList<>();
     }
 
     /**
-     * Instantiates a new Assortment.
+     * Constructs a new `Assortment` with a given collection of wines.
      *
-     * @param wineCollection the wine collection
+     * @param wineCollection the collection of `Wine` objects with which to initialize the wine list.
      */
     public Assortment(Collection<Wine> wineCollection) {
         this.wineList = new ArrayList<>(wineCollection);
     }
 
     /**
-     * Add boolean.
+     * Adds a wine to the assortment.
+     * The function checks appropriateness of the year and `inAssortment` flag
+     * of the wine before adding.
      *
-     * @param wine the wine
-     * @return the boolean
+     * @param wine the `Wine` object to add to the assortment
+     * @return `true` if the wine was added successfully; `false` otherwise.
      */
     public boolean add(Wine wine) {
         if ((this.year != null && !wine.getYear().equals(this.year)) || wine.isInAssortment()) return false;
@@ -43,10 +48,12 @@ public class Assortment {
     }
 
     /**
-     * Remove boolean.
+     * Removes a wine from the assortment.
+     * If the wine is present in the assortment, it is removed and its
+     * `inAssortment` flag is set to false.
      *
-     * @param wine the wine
-     * @return the boolean
+     * @param wine the `Wine` object to be removed from the assortment.
+     * @return `true` if the wine was successfully removed; `false` otherwise.
      */
     public boolean remove(Wine wine) {
         if (this.wineList.contains(wine)) {
@@ -57,18 +64,18 @@ public class Assortment {
     }
 
     /**
-     * Gets wine list.
+     * Gets the list of wines contained in the assortment.
      *
-     * @return the wine list
+     * @return the list of `Wine` objects in the assortment.
      */
     public List<Wine> getWineList() {
         return wineList;
     }
 
     /**
-     * Gets price.
+     * Calculates the total price of all the wines in the assortment.
      *
-     * @return the price
+     * @return the total price of the `Wine` objects in the assortment.
      */
     public double getPrice() {
         double price = 0;
@@ -78,6 +85,14 @@ public class Assortment {
         return price;
     }
 
+    /**
+     * Returns a string representation of the `Assortment` object.
+     * The returned string includes the class name (`Assortment`), and a list of all
+     * the wine objects within this assortment. Each wine's information is enclosed
+     * within curly braces ({}) and separated by commas.
+     *
+     * @return a string representation of the `Assortment` object.
+     */
     @Override
     public String toString() {
         return "Assortment{" +
@@ -85,6 +100,13 @@ public class Assortment {
                 '}';
     }
 
+    /**
+     * Checks whether this `Assortment` instance is equal to the provided `Object`.
+     * The function checks for the equality of the wine lists and the year of production.
+     *
+     * @param o the object to be compared for equality with `this`.
+     * @return `true` if the specified object is equal to this `Assortment` object; `false` otherwise.
+     */
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -94,6 +116,14 @@ public class Assortment {
         return Objects.equals(year, that.year);
     }
 
+    /**
+     * Returns a hash code value for the object. This method is
+     * supported for the benefit of hash tables such as those provided by
+     * `java.util.HashMap`.
+     * This function takes the wine list and the year into consideration when calculating the hash code.
+     *
+     * @return a hash code value for this object.
+     */
     @Override
     public int hashCode() {
         int result = getWineList().hashCode();

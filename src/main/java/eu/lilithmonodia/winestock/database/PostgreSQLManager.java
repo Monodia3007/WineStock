@@ -2,6 +2,7 @@ package eu.lilithmonodia.winestock.database;
 
 import eu.lilithmonodia.winestock.app.Wine;
 import eu.lilithmonodia.winestock.configuration.Configuration;
+import org.jetbrains.annotations.NotNull;
 
 import java.io.IOException;
 import java.sql.*;
@@ -9,7 +10,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * The type Postgre sql manager.
+ * Manages the PostgreSQL database connection and operations for the winestock application.
+ * It provides functionality to connect to the PostgreSQL database, retrieve wines information, and insert new wine items.
+ * The database credentials can be provided via configuration or directly through the constructor.
  */
 public class PostgreSQLManager {
     private final String url;
@@ -17,9 +20,9 @@ public class PostgreSQLManager {
     private final String password;
 
     /**
-     * Instantiates a new Postgre sql manager.
+     * Default constructor. Initializes a new instance of PostgreSQLManager by reading connection details from the configuration file.
      *
-     * @throws IOException the io exception
+     * @throws IOException if there's an error reading the configuration file.
      */
     public PostgreSQLManager() throws IOException {
         this.url = Configuration.fromConfig().host();
@@ -28,11 +31,11 @@ public class PostgreSQLManager {
     }
 
     /**
-     * Instantiates a new Postgre sql manager.
+     * Constructor with provided database connection details. Initialize a new instance of PostgreSQLManager with provided user and password.
      *
-     * @param user     the user
-     * @param password the password
-     * @throws IOException the io exception
+     * @param user     the username for accessing the PostgreSQL database
+     * @param password the password associated with the provided username
+     * @throws IOException if there's an error reading the configuration file.
      */
     public PostgreSQLManager(String user, String password) throws IOException {
         this.url = Configuration.fromConfig().host();
@@ -41,19 +44,19 @@ public class PostgreSQLManager {
     }
 
     /**
-     * Connect to the PostgreSQL database
+     * Connects to the PostgreSQL database using the provided connection details.
      *
-     * @return a Connection object
-     * @throws SQLException the sql exception
+     * @return a Connection object for interacting with the database
+     * @throws SQLException if a database access error occurs or the url is null
      */
     public Connection connect() throws SQLException {
         return DriverManager.getConnection(url, user, password);
     }
 
     /**
-     * Gets all wine.
+     * Retrieves a list of all Wine objects in the database where the 'in_assortment' field is false.
      *
-     * @return the all wine
+     * @return List of Wine instances. If no wine details are found, an empty list is returned.
      */
     public List<Wine> getAllWine() {
         String SQL = "SELECT * FROM public.wine WHERE in_assortment = false";
@@ -79,12 +82,12 @@ public class PostgreSQLManager {
     }
 
     /**
-     * Insert wine long.
+     * Adds a new Wine object to the database.
      *
-     * @param wine the wine
-     * @return the long
+     * @param wine The Wine instance to be stored into the database
+     * @return the auto-generated key of the new inserted record; If insertion fails it returns 0
      */
-    public long insertWine(Wine wine) {
+    public long insertWine(@NotNull Wine wine) {
         String SQL = "INSERT INTO wine(name, year, volume, color, price, comment) " + "VALUES(?, ?, ?, ?, ?, ?)";
 
         long id = 0;
@@ -117,4 +120,3 @@ public class PostgreSQLManager {
         return id;
     }
 }
-
