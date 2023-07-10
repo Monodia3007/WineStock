@@ -1,51 +1,51 @@
 package eu.lilithmonodia.winestock.app;
 
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-
+import java.time.Year;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotEquals;
 
-/**
- * The type Wine test.
- */
 public class WineTest {
-    private Wine w1, w2;
 
-    /**
-     * Initialization.
-     */
-    @BeforeEach
-    public void initialization() {
-        w1 = new Wine("Romanée-Conti", 1999, 75, "rouge", 2000);
-        w2 = new Wine("Grand Echézeau", 2000, 150, "rouge", 5000, "Étiquette légèrement abimée");
-    }
+    Wine wineToTest = new Wine("Cabernet", 2021, 75, "ROUGE", 20.0);
 
-    /**
-     * Test equals.
-     */
     @Test
-    public void testEquals() {
-        Wine wine = new Wine("Grand Echézeau", 2000, 150, "rouge", 5000, "truc");
-        assertEquals(wine, w2);
+    public void testNameGetterAndSetter() {
+        String testName = "Merlot";
+        wineToTest.setName(testName);
+        assertEquals(testName, wineToTest.getName());
     }
 
-    /**
-     * Test not equals.
-     */
     @Test
-    public void testNotEquals() {
-        assertNotEquals(w1, w2);
+    public void testYearGetterAndSetter() {
+        Year testYear = Year.of(1999);
+        wineToTest.setYear(testYear);
+        assertEquals(testYear, wineToTest.getYear());
     }
 
-    /**
-     * Test to string.
-     */
+    @Test
+    public void testPriceGetterAndSetter() {
+        double testPrice = 15.0;
+        wineToTest.setPrice(testPrice);
+        assertEquals(testPrice, wineToTest.getPrice());
+    }
+
+    @Test
+    public void testEqualsAndHashCode() {
+        Wine otherWine = new Wine("Cabernet", 2021, 75.0, "ROUGE", 20.0);
+        assertEquals(wineToTest, otherWine);
+        assertEquals(wineToTest.hashCode(), otherWine.hashCode());
+
+        otherWine.setPrice(25.0);
+        assertNotEquals(wineToTest, otherWine);
+        assertNotEquals(wineToTest.hashCode(), otherWine.hashCode());
+    }
+
     @Test
     public void testToString() {
-        String expected1 = "Wine{name='Romanée-Conti', year=1999, volume=BOUTEILLE(75.0), color=ROUGE, price=2000.0, comment=''}";
-        assertEquals(expected1, w1.toString());
-        String expected2 = "Wine{name='Grand Echézeau', year=2000, volume=MAGNUM(150.0), color=ROUGE, price=5000.0, comment='Étiquette légèrement abimée'}";
-        assertEquals(expected2, w2.toString());
+        String expectedString = "Wine{name='Cabernet', year=2021, volume=" +
+                "BOUTEILLE(75.0)" + ", color=" +
+                "ROUGE" + ", price=20.0, comment=''}";
+        assertEquals(expectedString, wineToTest.toString());
     }
 }
