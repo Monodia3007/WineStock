@@ -78,7 +78,7 @@ public enum BottleSize {
     }
 
     /**
-     * Double to bottle size bottle size.
+     * Double to bottle size.
      *
      * @param volume the volume
      * @return the bottle size

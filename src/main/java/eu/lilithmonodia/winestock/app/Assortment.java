@@ -36,7 +36,7 @@ public class Assortment {
      * @return the boolean
      */
     public boolean add(Wine wine) {
-        if (this.year != null && !wine.getYear().equals(this.year)) return false;
+        if ((this.year != null && !wine.getYear().equals(this.year)) || wine.isInAssortment()) return false;
         this.year = wine.getYear();
         wine.setInAssortment(true);
         return this.wineList.add(wine);

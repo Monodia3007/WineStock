@@ -1,11 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.geometry.Insets?>
+<?import javafx.geometry.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
-<TabPane xmlns:fx="http://javafx.com/fxml/1" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity"
-         prefHeight="480.0" prefWidth="640.0" tabClosingPolicy="UNAVAILABLE"
-         xmlns="http://javafx.com/javafx/19" fx:controller="eu.lilithmonodia.winestock.WineStockController">
+
+<TabPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="480.0" prefWidth="640.0" tabClosingPolicy="UNAVAILABLE" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="eu.lilithmonodia.winestock.WineStockController">
     <tabs>
         <Tab text="Vins">
             <content>
@@ -21,50 +20,34 @@
                                                     <children>
                                                         <TableView fx:id="wineTab" prefHeight="443.0" prefWidth="640.0">
                                                             <columns>
-                                                                <TableColumn fx:id="wineTabName"
-                                                                             prefWidth="196.94072026014328" text="Nom"/>
-                                                                <TableColumn fx:id="wineTabYear" minWidth="0.0"
-                                                                             prefWidth="65.51377868652344"
-                                                                             text="Millésime"/>
-                                                                <TableColumn fx:id="wineTabVolume"
-                                                                             prefWidth="78.31973266601562"
-                                                                             text="Contenance"/>
-                                                                <TableColumn fx:id="wineTabColor"
-                                                                             prefWidth="63.19818115234375"
-                                                                             text="Couleur"/>
-                                                                <TableColumn fx:id="wineTabPrice"
-                                                                             prefWidth="50.102081298828125"
-                                                                             text="Prix"/>
-                                                                <TableColumn fx:id="wineTabComment"
-                                                                             prefWidth="187.8978271484375"
-                                                                             text="Commentaire"/>
+                                                                <TableColumn fx:id="wineTabName" prefWidth="196.94072026014328" text="Nom" />
+                                                                <TableColumn fx:id="wineTabYear" minWidth="0.0" prefWidth="65.51377868652344" text="Millésime" />
+                                                                <TableColumn fx:id="wineTabVolume" prefWidth="78.31973266601562" text="Contenance" />
+                                                                <TableColumn fx:id="wineTabColor" prefWidth="63.19818115234375" text="Couleur" />
+                                                                <TableColumn fx:id="wineTabPrice" prefWidth="50.102081298828125" text="Prix" />
+                                                                <TableColumn fx:id="wineTabComment" prefWidth="187.8978271484375" text="Commentaire" />
                                                             </columns>
                                                         </TableView>
                                                         <HBox alignment="CENTER" prefHeight="12.0" prefWidth="640.0">
                                                             <children>
                                                                 <TextField fx:id="usernameField" promptText="Username">
                                                                     <HBox.margin>
-                                                                        <Insets left="5.0" right="5.0"/>
+                                                                        <Insets left="5.0" right="5.0" />
                                                                     </HBox.margin>
                                                                 </TextField>
-                                                                <PasswordField fx:id="passwordField"
-                                                                               promptText="Password">
+                                                                <PasswordField fx:id="passwordField" promptText="Password">
                                                                     <HBox.margin>
-                                                                        <Insets left="5.0" right="5.0"/>
+                                                                        <Insets left="5.0" right="5.0" />
                                                                     </HBox.margin>
                                                                 </PasswordField>
-                                                                <Button fx:id="loginButton" mnemonicParsing="false"
-                                                                        onAction="#login" text="Login">
+                                                                <Button fx:id="loginButton" mnemonicParsing="false" onAction="#login" text="Login">
                                                                     <HBox.margin>
-                                                                        <Insets left="5.0" right="5.0"/>
+                                                                        <Insets left="5.0" right="5.0" />
                                                                     </HBox.margin>
                                                                 </Button>
-                                                                <Button fx:id="importButton" disable="true"
-                                                                        mnemonicParsing="false"
-                                                                        onAction="#importDatabase"
-                                                                        text="Import Database">
+                                                                <Button fx:id="importButton" disable="true" mnemonicParsing="false" onAction="#importDatabase" text="Import Database">
                                                                     <HBox.margin>
-                                                                        <Insets left="5.0" right="5.0"/>
+                                                                        <Insets left="5.0" right="5.0" />
                                                                     </HBox.margin>
                                                                 </Button>
                                                             </children>
@@ -77,14 +60,12 @@
                                 </Tab>
                                 <Tab text="Chercher">
                                     <content>
-                                        <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0"
-                                                    prefWidth="200.0"/>
+                                        <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
                                     </content>
                                 </Tab>
                                 <Tab text="Modifier">
                                     <content>
-                                        <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0"
-                                                    prefWidth="200.0"/>
+                                        <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
                                     </content>
                                 </Tab>
                             </tabs>
@@ -93,7 +74,7 @@
                 </AnchorPane>
             </content>
         </Tab>
-        <Tab text="Assortiment">
+        <Tab text="Assortiments">
             <content>
                 <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                     <children>
@@ -101,20 +82,17 @@
                             <tabs>
                                 <Tab text="Visualiser">
                                     <content>
-                                        <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0"
-                                                    prefWidth="200.0"/>
+                                        <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
                                     </content>
                                 </Tab>
                                 <Tab text="Chercher">
                                     <content>
-                                        <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0"
-                                                    prefWidth="200.0"/>
+                                        <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
                                     </content>
                                 </Tab>
                                 <Tab text="Modifier">
                                     <content>
-                                        <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0"
-                                                    prefWidth="200.0"/>
+                                        <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
                                     </content>
                                 </Tab>
                             </tabs>

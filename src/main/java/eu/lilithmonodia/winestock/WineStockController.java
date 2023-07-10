@@ -112,7 +112,7 @@ public class WineStockController {
         try {
             postgreSQLManager.connect();
             this.importButton.setDisable(false);
-        } catch (SQLException ignored) {
+        } catch (SQLException e) {
             this.importButton.setDisable(true);
         }
     }
