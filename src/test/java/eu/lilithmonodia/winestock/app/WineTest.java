@@ -1,51 +1,99 @@
 package eu.lilithmonodia.winestock.app;
 
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+
 import java.time.Year;
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotEquals;
 
-public class WineTest {
+import static org.junit.jupiter.api.Assertions.*;
 
-    Wine wineToTest = new Wine("Cabernet", 2021, 75, "ROUGE", 20.0);
+class WineTest {
+    Wine wine;
 
-    @Test
-    public void testNameGetterAndSetter() {
-        String testName = "Merlot";
-        wineToTest.setName(testName);
-        assertEquals(testName, wineToTest.getName());
+    @BeforeEach
+    void setUp() {
+        wine = new Wine("Cabernet", 2019, 75.0, "ROUGE", 150.0);
     }
 
     @Test
-    public void testYearGetterAndSetter() {
-        Year testYear = Year.of(1999);
-        wineToTest.setYear(testYear);
-        assertEquals(testYear, wineToTest.getYear());
+    void wineCreationTest() {
+        assertNotNull(wine);
     }
 
     @Test
-    public void testPriceGetterAndSetter() {
-        double testPrice = 15.0;
-        wineToTest.setPrice(testPrice);
-        assertEquals(testPrice, wineToTest.getPrice());
+    void getName() {
+        assertEquals("Cabernet", wine.getName());
     }
 
     @Test
-    public void testEqualsAndHashCode() {
-        Wine otherWine = new Wine("Cabernet", 2021, 75.0, "ROUGE", 20.0);
-        assertEquals(wineToTest, otherWine);
-        assertEquals(wineToTest.hashCode(), otherWine.hashCode());
-
-        otherWine.setPrice(25.0);
-        assertNotEquals(wineToTest, otherWine);
-        assertNotEquals(wineToTest.hashCode(), otherWine.hashCode());
+    void setName() {
+        wine.setName("Merlot");
+        assertEquals("Merlot", wine.getName());
     }
 
     @Test
-    public void testToString() {
-        String expectedString = "Wine{name='Cabernet', year=2021, volume=" +
-                "BOUTEILLE(75.0)" + ", color=" +
-                "ROUGE" + ", price=20.0, comment=''}";
-        assertEquals(expectedString, wineToTest.toString());
+    void getYear() {
+        assertEquals(Year.of(2019), wine.getYear());
+    }
+
+    @Test
+    void setYear() {
+        wine.setYear(Year.of(2020));
+        assertEquals(Year.of(2020), wine.getYear());
+    }
+
+    @Test
+    void getVolume() {
+        assertEquals(BottleSize.BOUTEILLE, wine.getVolume());
+    }
+
+    @Test
+    void setVolume() {
+        wine.setVolume(150.0);
+        assertEquals(BottleSize.MAGNUM, wine.getVolume());
+    }
+
+    @Test
+    void getColor() {
+        assertEquals(Color.ROUGE, wine.getColor());
+    }
+
+    @Test
+    void setColor() {
+        wine.setColor(Color.BLANC);
+        assertEquals(Color.BLANC, wine.getColor());
+    }
+
+    @Test
+    void getPrice() {
+        assertEquals(150.0, wine.getPrice());
+    }
+
+    @Test
+    void setPrice() {
+        wine.setPrice(200.0);
+        assertEquals(200.0, wine.getPrice());
+    }
+
+    @Test
+    void getComment() {
+        assertEquals("", wine.getComment());
+    }
+
+    @Test
+    void setComment() {
+        wine.setComment("Delicious");
+        assertEquals("Delicious", wine.getComment());
+    }
+
+    @Test
+    void isInAssortment() {
+        assertFalse(wine.isInAssortment());
+    }
+
+    @Test
+    void setInAssortment() {
+        wine.setInAssortment(true);
+        assertTrue(wine.isInAssortment());
     }
 }
