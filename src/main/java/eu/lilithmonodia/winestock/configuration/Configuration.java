@@ -19,9 +19,10 @@ public record Configuration(String host, String user, String password) {
      */
     public static Configuration fromConfig() throws IOException {
         InputStream config = Configuration.class.getResourceAsStream("config.json");
+        assert config != null;
         InputStreamReader isReader = new InputStreamReader(config);
         BufferedReader reader = new BufferedReader(isReader);
-        StringBuffer sb = new StringBuffer();
+        StringBuilder sb = new StringBuilder();
         String str;
         while ((str = reader.readLine()) != null) {
             sb.append(str);
