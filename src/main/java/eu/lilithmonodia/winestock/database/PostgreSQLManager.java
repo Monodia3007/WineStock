@@ -88,7 +88,7 @@ public class PostgreSQLManager {
      * @return the auto-generated key of the new inserted record; If insertion fails it returns 0
      */
     public long insertWine(@NotNull Wine wine) {
-        String SQL = "INSERT INTO wine(name, year, volume, color, price, comment) " + "VALUES(?, ?, ?, ?, ?, ?)";
+        String SQL = "INSERT INTO public.wine(name, year, volume, color, price, comment) " + "VALUES(?, ?, ?, ?, ?, ?)";
 
         long id = 0;
 
