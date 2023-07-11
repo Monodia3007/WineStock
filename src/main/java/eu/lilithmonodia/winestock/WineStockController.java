@@ -4,6 +4,7 @@ import eu.lilithmonodia.winestock.app.BottleSize;
 import eu.lilithmonodia.winestock.app.Color;
 import eu.lilithmonodia.winestock.app.Wine;
 import eu.lilithmonodia.winestock.database.PostgreSQLManager;
+import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
@@ -11,119 +12,85 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import java.io.IOException;
 import java.sql.SQLException;
 import java.time.Year;
-import java.util.ArrayList;
-import java.util.List;
 
 /**
- * The type Wine stock controller.
+ * The WineStockController class is responsible for handling user interactions with UI components.
+ * It retrieves wine data from the database and feeds it to the table view.
+ * It also provides user login functionality.
  */
 public class WineStockController {
-    private final List<Wine> wineList = new ArrayList<>();
-    /**
-     * The Username.
-     */
-    String username;
-    /**
-     * The Password.
-     */
-    String password;
-    /**
-     * The Postgre sql manager.
-     */
-    PostgreSQLManager postgreSQLManager;
-    /**
-     * The Wine tab.
-     */
+
+    private PostgreSQLManager postgreSQLManager;
+
     @FXML
-    TableView<Wine> wineTab;
-    /**
-     * The Wine tab name.
-     */
+    private TableView<Wine> wineTab;
     @FXML
-    TableColumn<Wine, String> wineTabName;
-    /**
-     * The Wine tab year.
-     */
+    private TableColumn<Wine, String> wineTabName;
     @FXML
-    TableColumn<Wine, Year> wineTabYear;
-    /**
-     * The Wine tab volume.
-     */
+    private TableColumn<Wine, Year> wineTabYear;
     @FXML
-    TableColumn<Wine, BottleSize> wineTabVolume;
-    /**
-     * The Wine tab color.
-     */
+    private TableColumn<Wine, BottleSize> wineTabVolume;
     @FXML
-    TableColumn<Wine, Color> wineTabColor;
-    /**
-     * The Wine tab price.
-     */
+    private TableColumn<Wine, Color> wineTabColor;
     @FXML
-    TableColumn<Wine, Double> wineTabPrice;
-    /**
-     * The Wine tab comment.
-     */
+    private TableColumn<Wine, Double> wineTabPrice;
     @FXML
-    TableColumn<Wine, String> wineTabComment;
-    /**
-     * The Username field.
-     */
+    private TableColumn<Wine, String> wineTabComment;
     @FXML
-    TextField usernameField;
-    /**
-     * The Password field.
-     */
+    private TextField usernameField;
     @FXML
-    PasswordField passwordField;
-    /**
-     * The Import button.
-     */
+    private PasswordField passwordField;
     @FXML
-    Button importButton;
-    /**
-     * The Login button.
-     */
+    private Button importButton;
     @FXML
-    Button loginButton;
+    private Button loginButton;
 
     /**
-     * Import database.
+     * Handles event of Import Database button click.
+     * Fetches all wine data from the database and refreshes table view.
      */
     public void importDatabase() {
+        setCellValueFactories();
+        refresh();
+    }
+
+    /**
+     * Sets cell value factories for each column in the table view.
+     */
+    private void setCellValueFactories() {
         wineTabName.setCellValueFactory(new PropertyValueFactory<>("name"));
         wineTabYear.setCellValueFactory(new PropertyValueFactory<>("year"));
         wineTabVolume.setCellValueFactory(new PropertyValueFactory<>("volume"));
         wineTabColor.setCellValueFactory(new PropertyValueFactory<>("color"));
         wineTabPrice.setCellValueFactory(new PropertyValueFactory<>("price"));
         wineTabComment.setCellValueFactory(new PropertyValueFactory<>("comment"));
-        refresh();
     }
 
     /**
-     * Login.
-     *
-     * @throws IOException the io exception
+     * Handles event of Login button click.
+     * Connects to the PostgreSQL database using credentials provided in the text fields.
+     * Enables or disables the Import Database button depending on success of the connection.
      */
-    public void login() throws IOException {
-        this.username = usernameField.getText();
-        this.password = passwordField.getText();
-        postgreSQLManager = new PostgreSQLManager(usernameField.getText(), passwordField.getText());
+    public void login() {
+        String username = usernameField.getText();
+        String password = passwordField.getText();
         try {
+            postgreSQLManager = new PostgreSQLManager(username, password);
             postgreSQLManager.connect();
-            this.importButton.setDisable(false);
-        } catch (SQLException e) {
-            this.importButton.setDisable(true);
+            importButton.setDisable(false);
+        } catch (IOException | SQLException e) {
+            importButton.setDisable(true);
         }
     }
 
     /**
-     * Refresh.
+     * Fetches all wine data from the database and populates table view with it.
      */
     public void refresh() {
-        wineList.clear();
-        wineList.addAll(postgreSQLManager.getAllWine());
-        wineTab.getItems().clear();
-        wineTab.getItems().addAll(wineList);
+        try {
+            wineTab.setItems(FXCollections.observableArrayList(postgreSQLManager.getAllWine()));
+        } catch (Exception e) {
+            // Possibly handle the exception with a logging system or displaying an error dialogue
+        }
     }
 }

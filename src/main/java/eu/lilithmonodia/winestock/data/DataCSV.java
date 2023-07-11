@@ -6,7 +6,12 @@ import java.io.IOException;
 import java.util.ArrayList;
 
 /**
- * The type Data csv.
+ * A `DataCSV` object represents a CSV (Comma-Separated Values)
+ * file reader, which is used to load data from a CSV file into a
+ * 2D ArrayList. Every line of the CSV file corresponds to an ArrayList of Strings
+ * in the 2D ArrayList, with each column in a line of the CSV file
+ * corresponding to a String in an ArrayList. This class is marked
+ * as deprecated, which means it's not recommended to use it in new code.
  */
 @Deprecated
 public class DataCSV {
@@ -15,9 +20,9 @@ public class DataCSV {
     private final ArrayList<ArrayList<String>> tab;
 
     /**
-     * Instantiates a new Data csv.
+     * Constructs a new `DataCSV` object.
      *
-     * @param fileName the file name
+     * @param fileName the CSV file name to load data from.
      */
     public DataCSV(String fileName) {
         this.fileName = fileName;
@@ -26,7 +31,11 @@ public class DataCSV {
     }
 
     /**
-     * Load.
+     * Loads data from the CSV file into the 2D ArrayList.
+     * Each row of the CSV file is stored as an ArrayList of Strings,
+     * and each value is separated by the delimiter `;`.
+     * If there is an IO error while reading the file,
+     * it will print the stack trace.
      */
     public void load() {
         String line;
@@ -39,7 +48,6 @@ public class DataCSV {
                         arrayLigne.add(i, tabLine[i]);
                     }
                     this.tab.add(arrayLigne);
-
                 }
                 this.tab.remove(0);
             }
@@ -48,6 +56,12 @@ public class DataCSV {
         }
     }
 
+    /**
+     * Returns a string representation of this `DataCSV` object,
+     * which includes the delimiter, file name, and the 2D ArrayList.
+     *
+     * @return a String representation of this `DataCSV` object.
+     */
     @Override
     public String toString() {
         return "DataCSV{" +
@@ -58,9 +72,9 @@ public class DataCSV {
     }
 
     /**
-     * Gets tab.
+     * Returns the 2D ArrayList of Strings loaded from the CSV file.
      *
-     * @return the tab
+     * @return the 2D ArrayList of Strings.
      */
     public ArrayList<ArrayList<String>> getTab() {
         return tab;
