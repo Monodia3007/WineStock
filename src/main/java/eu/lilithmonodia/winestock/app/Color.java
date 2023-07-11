@@ -1,7 +1,8 @@
 package eu.lilithmonodia.winestock.app;
 
 /**
- * This `Color` enum represents the possible colors of the wine.<br/>
+ * This `Color` enum represents the possible colors of the wine.
+ * <p>
  * The values for this enum are ROUGE, BLANC, ROSE, and CHAMPAGNE,
  * which are different color variants that a specific type of wine can have.
  * <ul>

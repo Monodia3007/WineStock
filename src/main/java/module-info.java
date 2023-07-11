@@ -1,5 +1,6 @@
 /**
- * The 'eu.lilithmonodia.winestock' module defines the main module for the WineStock application.<br/>
+ * The 'eu.lilithmonodia.winestock' module defines the main module for the WineStock application.
+ * <p>
  * It declares dependencies on other needed modules and specifies which packages are opened
  * and exported for use by other modules.
  * <p>

@@ -10,9 +10,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Manages the PostgreSQL database connection and operations for the winestock application.<br/>
- * It provides functionality to connect to the PostgreSQL database, retrieve wines information, and insert new wine items.<br/>
- * The database credentials can be provided via configuration or directly through the constructor.<br/>
+ * Manages the PostgreSQL database connection and operations for the winestock application.
+ * <p>
+ * It provides functionality to connect to the PostgreSQL database, retrieve wines information, and insert new wine items.
+ * <p>
+ * The database credentials can be provided via configuration or directly through the constructor.
  */
 public class PostgreSQLManager {
     private final String url;

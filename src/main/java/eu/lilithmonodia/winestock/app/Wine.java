@@ -5,7 +5,8 @@ import java.time.Year;
 /**
  * This class represents a specific type of wine which encapsulates various
  * attributes of the wine such as its name, production year, bottle size,
- * color, price, and user comments.<br/>
+ * color, price, and user comments.
+ * <p>
  * The wine can also be part of an assortment (collection of wines).
  */
 public class Wine {

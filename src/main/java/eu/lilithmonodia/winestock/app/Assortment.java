@@ -33,7 +33,8 @@ public class Assortment {
     }
 
     /**
-     * Adds a wine to the assortment.<br/>
+     * Adds a wine to the assortment.
+     * <p>
      * The function checks appropriateness of the year and `inAssortment` flag
      * of the wine before adding.
      *
@@ -48,7 +49,8 @@ public class Assortment {
     }
 
     /**
-     * Removes a wine from the assortment.<br/>
+     * Removes a wine from the assortment.
+     * <p>
      * If the wine is present in the assortment, it is removed and its
      * `inAssortment` flag is set to false.
      *
@@ -86,7 +88,8 @@ public class Assortment {
     }
 
     /**
-     * Returns a string representation of the `Assortment` object.<br/>
+     * Returns a string representation of the `Assortment` object.
+     * <p>
      * The returned string includes the class name (`Assortment`), and a list of all
      * the wine objects within this assortment. Each wine's information is enclosed
      * within curly braces ({}) and separated by commas.
@@ -101,7 +104,8 @@ public class Assortment {
     }
 
     /**
-     * Checks whether this `Assortment` instance is equal to the provided `Object`.<br/>
+     * Checks whether this `Assortment` instance is equal to the provided `Object`.
+     * <p>
      * The function checks for the equality of the wine lists and the year of production.
      *
      * @param o the object to be compared for equality with `this`.
@@ -119,7 +123,8 @@ public class Assortment {
     /**
      * Returns a hash code value for the object. This method is
      * supported for the benefit of hash tables such as those provided by
-     * `java.util.HashMap`.<br/>
+     * `java.util.HashMap`.
+     * <p>
      * This function takes the wine list and the year into consideration when calculating the hash code.
      *
      * @return a hash code value for this object.

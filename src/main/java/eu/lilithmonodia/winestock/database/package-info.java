@@ -1,5 +1,6 @@
 /**
- * The package 'eu.lilithmonodia.winestock.database' manages the database operations needed for the WineStock application.<br/>
+ * The package 'eu.lilithmonodia.winestock.database' manages the database operations needed for the WineStock application.
+ * <p>
  * It includes:
  * <ul>
  *     <li>PostgreSQLManager: A class responsible for managing the PostgreSQL database connection and operations, such

@@ -1,5 +1,6 @@
 /**
- * The package 'eu.lilithmonodia.winestock.app' contains all the domain model classes necessary for the WineStock application.<br/>
+ * The package 'eu.lilithmonodia.winestock.app' contains all the domain model classes necessary for the WineStock application.
+ * <p>
  * These include:
  * <ul>
  *     <li>Wine: Represents the data and operations related to a single wine item in stock.</li>

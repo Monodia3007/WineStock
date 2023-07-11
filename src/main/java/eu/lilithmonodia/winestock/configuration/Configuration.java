@@ -12,13 +12,15 @@ import java.io.InputStreamReader;
 /**
  * The `Configuration` record holds the necessary details required to
  * establish a database connection. This includes the host address,
- * the username and password needed for the connection.<br/>
+ * the username and password needed for the connection.
+ * <p>
  * This record provides a method to read these details from a JSON
  * configuration file named config.json.
  */
 public record Configuration(String host, String user, String password) {
     /**
-     * Reads database connection details from a configuration file named config.json.<br/>
+     * Reads database connection details from a configuration file named config.json.
+     * <p>
      * The method reads the host, user, and password fields from the JSON
      * file and returns them as a new `Configuration` instance.
      *

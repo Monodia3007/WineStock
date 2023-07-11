@@ -3,9 +3,11 @@ package eu.lilithmonodia.winestock.app;
 import java.util.List;
 
 /**
- * This `BottleSize` enum represents the possible bottle sizes of the wine.<br/>
+ * This `BottleSize` enum represents the possible bottle sizes of the wine.
+ * <p>
  * Each enum instance is associated with a specific volume corresponding to the size of the wine bottle.
- * The volume for each bottle size is provided in centiliters.<br/>
+ * The volume for each bottle size is provided in centiliters.
+ * <p>
  * This enum provides a static method `doubleToBottleSize`, which takes a double representing
  * a volume, and returns the corresponding `BottleSize` instance.
  */

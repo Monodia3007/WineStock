@@ -1,6 +1,7 @@
 /**
  * The package 'eu.lilithmonodia.winestock.configuration' contains classes related to configuration data handling
- * for the WineStock application.<br/>
+ * for the WineStock application.
+ * <p>
  * This includes:
  * <ul>
  *     <li>Configuration: A record class that holds the necessary information to establish a database connection such as
