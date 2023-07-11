@@ -31,7 +31,7 @@ public class DataCSV {
     }
 
     /**
-     * Loads data from the CSV file into the 2D ArrayList.
+     * Loads data from the CSV file into the 2D ArrayList.<br/>
      * Each row of the CSV file is stored as an ArrayList of Strings,
      * and each value is separated by the delimiter `;`.
      * If there is an IO error while reading the file,

@@ -9,7 +9,7 @@ import java.util.List;
  * `WineDataCSV` extends `DataCSV` to represent a Wine data CSV Reader. This class is
  * used to load data from a wine-specific CSV file into `Wine` objects, and then storing
  * them in a List of `Wine` objects. The CSV file is assumed to have the following order
- * of columns: Name, Vintage Year, Value, Type of wine, Bottle Count and Country of Origin.
+ * of columns: Name, Vintage Year, Value, Type of wine, Bottle Count and Country of Origin.<br/>
  * Each row of the CSV file corresponds to a `Wine` object in the List. This class is
  * marked as deprecated, which means it's not recommended to use it in new code.
  */
