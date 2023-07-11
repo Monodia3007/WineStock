@@ -41,6 +41,7 @@ public class WineStock extends Application {
         Scene scene = new Scene(fxmlLoader.load());
         primaryStage.setTitle("WineStock");
         primaryStage.setScene(scene);
+        primaryStage.setResizable(false);
         Image appIcon = new Image(Objects.requireNonNull(getClass().getResourceAsStream("icon.png")));
         primaryStage.getIcons().add(appIcon);
         primaryStage.show();
