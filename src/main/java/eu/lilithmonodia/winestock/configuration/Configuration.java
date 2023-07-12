@@ -1,13 +1,12 @@
 package eu.lilithmonodia.winestock.configuration;
 
-import org.jetbrains.annotations.Contract;
+import com.google.gson.Gson;
+import org.apache.commons.io.IOUtils;
 import org.jetbrains.annotations.NotNull;
-import org.json.JSONObject;
 
-import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.InputStreamReader;
+import java.nio.charset.StandardCharsets;
 
 /**
  * The `Configuration` record holds the necessary details required to
@@ -24,26 +23,14 @@ public record Configuration(String host, String user, String password) {
      * The method reads the host, user, and password fields from the JSON
      * file and returns them as a new `Configuration` instance.
      *
-     * @return a new `Configuration` instance built from the config file details.
-     * @throws IOException if an error occurs while reading the config file.
+     * @return A Configuration object representing the parsed configuration from the JSON file.
+     * @throws IOException If an I/O error occurs while reading the JSON file.
      */
-    @Contract(" -> new")
-    public static @NotNull Configuration fromConfig() throws IOException {
+    @NotNull
+    public static Configuration fromConfig() throws IOException {
         InputStream config = Configuration.class.getResourceAsStream("config.json");
         assert config != null;
-        InputStreamReader isReader = new InputStreamReader(config);
-        BufferedReader reader = new BufferedReader(isReader);
-        StringBuilder sb = new StringBuilder();
-        String str;
-        while ((str = reader.readLine()) != null) {
-            sb.append(str);
-        }
-        String jsonString = sb.toString();
-        JSONObject obj = new JSONObject(jsonString);
-        return new Configuration(
-                obj.getString("database-host"),
-                obj.getString("database-user"),
-                obj.getString("user-password")
-        );
+        String jsonString = IOUtils.toString(config, StandardCharsets.UTF_8);
+        return new Gson().fromJson(jsonString, Configuration.class);
     }
 }

@@ -28,7 +28,8 @@ tasks.withType(JavaCompile) {
 dependencies {
     implementation 'org.jetbrains:annotations:24.0.0'
     implementation("org.postgresql:postgresql:42.6.0")
-    implementation("org.json:json:20230618")
+    implementation 'com.google.code.gson:gson:2.8.9'
+    implementation 'commons-io:commons-io:2.11.0'
     testImplementation("org.junit.jupiter:junit-jupiter-api:${junitVersion}")
     testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine:${junitVersion}")
 }

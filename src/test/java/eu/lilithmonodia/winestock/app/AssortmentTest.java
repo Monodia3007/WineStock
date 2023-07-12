@@ -17,8 +17,8 @@ class AssortmentTest {
     @BeforeEach
     void setUp() {
         assortment = new Assortment();
-        wine1 = new Wine("Wine1", 2020, 75, "ROUGE", 50.0);
-        wine2 = new Wine("Wine2", 2020, 75, "BLANC", 100.0);
+        wine1 = new Wine.Builder("Wine1", 2020, 75, "ROUGE", 50.0).build();
+        wine2 = new Wine.Builder("Wine2", 2020, 75, "BLANC", 100.0).build();
     }
 
     @Test

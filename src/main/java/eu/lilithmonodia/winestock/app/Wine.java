@@ -19,35 +19,17 @@ public class Wine {
     private boolean inAssortment;
 
     /**
-     * Constructs a new `Wine` without any comment.
+     * Private constructor used by the Builder class to create a Wine object.
      *
-     * @param name   the name of the wine
-     * @param year   the production year of the wine
-     * @param volume the bottle size of the wine
-     * @param color  the color of the wine
-     * @param price  the price of the wine
+     * @param builder the builder object containing the wine details
      */
-    public Wine(String name, int year, double volume, String color, double price) {
-        this(name, year, volume, color, price, "");
-    }
-
-    /**
-     * Constructs a new `Wine` with a comment.
-     *
-     * @param name    the name of the wine
-     * @param year    the production year of the wine
-     * @param volume  the bottle size of the wine
-     * @param color   the color of the wine
-     * @param price   the price of the wine
-     * @param comment the seller's comment about the wine
-     */
-    public Wine(String name, int year, double volume, String color, double price, String comment) {
-        this.name = name;
-        this.year = Year.of(year);
-        this.volume = BottleSize.doubleToBottleSize(volume);
-        this.color = Color.valueOf(color.toUpperCase());
-        this.price = price;
-        this.comment = comment;
+    private Wine(Builder builder) {
+        this.name = builder.name;
+        this.year = Year.of(builder.year);
+        this.volume = BottleSize.doubleToBottleSize(builder.volume);
+        this.color = Color.valueOf(builder.color.toUpperCase());
+        this.price = builder.price;
+        this.comment = builder.comment;
         this.inAssortment = false;
     }
 
@@ -229,5 +211,55 @@ public class Wine {
                 ", price=" + price +
                 ", comment='" + comment + '\'' +
                 '}';
+    }
+
+    /**
+     * The Builder class is responsible for building instances of the Wine class.
+     * It provides a convenient way to construct Wine objects with optional parameters.
+     */
+    public static class Builder {
+        private String name;
+        private int year;
+        private double volume;
+        private String color;
+        private double price;
+        private String comment = "";  // Default value
+
+        /**
+         * Constructs a new Builder object with the given parameters.
+         *
+         * @param name   the name of the builder
+         * @param year   the year of the builder
+         * @param volume the volume of the builder
+         * @param color  the color of the builder
+         * @param price  the price of the builder
+         */
+        public Builder(String name, int year, double volume, String color, double price) {
+            this.name = name;
+            this.year = year;
+            this.volume = volume;
+            this.color = color;
+            this.price = price;
+        }
+
+        /**
+         * Adds a comment to the Builder object.
+         *
+         * @param comment the comment to be added
+         * @return the updated Builder object
+         */
+        public Builder comment(String comment) {
+            this.comment = comment;
+            return this;
+        }
+
+        /**
+         * Builds a new Wine object based on the current state of the Builder object.
+         *
+         * @return a new Wine object
+         */
+        public Wine build() {
+            return new Wine(this);
+        }
     }
 }

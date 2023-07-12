@@ -10,30 +10,31 @@ import java.io.IOException;
 import java.util.Objects;
 
 /**
- * Main application class for the WineStock application.
- * <p>
- * It extends the JavaFX Application class and serves as the entry point of the application.
- * <p>
- * Initializes the primary stage with required FXML scenes and elements and launches the application.
+ * The WineStock class is the entry point of the application. It extends the Application class
+ * and overrides the start method. It is responsible for initializing and showing the primary stage
+ * with the loaded FXML scene and setting the application icon.
  */
 public class WineStock extends Application {
-
     /**
-     * Main method serving as the entry point of the application.
+     * The main entry point for the application.
+     * <p>
+     * Launches the JavaFX application by calling the launch method with the given command line arguments.
      *
-     * @param args the input command-line arguments
+     * @param args the command line arguments passed to the application
      */
     public static void main(String[] args) {
         launch(args);
     }
 
     /**
-     * Overrides the start method of the Application class.
+     * Starts the WineStock application.
      * <p>
-     * Initializes and shows the primary stage with the loaded FXML scene and sets the application icon.
+     * This method is called when the application is launched and is responsible for initializing the
+     * main stage, loading the WineStock.fxml file, setting the scene, setting the application title,
+     * configuring the application icon, and displaying the main stage.
      *
-     * @param primaryStage the primary stage for this application, onto which the application scene is set
-     * @throws IOException if loading the FXML file fails
+     * @param primaryStage the primary stage for the application
+     * @throws IOException if the WineStock.fxml file cannot be loaded
      */
     @Override
     public void start(Stage primaryStage) throws IOException {

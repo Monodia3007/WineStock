@@ -14,11 +14,8 @@ import java.sql.SQLException;
 import java.time.Year;
 
 /**
- * The WineStockController class is responsible for handling user interactions with UI components.
- * <p>
- * It retrieves wine data from the database and feeds it to the table view.
- * <p>
- * It also provides user login functionality.
+ * This class is responsible for controlling the Wine Stock application's UI.
+ * It connects to a PostgreSQL database, fetches wine data, and updates the table view accordingly.
  */
 public class WineStockController {
 
@@ -48,9 +45,7 @@ public class WineStockController {
     private Button loginButton;
 
     /**
-     * Handles event of Import Database button click.
-     * <p>
-     * Fetches all wine data from the database and refreshes table view.
+     * Imports the database by setting cell value factories and refreshing the view.
      */
     public void importDatabase() {
         setCellValueFactories();
@@ -70,11 +65,8 @@ public class WineStockController {
     }
 
     /**
-     * Handles event of Login button click.
-     * <p>
-     * Connects to the PostgreSQL database using credentials provided in the text fields.
-     * <p>
-     * Enables or disables the Import Database button depending on success of the connection.
+     * Logs in the user by establishing a connection to the PostgreSQL database using the provided username and password.
+     * If the login is successful, the importButton will be enabled; otherwise, it will be disabled.
      */
     public void login() {
         String username = usernameField.getText();
@@ -89,7 +81,8 @@ public class WineStockController {
     }
 
     /**
-     * Fetches all wine data from the database and populates table view with it.
+     * Refreshes the wineTab by updating the items with data obtained from the PostgreSQL database.
+     * If an exception occurs while retrieving the data, it may be handled using a logging system or by displaying an error dialogue.
      */
     public void refresh() {
         try {

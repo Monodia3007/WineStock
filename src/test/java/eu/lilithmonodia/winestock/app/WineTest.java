@@ -12,7 +12,7 @@ class WineTest {
 
     @BeforeEach
     void initialisation() {
-        wine = new Wine("Cabernet", 2019, 75.0, "ROUGE", 150.0);
+        wine = new Wine.Builder("Cabernet", 2019, 75.0, "ROUGE", 150.0).build();
     }
 
     @Test
@@ -99,7 +99,7 @@ class WineTest {
 
     @Test
     public void testEqualsAndHashCode() {
-        Wine otherWine = new Wine("Cabernet", 2019, 75.0, "ROUGE", 150.0);
+        Wine otherWine = new Wine.Builder("Cabernet", 2019, 75.0, "ROUGE", 150.0).build();
         assertEquals(wine, otherWine);
         assertEquals(wine.hashCode(), otherWine.hashCode());
 
