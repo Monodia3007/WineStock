@@ -36,14 +36,13 @@ public class WineDataCSV extends DataCSV {
     public List<Wine> toWine() {
         List<Wine> wineList = new ArrayList<>();
         for (ArrayList<String> wine : this.getTab()) {
-            wineList.add(new Wine(
+            wineList.add(new Wine.Builder(
                     wine.get(0),
                     Integer.parseInt(wine.get(1)),
                     Integer.parseInt(wine.get(2)),
                     wine.get(3),
-                    Integer.parseInt(wine.get(4)),
-                    wine.get(5)
-            ));
+                    Integer.parseInt(wine.get(4))
+            ).comment(wine.get(5)).build());
         }
         return wineList;
     }
