@@ -1,5 +1,6 @@
 package eu.lilithmonodia.winestock;
 
+import eu.lilithmonodia.winestock.app.Assortment;
 import eu.lilithmonodia.winestock.app.BottleSize;
 import eu.lilithmonodia.winestock.app.Color;
 import eu.lilithmonodia.winestock.app.Wine;
@@ -13,6 +14,7 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import java.io.IOException;
 import java.sql.SQLException;
 import java.time.Year;
+import java.util.List;
 
 /**
  * This class is responsible for controlling the Wine Stock application's UI.
@@ -20,6 +22,14 @@ import java.time.Year;
  */
 public class WineStockController {
 
+    @FXML
+    private TableColumn<Assortment, Double> assortmentTotalPrice;
+    @FXML
+    private TableColumn<Assortment, Year> assortmentYear;
+    @FXML
+    private TableColumn<Assortment, List<Wine>> assortmentWines;
+    @FXML
+    private TableView<Assortment> assortmentsTable;
     private PostgreSQLManager postgreSQLManager;
 
     @FXML
