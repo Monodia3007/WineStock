@@ -81,9 +81,9 @@ public class PostgreSQLManager {
      * @throws IOException if there's an error reading the configuration file.
      */
     public PostgreSQLManager() throws IOException {
-        this.url = Configuration.fromConfig().host();
-        this.user = Configuration.fromConfig().user();
-        this.password = Configuration.fromConfig().password();
+        this.url = Configuration.fromConfig().databaseHost();
+        this.user = Configuration.fromConfig().databaseUser();
+        this.password = Configuration.fromConfig().userPassword();
     }
 
     /**
@@ -94,7 +94,7 @@ public class PostgreSQLManager {
      * @throws IOException if there's an error reading the configuration file.
      */
     public PostgreSQLManager(String user, String password) throws IOException {
-        this.url = Configuration.fromConfig().host();
+        this.url = Configuration.fromConfig().databaseHost();
         this.user = user;
         this.password = password;
     }

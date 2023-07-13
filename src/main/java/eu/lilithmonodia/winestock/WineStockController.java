@@ -3,6 +3,7 @@ package eu.lilithmonodia.winestock;
 import eu.lilithmonodia.winestock.app.BottleSize;
 import eu.lilithmonodia.winestock.app.Color;
 import eu.lilithmonodia.winestock.app.Wine;
+import eu.lilithmonodia.winestock.configuration.Configuration;
 import eu.lilithmonodia.winestock.database.PostgreSQLManager;
 import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
