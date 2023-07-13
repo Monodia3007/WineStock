@@ -11,78 +11,80 @@
 <?import javafx.scene.control.TextArea?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
-<?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<TabPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="480.0"
-         prefWidth="640.0" tabClosingPolicy="UNAVAILABLE" xmlns="http://javafx.com/javafx/17.0.7"
-         xmlns:fx="http://javafx.com/fxml/1" fx:controller="eu.lilithmonodia.winestock.WineStockController">
+<TabPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="480.0" prefWidth="640.0" tabClosingPolicy="UNAVAILABLE" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="eu.lilithmonodia.winestock.WineStockController">
     <Tab text="Login">
         <AnchorPane minHeight="0.0" minWidth="0.0">
-            <HBox alignment="CENTER" prefHeight="12.0" prefWidth="640.0">
-                <TextField fx:id="usernameField" promptText="Username">
-                    <HBox.margin>
-                        <Insets left="5.0" right="5.0"/>
-                    </HBox.margin>
-                </TextField>
-                <PasswordField fx:id="passwordField" onAction="#login" promptText="Password">
-                    <HBox.margin>
-                        <Insets left="5.0" right="5.0"/>
-                    </HBox.margin>
-                </PasswordField>
-                <Button fx:id="loginButton" mnemonicParsing="false" onAction="#login" text="Login">
-                    <HBox.margin>
-                        <Insets left="5.0" right="5.0"/>
-                    </HBox.margin>
-                </Button>
-                <Button fx:id="importButton" disable="true" mnemonicParsing="false"
-                        onAction="#importDatabase" text="Import Database">
-                    <HBox.margin>
-                        <Insets left="5.0" right="5.0"/>
-                    </HBox.margin>
-                </Button>
-            </HBox>
+         <VBox alignment="CENTER" layoutX="211.0" layoutY="125.0" prefHeight="200.0" prefWidth="223.0">
+            <children>
+               <Text strokeType="OUTSIDE" strokeWidth="0.0" text="WineStock">
+                  <VBox.margin>
+                     <Insets bottom="5.0" top="5.0" />
+                  </VBox.margin>
+                  <font>
+                     <Font name="System Bold" size="48.0" />
+                  </font>
+               </Text>
+                   <TextField fx:id="usernameField" promptText="Username">
+                  <VBox.margin>
+                     <Insets bottom="5.0" top="5.0" />
+                  </VBox.margin>
+                   </TextField>
+                   <PasswordField fx:id="passwordField" onAction="#login" promptText="Password">
+                  <VBox.margin>
+                     <Insets bottom="5.0" top="5.0" />
+                  </VBox.margin>
+                   </PasswordField>
+                   <Button fx:id="loginButton" mnemonicParsing="false" onAction="#login" prefHeight="26.0" prefWidth="110.0" text="Login">
+                  <VBox.margin>
+                     <Insets bottom="5.0" top="5.0" />
+                  </VBox.margin>
+                   </Button>
+                   <Button fx:id="importButton" disable="true" mnemonicParsing="false" onAction="#importDatabase" prefHeight="26.0" prefWidth="112.0" text="Import Database">
+                  <VBox.margin>
+                     <Insets bottom="5.0" top="5.0" />
+                  </VBox.margin>
+                   </Button>
+            </children>
+         </VBox>
         </AnchorPane>
     </Tab>
     <Tab text="Vins">
         <AnchorPane minHeight="0.0" minWidth="0.0">
             <TabPane tabClosingPolicy="UNAVAILABLE">
                 <Tab text="Visualiser">
-                    <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="422.0" prefWidth="640.0">
-                        <TableView fx:id="wineTab" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308">
+                    <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="417.0" prefWidth="640.0">
+                        <TableView fx:id="wineTab" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="417.0" prefWidth="641.0">
                             <columns>
-                                <TableColumn fx:id="wineTabName" prefWidth="196.0" text="Nom"/>
-                                <TableColumn fx:id="wineTabYear" minWidth="0.0" prefWidth="65.0"
-                                             text="Millésime"/>
-                                <TableColumn fx:id="wineTabVolume" prefWidth="78.0"
-                                             text="Contenance"/>
-                                <TableColumn fx:id="wineTabColor" prefWidth="63.0" text="Couleur"/>
-                                <TableColumn fx:id="wineTabPrice" prefWidth="50.0" text="Prix"/>
-                                <TableColumn fx:id="wineTabComment" prefWidth="187.0"
-                                             text="Commentaire"/>
+                                <TableColumn fx:id="wineTabName" prefWidth="196.0" text="Nom" />
+                                <TableColumn fx:id="wineTabYear" minWidth="0.0" prefWidth="65.0" text="Millésime" />
+                                <TableColumn fx:id="wineTabVolume" prefWidth="78.0" text="Contenance" />
+                                <TableColumn fx:id="wineTabColor" prefWidth="63.0" text="Couleur" />
+                                <TableColumn fx:id="wineTabPrice" prefWidth="50.0" text="Prix" />
+                                <TableColumn fx:id="wineTabComment" prefWidth="187.0" text="Commentaire" />
                             </columns>
                         </TableView>
                     </AnchorPane>
                 </Tab>
                 <Tab text="Chercher">
-                    <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0"/>
+                    <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
                 </Tab>
                 <Tab text="Modifier">
-                    <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0"/>
+                    <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
                 </Tab>
             </TabPane>
         </AnchorPane>
     </Tab>
     <Tab text="Assortiments">
         <AnchorPane>
-            <TableView fx:id="assortmentsTable" maxHeight="1.7976931348623157E308"
-                       maxWidth="1.7976931348623157E308" AnchorPane.topAnchor="0" AnchorPane.bottomAnchor="0"
-                       AnchorPane.leftAnchor="0" AnchorPane.rightAnchor="0">
+            <TableView fx:id="assortmentsTable" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" AnchorPane.bottomAnchor="0" AnchorPane.leftAnchor="0" AnchorPane.rightAnchor="0" AnchorPane.topAnchor="0">
                 <columns>
-                    <TableColumn fx:id="assortmentWines" prefWidth="500.0" text="Wines"/>
-                    <TableColumn fx:id="assortmentYear" prefWidth="100.0" text="Year"/>
-                    <TableColumn fx:id="assortmentTotalPrice" prefWidth="100.0" text="Total Price"/>
+                    <TableColumn fx:id="assortmentWines" prefWidth="505.4798959493637" text="Wines" />
+                    <TableColumn fx:id="assortmentYear" prefWidth="42.520111083984375" text="Year" />
+                    <TableColumn fx:id="assortmentTotalPrice" prefWidth="92.24240112304688" text="Total Price" />
                 </columns>
             </TableView>
         </AnchorPane>
@@ -90,13 +92,10 @@
     <Tab text="À Propos">
         <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
             <VBox prefHeight="449.0" prefWidth="640.0">
-                <Text strokeType="OUTSIDE" strokeWidth="0.0" text="WineStock Version 0.1"
-                      textAlignment="CENTER" textOrigin="TOP" wrappingWidth="639.4577484130859"/>
-                <TextArea editable="false" prefHeight="433.0" prefWidth="640.0"
-                          text="MIT License&#10;&#10;Copyright (c) 2023 Lilith Camplin&#10;&#10;Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the &quot;Software&quot;), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:&#10;&#10;The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.&#10;&#10;THE SOFTWARE IS PROVIDED &quot;AS IS&quot;, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE."
-                          wrapText="true" VBox.vgrow="ALWAYS">
+                <Text strokeType="OUTSIDE" strokeWidth="0.0" text="WineStock Version 0.1" textAlignment="CENTER" textOrigin="TOP" wrappingWidth="639.4577484130859" />
+                <TextArea editable="false" prefHeight="433.0" prefWidth="640.0" text="MIT License&#10;&#10;Copyright (c) 2023 Lilith Camplin&#10;&#10;Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the &quot;Software&quot;), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:&#10;&#10;The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.&#10;&#10;THE SOFTWARE IS PROVIDED &quot;AS IS&quot;, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE." wrapText="true" VBox.vgrow="ALWAYS">
                     <cursor>
-                        <Cursor fx:constant="TEXT"/>
+                        <Cursor fx:constant="TEXT" />
                     </cursor>
                 </TextArea>
             </VBox>
