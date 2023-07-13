@@ -156,10 +156,40 @@ public class Assortment {
         return this.totalPrice;
     }
 
+    /**
+     * Returns a string containing the names of all wine objects in the assortment.
+     * <p>
+     * This method retrieves the names of all wine objects currently stored in the assortment
+     * and returns them as a single string. If there are no wine objects in the assortment,
+     * an empty string will be returned.
+     * <p>
+     * Example usage:
+     * <pre>{@code
+     * Assortment assortment = new Assortment(wineCollection);
+     * String wineNames = assortment.getWineNames();
+     * System.out.println("Wine names: " + wineNames);
+     * }</pre>
+     *
+     * @return a string containing the names of all wine objects in the assortment
+     */
     public String getWineNames() {
         return wineNames;
     }
 
+    /**
+     * Returns the year of this object.
+     * <p>
+     * This method retrieves the year of this object and returns it as a Year object.
+     * <p>
+     * Example usage:
+     * <pre>{@code
+     * Wine wine = new Wine("Chardonnay", 2015);
+     * Year year = wine.getYear();
+     * System.out.println("Year: " + year);
+     * }</pre>
+     *
+     * @return the year of this object as a Year object
+     */
     public Year getYear() {
         return year;
     }

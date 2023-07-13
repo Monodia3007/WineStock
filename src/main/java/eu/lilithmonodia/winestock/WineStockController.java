@@ -19,6 +19,7 @@ import java.time.Year;
  * It connects to a PostgreSQL database, fetches wine data, and updates the table view accordingly.
  */
 public class WineStockController {
+    private PostgreSQLManager postgreSQLManager;
 
     @FXML
     private TableColumn<Assortment, Double> assortmentTotalPrice;
@@ -28,7 +29,6 @@ public class WineStockController {
     private TableColumn<Assortment, String> assortmentWines;
     @FXML
     private TableView<Assortment> assortmentsTable;
-    private PostgreSQLManager postgreSQLManager;
 
     @FXML
     private TableView<Wine> wineTab;
