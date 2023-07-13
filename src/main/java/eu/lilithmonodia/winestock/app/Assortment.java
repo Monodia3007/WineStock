@@ -2,7 +2,6 @@ package eu.lilithmonodia.winestock.app;
 
 import java.time.Year;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
 import java.util.Objects;
 
@@ -13,7 +12,9 @@ import java.util.Objects;
  */
 public class Assortment {
     private final List<Wine> wineList;
-    private final Year year;
+    private Year year;
+    private double totalPrice;
+    private String wineNames;
 
     /**
      * Constructor for creating a new Assortment object.
@@ -31,36 +32,8 @@ public class Assortment {
     public Assortment() {
         wineList = new ArrayList<>();
         year = null;
-    }
-
-    /**
-     * Constructor for creating a new Assortment object with a collection of wines.
-     * <p>
-     * The Assortment class represents a collection of wines.
-     * <p>
-     * When a new Assortment object is created, it initializes the wineList ArrayList
-     * with the wines from the given wineCollection. If the wineCollection is null, it throws
-     * an IllegalArgumentException with the message "Wine collection must not be null".
-     * <p>
-     * The year of the Assortment is set to the year of the first wine in the collection,
-     * or null if the collection is empty.
-     * <p>
-     * Example usage:
-     * <pre>{@code
-     * Collection<Wine> wineCollection = new ArrayList<>();
-     * // add wine objects to the wineCollection
-     * Assortment assortment = new Assortment(wineCollection);
-     * }</pre>
-     *
-     * @param wineCollection the collection of wines to be added to the assortmern
-     * @throws IllegalArgumentException if the wineCollection is null
-     */
-    public Assortment(Collection<Wine> wineCollection) {
-        if (wineCollection == null) {
-            throw new IllegalArgumentException("Wine collection must not be null");
-        }
-        wineList = new ArrayList<>(wineCollection);
-        year = wineCollection.isEmpty() ? null : wineCollection.iterator().next().getYear();
+        totalPrice = 0;
+        wineNames = "";
     }
 
     /**
@@ -88,12 +61,17 @@ public class Assortment {
      *     ("Failed to add wine to the assortment");
      * }
      * }</pre>
+     *
      * @param wine the Wine object to be added to the Assortment
      * @return true if the wine was successfully added, false otherwise
      */
     public boolean add(Wine wine) {
         if ((year != null && !wine.getYear().equals(year)) || wine.isInAssortment()) return false;
+        this.year = wine.getYear();
         wine.setInAssortment(true);
+        this.totalPrice += wine.getPrice();
+        if (this.wineNames.isEmpty()) wineNames += wine.getName();
+        else wineNames += ", " + wine.getName();
         return wineList.add(wine);
     }
 
@@ -120,6 +98,7 @@ public class Assortment {
      *     ("Failed to remove wine from the assortment");
      * }
      * }</pre>
+     *
      * @param wine the Wine object to be removed from the Assortment
      * @return true if the wine was successfully removed, false otherwise
      */
@@ -173,8 +152,16 @@ public class Assortment {
      *
      * @return the total price of all Wine objects in the Assortment collection
      */
-    public double getPrice() {
-        return wineList.stream().mapToDouble(Wine::getPrice).sum();
+    public double getTotalPrice() {
+        return this.totalPrice;
+    }
+
+    public String getWineNames() {
+        return wineNames;
+    }
+
+    public Year getYear() {
+        return year;
     }
 
     /**
@@ -187,8 +174,8 @@ public class Assortment {
      * Example usage:
      * <pre>{@code
      * Assortment assortment = new Assortment(wineCollection);
-     * String assortmentString = assortment.toString();
-     * System.out.println(assortmentString);
+     * String wineNames = assortment.toString();
+     * System.out.println(wineNames);
      * }</pre>
      *
      * @return a string representation of the Assortment object

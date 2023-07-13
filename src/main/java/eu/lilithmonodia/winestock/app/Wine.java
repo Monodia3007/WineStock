@@ -218,11 +218,11 @@ public class Wine {
      * It provides a convenient way to construct Wine objects with optional parameters.
      */
     public static class Builder {
-        private String name;
-        private int year;
-        private double volume;
-        private String color;
-        private double price;
+        private final String name;
+        private final int year;
+        private final double volume;
+        private final String color;
+        private final double price;
         private String comment = "";  // Default value
 
         /**

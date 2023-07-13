@@ -4,7 +4,6 @@ import eu.lilithmonodia.winestock.app.Assortment;
 import eu.lilithmonodia.winestock.app.BottleSize;
 import eu.lilithmonodia.winestock.app.Color;
 import eu.lilithmonodia.winestock.app.Wine;
-import eu.lilithmonodia.winestock.configuration.Configuration;
 import eu.lilithmonodia.winestock.database.PostgreSQLManager;
 import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
@@ -14,7 +13,6 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import java.io.IOException;
 import java.sql.SQLException;
 import java.time.Year;
-import java.util.List;
 
 /**
  * This class is responsible for controlling the Wine Stock application's UI.
@@ -27,7 +25,7 @@ public class WineStockController {
     @FXML
     private TableColumn<Assortment, Year> assortmentYear;
     @FXML
-    private TableColumn<Assortment, List<Wine>> assortmentWines;
+    private TableColumn<Assortment, String> assortmentWines;
     @FXML
     private TableView<Assortment> assortmentsTable;
     private PostgreSQLManager postgreSQLManager;
@@ -73,6 +71,9 @@ public class WineStockController {
         wineTabColor.setCellValueFactory(new PropertyValueFactory<>("color"));
         wineTabPrice.setCellValueFactory(new PropertyValueFactory<>("price"));
         wineTabComment.setCellValueFactory(new PropertyValueFactory<>("comment"));
+        assortmentWines.setCellValueFactory(new PropertyValueFactory<>("wineNames"));
+        assortmentYear.setCellValueFactory(new PropertyValueFactory<>("year"));
+        assortmentTotalPrice.setCellValueFactory(new PropertyValueFactory<>("totalPrice"));
     }
 
     /**
@@ -98,6 +99,7 @@ public class WineStockController {
     public void refresh() {
         try {
             wineTab.setItems(FXCollections.observableArrayList(postgreSQLManager.getAllWine()));
+            assortmentsTable.setItems(FXCollections.observableArrayList(postgreSQLManager.getAllAssortments()));
         } catch (Exception e) {
             // Possibly handle the exception with a logging system or displaying an error dialogue
         }

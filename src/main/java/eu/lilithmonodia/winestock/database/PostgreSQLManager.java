@@ -1,5 +1,6 @@
 package eu.lilithmonodia.winestock.database;
 
+import eu.lilithmonodia.winestock.app.Assortment;
 import eu.lilithmonodia.winestock.app.Wine;
 import eu.lilithmonodia.winestock.configuration.Configuration;
 import org.jetbrains.annotations.NotNull;
@@ -14,64 +15,11 @@ import java.util.Optional;
  * This class manages the interaction with a PostgreSQL database for storing and retrieving Wine objects.
  */
 public class PostgreSQLManager {
-    /**
-     * SQL statement for selecting non-assorted wines from the public.wine table.
-     *
-     * <p>
-     * This SQL statement retrieves all rows from the public.wine table where the
-     * in_assortment column is set to false.
-     * </p>
-     *
-     * <p>
-     * Example usage:
-     * <pre>{@code
-     * ResultSet resultSet = statement.executeQuery(WINE_SELECT_SQL);
-     * }</pre>
-     * </p>
-     */
     private static final String WINE_SELECT_SQL = "SELECT * FROM public.wine WHERE in_assortment = false";
-    /**
-     * SQL statement for inserting a new wine into the database.
-     * <p>
-     * The SQL statement is used to insert a new record into the "wine" table of the "public" schema.
-     * It includes the columns "name", "year", "volume", "color", "price" and "comment".
-     * <p>
-     * The statement uses parameterized values denoted by question marks (?) that can be dynamically
-     * set during the execution of the statement.
-     *
-     * @see Wine
-     */
     private static final String INSERT_WINE_SQL = "INSERT INTO public.wine(name, year, volume, color, price, comment) " + "VALUES(?, ?, ?, ?, ?, ?)";
-    /**
-     * Represents a private final String variable that stores a URL.
-     */
+
     private final String url;
-    /**
-     * Represents the username of a user.
-     */
     private final String user;
-    /**
-     * Represents a password.
-     * <p>
-     * This class encapsulates a password string that is marked as final to ensure immutability.
-     * <p>
-     * Usage:
-     * <ol>
-     *     <li>Create an instance of Password using a valid password string.</li>
-     *     <li>Access or compare the password as needed.</li>
-     * </ol>
-     * Example:
-     * <pre>{@code
-     * String passwordString = "myStrongPassword";
-     * Password password = new Password(passwordString);
-     *
-     * // Access the password
-     * String storedPassword = password.getPassword();
-     *
-     * // Compare the password
-     * boolean isMatch = password.matches("myStrongPassword");
-     * }</pre>
-     */
     private final String password;
 
 
@@ -115,14 +63,14 @@ public class PostgreSQLManager {
      * @return a List of Wine objects representing all wines in the database.
      */
     public List<Wine> getAllWine() {
-        List<Wine> result = new ArrayList<>();
+        List<Wine> wines = new ArrayList<>();
 
         try (Connection conn = connect();
              PreparedStatement pstmt = conn.prepareStatement(WINE_SELECT_SQL);
              ResultSet resultSet = pstmt.executeQuery()) {
 
             while (resultSet.next()) {
-                result.add(new Wine.Builder(
+                wines.add(new Wine.Builder(
                         resultSet.getString("name"),
                         resultSet.getInt("year"),
                         resultSet.getDouble("volume"),
@@ -133,7 +81,7 @@ public class PostgreSQLManager {
         } catch (SQLException e) {
             System.out.println("Error executing select: " + e.getMessage());
         }
-        return result;
+        return wines;
     }
 
     /**
@@ -141,7 +89,7 @@ public class PostgreSQLManager {
      *
      * @param wine the Wine object to be inserted into the database
      * @return an Optional representing the generated key of the inserted wine, if the insertion was successful,
-     *         or an empty Optional if the insertion failed
+     * or an empty Optional if the insertion failed
      */
     public Optional<Long> insertWine(@NotNull Wine wine) {
 
@@ -172,5 +120,51 @@ public class PostgreSQLManager {
             System.out.println("Error executing insert: " + ex.getMessage());
         }
         return Optional.empty();
+    }
+
+    /**
+     * Retrieves all assortments from the database.
+     *
+     * @return a list of Assortment objects containing all the assortments retrieved from the database,
+     * or an empty list if the retrieval failed
+     */
+    public List<Assortment> getAllAssortments() {
+        final String ASSORTMENT_SELECT_SQL = "SELECT * FROM assortment";
+        final String WINE_SELECT_ASSORTMENT_SQL = "SELECT * FROM wine WHERE wno IN (SELECT wno FROM contains WHERE ano = ?)";
+
+        List<Assortment> assortments = new ArrayList<>();
+
+        try (Connection conn = connect();
+             PreparedStatement pstmt = conn.prepareStatement(ASSORTMENT_SELECT_SQL)) {
+
+            ResultSet resultSet = pstmt.executeQuery();
+
+            while (resultSet.next()) {
+                Assortment assortment = new Assortment();
+
+                PreparedStatement pstmtWines = conn.prepareStatement(WINE_SELECT_ASSORTMENT_SQL);
+                pstmtWines.setInt(1, resultSet.getInt("ano"));
+                ResultSet resultSetWines = pstmtWines.executeQuery();
+
+                while (resultSetWines.next()) {
+                    Wine wine = new Wine.Builder(
+                            resultSetWines.getString("name"),
+                            resultSetWines.getInt("year"),
+                            resultSetWines.getDouble("volume"),
+                            resultSetWines.getString("color"),
+                            resultSetWines.getDouble("price")
+                    ).comment(resultSetWines.getString("comment")).build();
+
+                    assortment.add(wine);
+                }
+
+                assortments.add(assortment);
+            }
+
+        } catch (SQLException e) {
+            System.out.println("Error executing select: " + e.getMessage());
+        }
+
+        return assortments;
     }
 }
