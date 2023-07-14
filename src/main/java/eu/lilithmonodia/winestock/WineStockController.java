@@ -1,5 +1,6 @@
 package eu.lilithmonodia.winestock;
 
+// Importing necessary libraries
 import eu.lilithmonodia.winestock.app.Assortment;
 import eu.lilithmonodia.winestock.app.BottleSize;
 import eu.lilithmonodia.winestock.app.Color;
@@ -15,11 +16,19 @@ import java.sql.SQLException;
 import java.time.Year;
 
 /**
- * This class is responsible for controlling the Wine Stock application's UI.
- * It connects to a PostgreSQL database, fetches wine data, and updates the table view accordingly.
+ * WineStockController class controls the Wine Stock application's UI.
+ * Responsible for connecting to a PostgreSQL database, fetching wine data,
+ * and updating the table view as appropriate.
  */
 public class WineStockController {
+    // Manager for PostgreSQL Database
     private PostgreSQLManager postgreSQLManager;
+
+    //FXML Table and Column variables for assortment and wine.
+    @FXML
+    private TableView<Assortment> assortmentsTable;
+    @FXML
+    private TableView<Wine> wineTable;
 
     @FXML
     private TableColumn<Assortment, Double> assortmentTotalPrice;
@@ -27,23 +36,21 @@ public class WineStockController {
     private TableColumn<Assortment, Year> assortmentYear;
     @FXML
     private TableColumn<Assortment, String> assortmentWines;
-    @FXML
-    private TableView<Assortment> assortmentsTable;
 
     @FXML
-    private TableView<Wine> wineTab;
+    private TableColumn<Wine, String> wineTableName;
     @FXML
-    private TableColumn<Wine, String> wineTabName;
+    private TableColumn<Wine, Year> wineTableYear;
     @FXML
-    private TableColumn<Wine, Year> wineTabYear;
+    private TableColumn<Wine, BottleSize> wineTableVolume;
     @FXML
-    private TableColumn<Wine, BottleSize> wineTabVolume;
+    private TableColumn<Wine, Color> wineTableColor;
     @FXML
-    private TableColumn<Wine, Color> wineTabColor;
+    private TableColumn<Wine, Double> wineTablePrice;
     @FXML
-    private TableColumn<Wine, Double> wineTabPrice;
-    @FXML
-    private TableColumn<Wine, String> wineTabComment;
+    private TableColumn<Wine, String> wineTableComment;
+
+    // FXML variables for the UI.
     @FXML
     private TextField usernameField;
     @FXML
@@ -62,27 +69,48 @@ public class WineStockController {
     }
 
     /**
-     * Sets cell value factories for each column in the table view.
+     * Sets cell value factories for each TableColumn in TableView.
      */
     private void setCellValueFactories() {
-        wineTabName.setCellValueFactory(new PropertyValueFactory<>("name"));
-        wineTabYear.setCellValueFactory(new PropertyValueFactory<>("year"));
-        wineTabVolume.setCellValueFactory(new PropertyValueFactory<>("volume"));
-        wineTabColor.setCellValueFactory(new PropertyValueFactory<>("color"));
-        wineTabPrice.setCellValueFactory(new PropertyValueFactory<>("price"));
-        wineTabComment.setCellValueFactory(new PropertyValueFactory<>("comment"));
+        setWineTableCellValueFactories();
+        setAssortmentTableCellValueFactories();
+    }
+
+    /**
+     * Sets cell value factories for each TableColumn in Wine TableView.
+     */
+    private void setWineTableCellValueFactories() {
+        wineTableName.setCellValueFactory(new PropertyValueFactory<>("name"));
+        wineTableYear.setCellValueFactory(new PropertyValueFactory<>("year"));
+        wineTableVolume.setCellValueFactory(new PropertyValueFactory<>("volume"));
+        wineTableColor.setCellValueFactory(new PropertyValueFactory<>("color"));
+        wineTablePrice.setCellValueFactory(new PropertyValueFactory<>("price"));
+        wineTableComment.setCellValueFactory(new PropertyValueFactory<>("comment"));
+    }
+
+    /**
+     * Sets cell value factories for each TableColumn in Assortment TableView.
+     */
+    private void setAssortmentTableCellValueFactories() {
         assortmentWines.setCellValueFactory(new PropertyValueFactory<>("wineNames"));
         assortmentYear.setCellValueFactory(new PropertyValueFactory<>("year"));
         assortmentTotalPrice.setCellValueFactory(new PropertyValueFactory<>("totalPrice"));
     }
 
     /**
-     * Logs in the user by establishing a connection to the PostgreSQL database using the provided username and password.
-     * If the login is successful, the importButton will be enabled; otherwise, it will be disabled.
+     * Attempts to login the user by establishing a PostgreSQL database connection.
+     * On successful login, the importButton is enabled; otherwise, it gets disabled.
      */
     public void login() {
         String username = usernameField.getText();
         String password = passwordField.getText();
+        attemptLogin(username, password);
+    }
+
+    /**
+     * This method attempts to create a connection to the database using a username and password.
+     */
+    private void attemptLogin(String username, String password) {
         try {
             postgreSQLManager = new PostgreSQLManager(username, password);
             postgreSQLManager.connect();
@@ -93,15 +121,15 @@ public class WineStockController {
     }
 
     /**
-     * Refreshes the wineTab by updating the items with data obtained from the PostgreSQL database.
-     * If an exception occurs while retrieving the data, it may be handled using a logging system or by displaying an error dialogue.
+     * Refreshes the TableView by replacing the items with data from PostgreSQL database.
+     * If an exception occurs, a suitable error handling approach may be applied.
      */
     public void refresh() {
         try {
-            wineTab.setItems(FXCollections.observableArrayList(postgreSQLManager.getAllWine()));
+            wineTable.setItems(FXCollections.observableArrayList(postgreSQLManager.getAllWine()));
             assortmentsTable.setItems(FXCollections.observableArrayList(postgreSQLManager.getAllAssortments()));
         } catch (Exception e) {
-            // Possibly handle the exception with a logging system or displaying an error dialogue
+            // Handle exception
         }
     }
 }

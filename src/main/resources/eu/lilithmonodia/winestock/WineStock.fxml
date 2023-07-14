@@ -15,7 +15,7 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<TabPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="480.0" prefWidth="640.0" tabClosingPolicy="UNAVAILABLE" xmlns="http://javafx.com/javafx/17.0.7" xmlns:fx="http://javafx.com/fxml/1" fx:controller="eu.lilithmonodia.winestock.WineStockController">
+<TabPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="480.0" prefWidth="640.0" tabClosingPolicy="UNAVAILABLE" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="eu.lilithmonodia.winestock.WineStockController">
     <Tab text="Connexion">
         <AnchorPane minHeight="0.0" minWidth="0.0">
             <VBox alignment="CENTER" layoutX="211.0" layoutY="125.0" prefHeight="200.0" prefWidth="223.0">
@@ -38,12 +38,12 @@
                             <Insets bottom="5.0" top="5.0" />
                         </VBox.margin>
                     </PasswordField>
-                    <Button fx:id="loginButton" mnemonicParsing="false" onAction="#login" prefHeight="26.0" prefWidth="110.0" text="Login">
+                    <Button fx:id="loginButton" mnemonicParsing="false" onAction="#login" prefHeight="26.0" prefWidth="135.0" text="Connexion">
                         <VBox.margin>
                             <Insets bottom="5.0" top="5.0" />
                         </VBox.margin>
                     </Button>
-                    <Button fx:id="importButton" disable="true" mnemonicParsing="false" onAction="#importDatabase" prefHeight="26.0" prefWidth="112.0" text="Import Database">
+                    <Button fx:id="importButton" disable="true" mnemonicParsing="false" onAction="#importDatabase" prefHeight="26.0" prefWidth="135.0" text="Importer les données">
                         <VBox.margin>
                             <Insets bottom="5.0" top="5.0" />
                         </VBox.margin>
@@ -57,14 +57,14 @@
             <TabPane tabClosingPolicy="UNAVAILABLE">
                 <Tab text="Visualiser">
                     <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="417.0" prefWidth="640.0">
-                        <TableView fx:id="wineTab" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="417.0" prefWidth="641.0">
+                        <TableView fx:id="wineTable" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="417.0" prefWidth="641.0">
                             <columns>
-                                <TableColumn fx:id="wineTabName" prefWidth="196.0" text="Nom" />
-                                <TableColumn fx:id="wineTabYear" minWidth="0.0" prefWidth="65.0" text="Millésime" />
-                                <TableColumn fx:id="wineTabVolume" prefWidth="78.0" text="Contenance" />
-                                <TableColumn fx:id="wineTabColor" prefWidth="63.0" text="Couleur" />
-                                <TableColumn fx:id="wineTabPrice" prefWidth="50.0" text="Prix" />
-                                <TableColumn fx:id="wineTabComment" prefWidth="187.0" text="Commentaire" />
+                                <TableColumn fx:id="wineTableName" prefWidth="196.0" text="Nom" />
+                                <TableColumn fx:id="wineTableYear" minWidth="0.0" prefWidth="65.0" text="Millésime" />
+                                <TableColumn fx:id="wineTableVolume" prefWidth="78.0" text="Contenance" />
+                                <TableColumn fx:id="wineTableColor" prefWidth="63.0" text="Couleur" />
+                                <TableColumn fx:id="wineTablePrice" prefWidth="50.0" text="Prix" />
+                                <TableColumn fx:id="wineTableComment" prefWidth="187.0" text="Commentaire" />
                             </columns>
                         </TableView>
                     </AnchorPane>
