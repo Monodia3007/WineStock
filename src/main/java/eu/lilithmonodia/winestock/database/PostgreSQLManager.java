@@ -3,6 +3,7 @@ package eu.lilithmonodia.winestock.database;
 import eu.lilithmonodia.winestock.app.Assortment;
 import eu.lilithmonodia.winestock.app.Wine;
 import eu.lilithmonodia.winestock.configuration.Configuration;
+import org.jetbrains.annotations.NotNull;
 
 import java.io.IOException;
 import java.sql.*;
@@ -136,7 +137,7 @@ public class PostgreSQLManager {
      * @throws SQLException if an error occurs while setting the parameters
      */
     // Sets parameters for PreparedStatement to be used with INSERT_WINE_SQL query
-    private void setParametersInStatement(PreparedStatement pstmt, Wine wine) throws SQLException {
+    private void setParametersInStatement(@NotNull PreparedStatement pstmt, @NotNull Wine wine) throws SQLException {
         pstmt.setString(1, wine.getName());
         pstmt.setInt(2, wine.getYear().getValue());
         pstmt.setDouble(3, wine.getVolume().getVolume());
@@ -179,7 +180,7 @@ public class PostgreSQLManager {
      * @throws SQLException if an error occurs while accessing the ResultSet
      */
     // Fetches Assortment for a given ResultSet. Reads all wines in the assortment.
-    private Assortment fetchAssortmentByResultSet(ResultSet resultSet) throws SQLException {
+    private @NotNull Assortment fetchAssortmentByResultSet(@NotNull ResultSet resultSet) throws SQLException {
         Assortment assortment = new Assortment();
         PreparedStatement pstmtWines = connect().prepareStatement(WINE_SELECT_ASSORTMENT_SQL);
         pstmtWines.setInt(1, resultSet.getInt("ano"));
@@ -199,7 +200,7 @@ public class PostgreSQLManager {
      * @throws SQLException if an error occurs while accessing the ResultSet
      */
     // Gets a Wine object from a given ResultSet.
-    private Wine getWineFromResultSet(ResultSet resultSetWines) throws SQLException {
+    private Wine getWineFromResultSet(@NotNull ResultSet resultSetWines) throws SQLException {
         return new Wine.Builder(
                 resultSetWines.getString("name"),
                 resultSetWines.getInt("year"),
@@ -216,7 +217,7 @@ public class PostgreSQLManager {
      * @return an Optional containing the ID of the inserted Assortment, or an empty Optional if the insertion failed
      * @throws SQLException if an error occurs while accessing the database
      */
-    public Optional<Long> insertAssortment(Assortment assortment) throws SQLException {
+    public Optional<Long> insertAssortment(Assortment assortment) throws SQLException{
         try {
             connection.setAutoCommit(false);
             Optional<Long> assortmentId = insertAssortmentInternal(assortment);
@@ -257,7 +258,7 @@ public class PostgreSQLManager {
      * @param assortment the Assortment object to be inserted
      * @throws SQLException if an error occurs while accessing the database
      */
-    private void preprocessInsertAssortmentStatement(PreparedStatement pstmtAssortment, Assortment assortment) throws SQLException {
+    private void preprocessInsertAssortmentStatement(@NotNull PreparedStatement pstmtAssortment, @NotNull Assortment assortment) throws SQLException {
         pstmtAssortment.setInt(1, assortment.getYear().getValue());
     }
 
@@ -287,7 +288,7 @@ public class PostgreSQLManager {
      * @param assortmentId the ID of the assortment to insert the wines into
      * @throws SQLException if an error occurs while accessing the database
      */
-    public void insertWinesInAssortment(List<Wine> wines, Long assortmentId) throws SQLException {
+    public void insertWinesInAssortment(@NotNull List<Wine> wines, Long assortmentId) throws SQLException {
         for (Wine wine : wines) {
             insertWineInAssortment(wine, assortmentId);
         }

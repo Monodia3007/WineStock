@@ -1,5 +1,7 @@
 package eu.lilithmonodia.winestock.app;
 
+import org.jetbrains.annotations.NotNull;
+
 import java.time.Year;
 
 /**
@@ -23,7 +25,7 @@ public class Wine {
      *
      * @param builder the builder object containing the wine details
      */
-    private Wine(Builder builder) {
+    private Wine(@NotNull Builder builder) {
         this.name = builder.name;
         this.year = Year.of(builder.year);
         this.volume = BottleSize.doubleToBottleSize(builder.volume);

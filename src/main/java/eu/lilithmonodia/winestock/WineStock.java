@@ -5,6 +5,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.stage.Stage;
+import org.jetbrains.annotations.NotNull;
 
 import java.io.IOException;
 import java.util.Objects;
@@ -37,7 +38,7 @@ public class WineStock extends Application {
      * @throws IOException if the WineStock.fxml file cannot be loaded
      */
     @Override
-    public void start(Stage primaryStage) throws IOException {
+    public void start(@NotNull Stage primaryStage) throws IOException {
         FXMLLoader fxmlLoader = new FXMLLoader(WineStock.class.getResource("WineStock.fxml"));
         Scene scene = new Scene(fxmlLoader.load());
         primaryStage.setTitle("WineStock");

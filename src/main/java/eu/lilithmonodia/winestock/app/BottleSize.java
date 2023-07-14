@@ -1,5 +1,7 @@
 package eu.lilithmonodia.winestock.app;
 
+import org.jetbrains.annotations.Nullable;
+
 import java.util.List;
 
 /**
@@ -95,7 +97,7 @@ public enum BottleSize {
      * @param volume the volume to fetch the corresponding `BottleSize` for.
      * @return the `BottleSize` matching the volume, or null if none match.
      */
-    public static BottleSize doubleToBottleSize(double volume) {
+    public static @Nullable BottleSize doubleToBottleSize(double volume) {
         List<BottleSize> bottleSizes = List.of(BottleSize.values());
         for (BottleSize bottleSize : bottleSizes) {
             if (bottleSize.getVolume() == volume) return bottleSize;
