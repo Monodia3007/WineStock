@@ -57,8 +57,6 @@ public class WineStockController {
     private PasswordField passwordField;
     @FXML
     private Button importButton;
-    @FXML
-    private Button loginButton;
 
     /**
      * Imports the database by setting cell value factories and refreshing the view.
