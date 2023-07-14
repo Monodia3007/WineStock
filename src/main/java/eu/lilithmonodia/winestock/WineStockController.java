@@ -96,7 +96,7 @@ public class WineStockController {
     }
 
     /**
-     * Attempts to login the user by establishing a PostgreSQL database connection.
+     * Attempts to log in the user by establishing a PostgreSQL database connection.
      * On successful login, the importButton is enabled; otherwise, it gets disabled.
      */
     public void login() {
