@@ -69,9 +69,9 @@ public class Assortment {
         if ((year != null && !wine.getYear().equals(year)) || wine.isInAssortment()) return false;
         this.year = wine.getYear();
         wine.setInAssortment(true);
+        // Update totalPrice and wineNames
         this.totalPrice += wine.getPrice();
-        if (this.wineNames.isEmpty()) wineNames += wine.getName();
-        else wineNames += ", " + wine.getName();
+        this.wineNames += (this.wineNames.isEmpty() ? "" : ", ") + wine.getName();
         return wineList.add(wine);
     }
 
@@ -105,6 +105,12 @@ public class Assortment {
     public boolean remove(Wine wine) {
         if (wineList.contains(wine)) {
             wine.setInAssortment(false);
+            // Update totalPrice and wineNames
+            this.totalPrice -= wine.getPrice();
+            this.wineNames = this.wineNames.replace(wine.getName(), "").replace(", ,", ", ").trim();
+            if(this.wineNames.endsWith(",")) {
+                this.wineNames = this.wineNames.substring(0, this.wineNames.length()-1);
+            }
             return wineList.remove(wine);
         }
         return false;

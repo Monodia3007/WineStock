@@ -115,4 +115,28 @@ class WineTest {
                 "ROUGE" + ", price=150.0, comment=''}";
         assertEquals(expectedString, wine.toString());
     }
+
+    @Test
+    void builderCreatesCorrectWineObject() {
+        assertEquals("Cabernet", wine.getName());
+        assertEquals(Year.of(2019), wine.getYear());
+        assertEquals(BottleSize.BOUTEILLE, wine.getVolume());
+        assertEquals(Color.ROUGE, wine.getColor());
+        assertEquals(150.0, wine.getPrice());
+        assertEquals("", wine.getComment());  // Default comment value
+        assertFalse(wine.isInAssortment());  // Default assortment value
+    }
+
+    @Test
+    void builderSetCommentCreatesCorrectWineObject() {
+        Wine wineWithComment = new Wine.Builder("Pinot Noir", 2021, 75.0, "ROUGE", 120.0).comment("Excellent").build();
+
+        assertEquals("Pinot Noir", wineWithComment.getName());
+        assertEquals(Year.of(2021), wineWithComment.getYear());
+        assertEquals(BottleSize.BOUTEILLE, wineWithComment.getVolume());
+        assertEquals(Color.ROUGE, wineWithComment.getColor());
+        assertEquals(120.0, wineWithComment.getPrice());
+        assertEquals("Excellent", wineWithComment.getComment());
+        assertFalse(wineWithComment.isInAssortment());  // Default assortment value
+    }
 }

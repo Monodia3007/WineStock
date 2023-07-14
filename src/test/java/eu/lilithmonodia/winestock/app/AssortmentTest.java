@@ -59,4 +59,67 @@ class AssortmentTest {
         assortment.add(wine2);
         assertEquals(150.0, assortment.getTotalPrice(), 0.001);
     }
+
+    @Test
+    public void testGetWineNames() {
+        assortment.add(wine1);
+        assortment.add(wine2);
+
+        String wineNames = assortment.getWineNames();
+
+        assertTrue(wineNames.contains(wine1.getName()));
+        assertTrue(wineNames.contains(wine2.getName()));
+    }
+
+    @Test
+    public void testGetYear() {
+        assortment.add(wine1);
+
+        assertEquals(wine1.getYear(), assortment.getYear());
+    }
+
+    @Test
+    public void testToString() {
+        assortment.add(wine1);
+
+        assertNotNull(assortment.toString());
+        assertTrue(assortment.toString().contains(wine1.getName()));
+    }
+
+    @Test
+    public void testEqualsObject() {
+        assortment.add(wine1);
+
+        Assortment otherAssortment = new Assortment();
+        assertNotEquals(assortment, otherAssortment);
+
+        Wine wine1InOtherAssortment = new Wine.Builder("Wine1", 2020, 75,
+                "ROUGE", 50.0).build();
+        otherAssortment.add(wine1InOtherAssortment);
+
+        assertEquals(assortment, otherAssortment);
+
+        Wine wine2InOtherAssortment = new Wine.Builder("Wine2", 2020, 75,
+                "BLANC", 100.0).build();
+        otherAssortment.add(wine2InOtherAssortment);
+        assertNotEquals(assortment, otherAssortment);
+    }
+
+    @Test
+    public void testHashCode() {
+        assortment.add(wine1);
+
+        Assortment otherAssortment = new Assortment();
+
+        Wine wine1InOtherAssortment = new Wine.Builder("Wine1", 2020, 75,
+                "ROUGE", 50.0).build();
+        otherAssortment.add(wine1InOtherAssortment);
+
+        assertEquals(assortment.hashCode(), otherAssortment.hashCode());
+
+        Wine wine2InOtherAssortment = new Wine.Builder("Wine2", 2020, 75,
+                "BLANC", 100.0).build();
+        otherAssortment.add(wine2InOtherAssortment);
+        assertNotEquals(assortment.hashCode(), otherAssortment.hashCode());
+    }
 }
