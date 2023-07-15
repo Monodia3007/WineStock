@@ -79,7 +79,7 @@ jlinkZip {
 // Configure the ShadowJar task
 shadowJar {
     archiveBaseName.set('WineStock') // Name of the generated JAR
-    archiveVersion.set("") // Version of the generated JAR
+    archiveVersion.set("${version}-runnable") // Version of the generated JAR
     archiveClassifier.set('') // Additional classifier for the generated JAR
     mergeServiceFiles() // Ensures service files are properly handled
     manifest {
