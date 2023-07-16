@@ -37,9 +37,13 @@ Upon running the application, you will be presented with a user interface contai
 You can switch between tabs to perform various operations on the wine and assortment data.
 
 ## Dependencies
-- PostgreSQL JDBC Driver 42.6.0
-- JSON Library 20230618
-- JUnit Jupiter API (for testing) 5.9.2
+This project uses the following dependencies:
+
+- **JavaFX 17.0.7**: An open-source, next-generation client application platform for desktop, mobile and embedded systems.
+- **PostgreSQL JDBC Driver 42.6.0**: A JDBC (Java Database Connectivity) driver that provides database connectivity through the standard JDBC application program interfaces (APIs) available in Java.
+- **JetBrains Annotations 24.0.0**: An advanced set of annotations used for code inspection support and code documentation.
+- **Google Gson 2.8.9**: A Java library that can be used to convert Java Objects into their JSON representation and vice versa.
+- **Apache Commons IO 2.11.0**: Provides utility classes, stream implementations, file filters, and various other APIs for handling IO operations (file manipulations) in Java.
 
 ## Contributing
 Contributions to the WineStock application are welcome. If you find any issues or have suggestions for improvement, please submit an issue or create a pull request.
