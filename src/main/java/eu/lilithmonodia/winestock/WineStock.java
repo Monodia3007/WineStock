@@ -1,14 +1,22 @@
 package eu.lilithmonodia.winestock;
 
 import javafx.application.Application;
+import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.stage.Stage;
 import org.jetbrains.annotations.NotNull;
 
+import javax.imageio.ImageIO;
+import java.awt.*;
+import java.awt.image.BufferedImage;
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.Objects;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  * The WineStock class is the entry point of the application. It extends the Application class
@@ -16,27 +24,35 @@ import java.util.Objects;
  * with the loaded FXML scene and setting the application icon.
  */
 public class WineStock extends Application {
-    /**
-     * The main entry point for the application.
-     * <p>
-     * Launches the JavaFX application by calling the launch method with the given command line arguments.
-     *
-     * @param args the command line arguments passed to the application
-     */
+    private static final Logger LOGGER = Logger.getLogger(WineStock.class.getName());
     public static void main(String[] args) {
-        launch(args);
+        try {
+            if (isOperatingSystemMac()) {
+                setDockIcon();
+            }
+        } catch (Exception e) {
+            LOGGER.log(Level.SEVERE, "Exception while setting the Dock Icon", e);
+        } finally {
+            launch(args);
+        }
     }
 
-    /**
-     * Starts the WineStock application.
-     * <p>
-     * This method is called when the application is launched and is responsible for initializing the
-     * main stage, loading the WineStock.fxml file, setting the scene, setting the application title,
-     * configuring the application icon, and displaying the main stage.
-     *
-     * @param primaryStage the primary stage for the application
-     * @throws IOException if the WineStock.fxml file cannot be loaded
-     */
+    private static boolean isOperatingSystemMac() {
+        return System.getProperty("os.name").toLowerCase().startsWith("mac");
+    }
+
+    private static void setDockIcon() throws IOException {
+        InputStream stream = WineStock.class.getResourceAsStream("icon.png");
+        if (stream != null) {
+            BufferedImage image = ImageIO.read(stream);
+            if(java.awt.Taskbar.isTaskbarSupported()){
+                java.awt.Taskbar.getTaskbar().setIconImage(image);
+            }
+        } else {
+            throw new IOException("Icon file not found");
+        }
+    }
+
     @Override
     public void start(@NotNull Stage primaryStage) throws IOException {
         FXMLLoader fxmlLoader = new FXMLLoader(WineStock.class.getResource("WineStock.fxml"));

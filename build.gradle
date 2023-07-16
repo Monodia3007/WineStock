@@ -68,7 +68,7 @@ test {
 jlink {
     imageZip = project.file("${buildDir}/distributions/app-${javafx.platform.classifier}.zip") // The place to store the zipped jlink image
     options = ['--strip-debug', '--compress', '2', '--no-header-files', '--no-man-pages'] // Options for image creation
-    launcher { name = 'app' } // Name of the launcher script
+    launcher { name = 'WineStock' } // Name of the launcher script
 }
 
 // Configure JlinkZip task

@@ -10,10 +10,13 @@ import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 
 import java.io.IOException;
 import java.sql.SQLException;
 import java.time.Year;
+import java.util.Objects;
 
 /**
  * WineStockController class controls the Wine Stock application's UI.
@@ -57,6 +60,13 @@ public class WineStockController {
     private PasswordField passwordField;
     @FXML
     private Button importButton;
+    @FXML
+    private ImageView icon;
+
+    @FXML
+    public void initialize() {
+        icon.setImage(new Image(Objects.requireNonNull(getClass().getResourceAsStream("icon.png"))));
+    }
 
     /**
      * Imports the database by setting cell value factories and refreshing the view.
