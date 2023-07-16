@@ -64,9 +64,13 @@ public class WineStockController {
     @FXML
     private ImageView icon;
 
+    /**
+     * Initializes the controller, setting the icon image and disabling the import button.
+     */
     @FXML
     public void initialize() {
         icon.setImage(new Image(Objects.requireNonNull(getClass().getResourceAsStream("icon.png"))));
+        importButton.setDisable(true);
     }
 
     /**
