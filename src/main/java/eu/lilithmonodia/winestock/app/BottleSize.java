@@ -39,11 +39,11 @@ public enum BottleSize {
      */
     MAGNUM(150),
     /**
-     * Jerobam size represents a volume of 300 centiliters.
+     * Jeroboam size represents a volume of 300 centiliters.
      */
-    JEROBAM(300),
+    JEROBOAM(300),
     /**
-     * Rehoboam size represents a volume of 450 centiliters.
+     * Réhoboam size represents a volume of 450 centiliters.
      */
     REHOBOAM(450),
     /**

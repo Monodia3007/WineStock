@@ -18,9 +18,9 @@ To run the WineStock application, you can follow these steps:
 3. Open a terminal or command prompt.
 4. Navigate to the directory where the extracted files are located.
 5. Run the following command to execute the application:
-```bash
-java -jar WineStock.jar
-```
+    ```bash
+    java -jar WineStock.jar
+    ```
 6. Replace WineStock.jar with the actual name of the JAR file if it's different.
 
 The WineStock application should start, and you will be able to interact with it through the graphical user interface.

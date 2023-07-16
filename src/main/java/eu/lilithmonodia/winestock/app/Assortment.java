@@ -116,7 +116,8 @@ public class Assortment {
      * Returns the list of Wine objects in the Assortment collection.
      * <p>
      * This method retrieves the list of Wine objects currently stored in the
-     * Assortment. The list is returned as a java.util.List&lt;Wine&gt;.
+     * Assortment.<br/>
+     * The list is returned as a java.util.List&lt;Wine&gt;.
      * <p>
      * The returned list contains all Wine objects that are currently part of
      * the Assortment, in the order they were added.
