@@ -91,7 +91,7 @@ publishing {
     }
     publications {
         gpr(MavenPublication) {
-            artifactId 'WineStock'
+            artifactId 'winestock'
             artifact jar
         }
     }
