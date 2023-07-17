@@ -1,19 +1,23 @@
+# --- Gradle files ---
 .gradle
 build/
+# do not ignore Gradle wrapper jar file
 !gradle/wrapper/gradle-wrapper.jar
+# do not ignore build directories under src/main and src/test
 !**/src/main/**/build/
 !**/src/test/**/build/
 
-### IntelliJ IDEA ###
+# --- IntelliJ IDEA files ---
 .idea/
 *.iws
 *.iml
 *.ipr
 out/
+# do not ignore output directories under src/main and src/test
 !**/src/main/**/out/
 !**/src/test/**/out/
 
-### Eclipse ###
+# --- Eclipse files ---
 .apt_generated
 .classpath
 .factorypath
@@ -22,18 +26,20 @@ out/
 .springBeans
 .sts4-cache
 bin/
+# do not ignore bin directories under src/main and src/test
 !**/src/main/**/bin/
 !**/src/test/**/bin/
 
-### NetBeans ###
+# --- NetBeans files ---
 /nbproject/private/
 /nbbuild/
 /dist/
 /nbdist/
 /.nb-gradle/
 
-### VS Code ###
+# --- VS Code files ---
 .vscode/
 
-### Mac OS ###
+# --- Mac OS files ---
+# metadata file for Mac OS
 .DS_Store

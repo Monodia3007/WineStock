@@ -1,73 +1,88 @@
 // Groovy
 
+// Define the plugins needed for this build
 plugins {
-    id 'java'
-    id 'application'
-    id 'org.javamodularity.moduleplugin' version '1.8.12'
-    id 'org.openjfx.javafxplugin' version '0.0.14'
-    id 'org.beryx.jlink' version '2.25.0'
-    id 'com.github.johnrengelman.shadow' version '8.0.0'
-    id 'maven-publish'
+    id 'java' // The basic plugin to build Java applications
+    id 'application' // The 'application' plugin supports building and running applications
+    id 'org.javamodularity.moduleplugin' version '1.8.12' // Plugin for building Java 9+ modules
+    id 'org.openjfx.javafxplugin' version '0.0.14' // Plugin to support building JavaFX applications
+    id 'org.beryx.jlink' version '2.25.0' // Plugin to create custom Java runtime images
+    id 'com.github.johnrengelman.shadow' version '8.0.0' // Plugin to create a fat JAR of this project
+    id 'maven-publish' // Plugin to publish the build artifacts to Maven repositories
 }
 
+// Set the group ID and version number for this project
 group = 'eu.lilithmonodia'
 version = '0.3'
 
+// Indicate where Gradle should look for dependencies
 repositories {
-    mavenCentral()
+    mavenCentral() // Use the central Maven repository
 }
 
+// Define some extra properties for the build
 ext {
-    junitVersion = '5.9.2'
+    junitVersion = '5.9.2' // Specify the version of JUnit tests to use
 }
 
-sourceCompatibility = '17'
-targetCompatibility = '17'
+// Set the Java compatibility versions
+sourceCompatibility = '17' // Use Java 17 for source code
+targetCompatibility = '17' // Generate bytecode compatible with Java 17
 
+// Configure all JavaCompile tasks to use UTF-8 encoding
 tasks.withType(JavaCompile) {
-    options.encoding = 'UTF-8'
+    options.encoding = 'UTF-8' // Set file encoding to UTF-8
 }
 
+// Specify the dependencies of the project
 dependencies {
+    // The libraries this project needs to compile and run
     implementation 'org.jetbrains:annotations:24.0.0'
     implementation 'org.postgresql:postgresql:42.6.0'
     implementation 'com.google.code.gson:gson:2.8.9'
     implementation 'commons-io:commons-io:2.11.0'
+    // The libraries this project needs to test
     testImplementation "org.junit.jupiter:junit-jupiter-api:${junitVersion}"
     testRuntimeOnly "org.junit.jupiter:junit-jupiter-engine:${junitVersion}"
 }
 
+// Configure the `jar` task to include the main class in the manifest file
 jar {
     manifest {
         attributes('Main-Class': 'eu.lilithmonodia.winestock.Launcher')
     }
 }
 
+// Set details about how the application should launch
 application {
     mainModule = 'eu.lilithmonodia.winestock'
     mainClass = 'eu.lilithmonodia.winestock.Launcher'
 }
 
+// Configure the JavaFX plugin
 javafx {
-    version = '17.0.7'
-    modules = ['javafx.controls', 'javafx.fxml']
+    version = '17.0.7' // Set JavaFX version
+    modules = ['javafx.controls', 'javafx.fxml'] // Specify the JavaFX modules used
 }
 
+// Configure the `test` task to use the JUnit platform
 test {
     useJUnitPlatform()
 }
 
+// Configure the `jlink` task to create a custom Java runtime image
 jlink {
     imageZip = project.file("${buildDir}/distributions/app-${javafx.platform.classifier}.zip")
     options = ['--strip-debug', '--compress', '2', '--no-header-files', '--no-man-pages']
     launcher { name = 'WineStock' }
 }
 
-// Configure JlinkZip task
+// Configure the `jlinkZip` task
 jlinkZip {
     group = 'distribution' // Create a distribution group
 }
 
+// Configure the `shadowJar` task to create a fat JAR of this project
 shadowJar {
     archiveBaseName.set('WineStock')
     archiveVersion.set("${version}-runnable")
@@ -79,6 +94,7 @@ shadowJar {
     configurations = [project.configurations.runtimeClasspath]
 }
 
+// Configure the `publishing` task to push the artifact to GitHub package repository
 publishing {
     repositories {
         maven {
