@@ -14,7 +14,7 @@ import java.nio.charset.StandardCharsets;
 /**
  * The `Configuration` record holds the necessary details required to
  * establish a database connection. This includes the host address,
- * the username and password needed for the connection.
+ * the database username, and password.
  * <p>
  * This record provides a method to read these details from a JSON
  * configuration file named config.json.
