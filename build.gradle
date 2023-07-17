@@ -1,74 +1,66 @@
-// Define plugin dependencies for your app
+// Groovy
+
 plugins {
-    id "java" // Essential plugin for Java project in Gradle
-    id "application" // Allows your project to be run as an application
-    id 'org.javamodularity.moduleplugin' version '1.8.12' // Supports Java 9's Project Jigsaw
-    id 'org.openjfx.javafxplugin' version '0.0.14' // Helps manage JavaFX dependencies
-    id 'org.beryx.jlink' version '2.25.0' // Creates a custom runtime image using the jlink command
-    id 'com.github.johnrengelman.shadow' version '8.0.0' // Helps create a fat Jar of project and its dependencies
+    id 'java'
+    id 'application'
+    id 'org.javamodularity.moduleplugin' version '1.8.12'
+    id 'org.openjfx.javafxplugin' version '0.0.14'
+    id 'org.beryx.jlink' version '2.25.0'
+    id 'com.github.johnrengelman.shadow' version '8.0.0'
+    id 'maven-publish'
 }
 
-group = "eu.lilithmonodia" // Group ID for your project
-version = "0.2" // Version of your project
+group = 'eu.lilithmonodia'
+version = '0.2'
 
-// The repositories where Gradle will search for dependencies
 repositories {
-    mavenCentral() // Maven Central repository
+    mavenCentral()
 }
 
 ext {
-    junitVersion = '5.9.2' // Define Junit version for testing
+    junitVersion = '5.9.2'
 }
 
-sourceCompatibility = '17' // Identify the version of Java source your project is compatible with
-targetCompatibility = '17' // Identify the version of Java bytecode your project targets
+sourceCompatibility = '17'
+targetCompatibility = '17'
 
-// Set encoding for Java compiler
 tasks.withType(JavaCompile) {
     options.encoding = 'UTF-8'
 }
 
-// Dependencies needed for the project
 dependencies {
-    // Compile time dependencies
     implementation 'org.jetbrains:annotations:24.0.0'
-    implementation'org.postgresql:postgresql:42.6.0'
+    implementation 'org.postgresql:postgresql:42.6.0'
     implementation 'com.google.code.gson:gson:2.8.9'
     implementation 'commons-io:commons-io:2.11.0'
-    // Test dependencies
-    testImplementation("org.junit.jupiter:junit-jupiter-api:${junitVersion}")
-    testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine:${junitVersion}")
+    testImplementation "org.junit.jupiter:junit-jupiter-api:${junitVersion}"
+    testRuntimeOnly "org.junit.jupiter:junit-jupiter-engine:${junitVersion}"
 }
 
-// Configure JAR artifact
 jar {
     manifest {
-        attributes('Main-Class': 'eu.lilithmonodia.winestock.Launcher') // Identifies the application entry point
+        attributes('Main-Class': 'eu.lilithmonodia.winestock.Launcher')
     }
 }
 
-// Define your application's main module and main class
 application {
-    mainModule = "eu.lilithmonodia.winestock"
-    mainClass = "eu.lilithmonodia.winestock.Launcher"
+    mainModule = 'eu.lilithmonodia.winestock'
+    mainClass = 'eu.lilithmonodia.winestock.Launcher'
 }
 
-// Configure Java FX
 javafx {
-    version = '17.0.7' // Java FX version
-    modules = ['javafx.controls', 'javafx.fxml'] // Java FX modules to use
+    version = '17.0.7'
+    modules = ['javafx.controls', 'javafx.fxml']
 }
 
-// Configure for using Junit Platform for the Test task
 test {
     useJUnitPlatform()
 }
 
-// Configure Jlink task
 jlink {
-    imageZip = project.file("${buildDir}/distributions/app-${javafx.platform.classifier}.zip") // The place to store the zipped jlink image
-    options = ['--strip-debug', '--compress', '2', '--no-header-files', '--no-man-pages'] // Options for image creation
-    launcher { name = 'WineStock' } // Name of the launcher script
+    imageZip = project.file("${buildDir}/distributions/app-${javafx.platform.classifier}.zip")
+    options = ['--strip-debug', '--compress', '2', '--no-header-files', '--no-man-pages']
+    launcher { name = 'WineStock' }
 }
 
 // Configure JlinkZip task
@@ -76,14 +68,31 @@ jlinkZip {
     group = 'distribution' // Create a distribution group
 }
 
-// Configure the ShadowJar task
 shadowJar {
-    archiveBaseName.set('WineStock') // Name of the generated JAR
-    archiveVersion.set("${version}-runnable") // Version of the generated JAR
-    archiveClassifier.set('') // Additional classifier for the generated JAR
-    mergeServiceFiles() // Ensures service files are properly handled
+    archiveBaseName.set('WineStock')
+    archiveVersion.set("${version}-runnable")
+    archiveClassifier.set('')
+    mergeServiceFiles()
     manifest {
-        attributes 'Main-Class': 'eu.lilithmonodia.winestock.Launcher' // Identifies the application entry point
+        attributes 'Main-Class': 'eu.lilithmonodia.winestock.Launcher'
     }
-    configurations = [project.configurations.runtimeClasspath] // Include the runtime classpath in the JAR
+    configurations = [project.configurations.runtimeClasspath]
+}
+
+publishing {
+    repositories {
+        maven {
+            url = uri("https://maven.pkg.github.com/Monodia3007/WineStock")
+            credentials {
+                username = findProperty("gpr.user") ?: System.getenv("GITHUB_USERNAME")
+                password = findProperty("gpr.key") ?: System.getenv("GITHUB_TOKEN")
+            }
+        }
+    }
+    publications {
+        gpr(MavenPublication) {
+            artifactId 'WineStock'
+            artifact jar
+        }
+    }
 }
