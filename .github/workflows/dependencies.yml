@@ -12,4 +12,4 @@ jobs:
       - name: Gradle Dependency Submission
         uses: mikepenz/gradle-dependency-submission@v0.9.0
         with:
-          token: ${{ secrets.GITHUB_TOKEN }}
+          token: ${{ secrets.MY_GITHUB_TOKEN }}
