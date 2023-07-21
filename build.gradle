@@ -9,11 +9,12 @@ plugins {
     id 'org.beryx.jlink' version '2.25.0' // Plugin to create custom Java runtime images
     id 'com.github.johnrengelman.shadow' version '8.0.0' // Plugin to create a fat JAR of this project
     id 'maven-publish' // Plugin to publish the build artifacts to Maven repositories
+    id 'signing'
 }
 
 // Set the group ID and version number for this project
 group = 'eu.lilithmonodia'
-version = '0.3'
+version = '0.4'
 
 // Indicate where Gradle should look for dependencies
 repositories {
@@ -85,14 +86,39 @@ jlinkZip {
 // Configure the `shadowJar` task to create a fat JAR of this project
 shadowJar {
     archiveBaseName.set('WineStock')
-    archiveVersion.set("${version}-runnable")
-    archiveClassifier.set('')
+    archiveVersion.set("${version}")
+    archiveClassifier.set('shadow')
     mergeServiceFiles()
     manifest {
         attributes 'Main-Class': 'eu.lilithmonodia.winestock.Launcher'
     }
     configurations = [project.configurations.runtimeClasspath]
 }
+
+task javadocJar(type: Jar) {
+    archiveClassifier.set('javadoc')
+    from javadoc
+}
+
+task sourcesJar(type: Jar) {
+    archiveClassifier.set('sources')
+    from sourceSets.main.allSource
+}
+
+artifacts {
+    archives javadocJar, sourcesJar, jar, shadowJar
+}
+
+signing {
+    sign configurations.archives
+}
+
+afterEvaluate {
+    signing {
+        sign publishing.publications.mavenJava
+    }
+}
+
 
 // Configure the `publishing` task to push the artifact to GitHub package repository
 publishing {
@@ -105,7 +131,7 @@ publishing {
                 password = System.getenv("MAVEN_PASSWORD")
             }
         }
-        maven {
+         maven {
             url = uri("https://maven.pkg.github.com/Monodia3007/WineStock")
             credentials {
                 username = findProperty("gpr.user") ?: System.getenv("GITHUB_USERNAME")
@@ -114,9 +140,38 @@ publishing {
         }
     }
     publications {
-        gpr(MavenPublication) {
-            artifactId 'winestock'
-            artifact jar
+        mavenJava(MavenPublication) {
+            from components.java
+            artifact sourcesJar
+            artifact javadocJar
+
+            pom {
+                name = 'WineStock'
+                packaging 'jar'
+                description = 'WineStock is a JavaFX application for managing wine inventory using a PostgreSQL database. It supports viewing and managing wine details.'
+                url = 'https://github.com/Monodia3007/WineStock'
+
+                scm {
+                    connection = 'scm:git:https://github.com/Monodia3007/WineStock.git'
+                    developerConnection = 'scm:git:https://github.com/Monodia3007/WineStock.git'
+                    url = 'https://github.com/Monodia3007/WineStock'
+                }
+
+                licenses {
+                    license {
+                        name = 'MIT License'
+                        url = 'https://opensource.org/license/mit/'
+                    }
+                }
+
+                developers {
+                    developer {
+                        id = 'monodia'
+                        name = 'Lilith Camplin'
+                        email = 'lilith.camplin@gmail.com'
+                    }
+                }
+            }
         }
     }
 }

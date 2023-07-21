@@ -1,6 +1,7 @@
 # --- Gradle files ---
 .gradle
 build/
+gradle.properties
 # do not ignore Gradle wrapper jar file
 !gradle/wrapper/gradle-wrapper.jar
 # do not ignore build directories under src/main and src/test
