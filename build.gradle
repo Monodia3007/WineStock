@@ -109,10 +109,6 @@ artifacts {
     archives javadocJar, sourcesJar, jar, shadowJar
 }
 
-signing {
-    sign configurations.archives
-}
-
 afterEvaluate {
     signing {
         sign publishing.publications.mavenJava
