@@ -98,6 +98,14 @@ shadowJar {
 publishing {
     repositories {
         maven {
+            name = "OSSRH"
+            url = "https://s01.oss.sonatype.org/service/local/staging/deploy/maven2/"
+            credentials {
+                username = System.getenv("MAVEN_USERNAME")
+                password = System.getenv("MAVEN_PASSWORD")
+            }
+        }
+        maven {
             url = uri("https://maven.pkg.github.com/Monodia3007/WineStock")
             credentials {
                 username = findProperty("gpr.user") ?: System.getenv("GITHUB_USERNAME")
