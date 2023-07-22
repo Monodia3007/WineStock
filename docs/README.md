@@ -49,4 +49,4 @@ This project uses the following dependencies:
 Contributions to the WineStock application are welcome. If you find any issues or have suggestions for improvement, please submit an issue or create a pull request.
 
 ## License
-This project is licensed under the [MIT License](LICENSE).
+This project is licensed under the [MIT License](../LICENSE).
