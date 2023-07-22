@@ -3,8 +3,9 @@
 ## Supported Versions
 
 Only the latest version of the WineStock application is currently being supported with security updates.
+
 | Version  | Supported          |
-|--------- | ------------------ |
+|----------|--------------------|
 | latest   | :white_check_mark: |
 | < latest | :x:                |
 ## Reporting a Vulnerability
@@ -13,7 +14,7 @@ We take the security of our software seriously. If you believe you have found a 
 
 **Please do not report security vulnerabilities through public GitHub issues.**
 
-Instead, send an email to the project maintainers.
+Instead, email the project maintainers.
 
 Provide us with as much information as possible, so we can reproduce and understand the issue. Normally, the following information is useful:
 
