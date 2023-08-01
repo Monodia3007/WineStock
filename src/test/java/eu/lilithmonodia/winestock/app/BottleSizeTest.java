@@ -1,8 +1,9 @@
 package eu.lilithmonodia.winestock.app;
 
+import eu.lilithmonodia.winestock.exceptions.InvalidBottleVolumeException;
 import org.junit.jupiter.api.Test;
 
-import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.*;
 
 /**
  * The type Bottle size test.
@@ -13,6 +14,8 @@ public class BottleSizeTest {
      */
     @Test
     public void testInvalidVolume() {
-        assertNull(BottleSize.doubleToBottleSize(39));
+        assertThrows(InvalidBottleVolumeException.class, () -> {
+            BottleSize.doubleToBottleSize(39);
+        });
     }
 }

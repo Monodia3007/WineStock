@@ -33,7 +33,7 @@ class AssortmentTest {
 
     @Test
     void testRemoveWine() {
-        assertThrows(WineNotInAssortmentException.class, () -> {
+        assertDoesNotThrow(() -> {
             assortment.add(wine1);
             assertTrue(assortment.remove(wine1));
             assertEquals(0, assortment.getWineList().size());

@@ -38,8 +38,10 @@ class WineTest {
 
     @Test
     void testSetYear() {
-        wine.setYear(Year.of(2020));
-        assertEquals(Year.of(2020), wine.getYear());
+        assertDoesNotThrow(() -> {
+            wine.setYear(Year.of(2020));
+            assertEquals(Year.of(2020), wine.getYear());
+        });
     }
 
     @Test
