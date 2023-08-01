@@ -31,12 +31,13 @@ public class Wine {
         this.year = Year.of(builder.year);
         try {
             this.volume = BottleSize.doubleToBottleSize(builder.volume);
-            this.color = Color.valueOf(builder.color.toUpperCase());
+            this.comment = builder.comment;
         } catch (InvalidBottleVolumeException e) {
             this.volume = BottleSize.BOUTEILLE;
+            this.comment = "Invalid Wine delete it promptly";
         }
+        this.color = Color.valueOf(builder.color.toUpperCase());
         this.price = builder.price;
-        this.comment = builder.comment;
         this.inAssortment = false;
     }
 
