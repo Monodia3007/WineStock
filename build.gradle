@@ -12,7 +12,7 @@ plugins {
 
 // Set the group ID and version number for this project
 group = 'eu.lilithmonodia'
-version = '0.4'
+version = '0.5'
 
 // Indicate where Gradle should look for dependencies
 repositories {

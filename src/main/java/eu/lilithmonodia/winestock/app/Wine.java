@@ -1,6 +1,7 @@
 package eu.lilithmonodia.winestock.app;
 
 import eu.lilithmonodia.winestock.exceptions.InvalidBottleVolumeException;
+import eu.lilithmonodia.winestock.exceptions.InvalidYearException;
 import org.jetbrains.annotations.NotNull;
 
 import java.time.Year;
@@ -28,7 +29,16 @@ public class Wine {
      */
     private Wine(@NotNull Builder builder) {
         this.name = builder.name;
-        this.year = Year.of(builder.year);
+        try {
+            this.year = Year.of(builder.year);
+            if (this.year.isAfter(Year.now())) {
+                throw new InvalidYearException("Invalid year. The year must not be after the current year.");
+            }
+        } catch (InvalidYearException e) {
+            System.err.println(e.getMessage());
+            return;
+        }
+
         try {
             this.volume = BottleSize.doubleToBottleSize(builder.volume);
             this.comment = builder.comment;
@@ -36,7 +46,14 @@ public class Wine {
             this.volume = BottleSize.BOUTEILLE;
             this.comment = "Invalid Wine delete it promptly";
         }
-        this.color = Color.valueOf(builder.color.toUpperCase());
+
+        try {
+            this.color = Color.valueOf(builder.color.toUpperCase());
+        } catch (IllegalArgumentException e) {
+            System.err.println("Invalid color. The color must be one of the predefined wine colors.");
+            return;
+        }
+
         this.price = builder.price;
         this.inAssortment = false;
     }
@@ -73,7 +90,10 @@ public class Wine {
      *
      * @param year the year
      */
-    public void setYear(Year year) {
+    public void setYear(Year year) throws InvalidYearException {
+        if (year.isAfter(Year.now())) {
+            throw new InvalidYearException("Invalid year. The year must not be after the current year.");
+        }
         this.year = year;
     }
 
