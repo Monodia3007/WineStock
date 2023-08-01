@@ -3,6 +3,7 @@ package eu.lilithmonodia.winestock.database;
 import eu.lilithmonodia.winestock.app.Assortment;
 import eu.lilithmonodia.winestock.app.Wine;
 import eu.lilithmonodia.winestock.configuration.Configuration;
+import eu.lilithmonodia.winestock.exceptions.WineAlreadyInAssortmentException;
 import org.jetbrains.annotations.NotNull;
 
 import java.io.IOException;
@@ -187,7 +188,9 @@ public class PostgreSQLManager {
         ResultSet resultSetWines = pstmtWines.executeQuery();
 
         while (resultSetWines.next()) {
-            assortment.add(getWineFromResultSet(resultSetWines));
+            try {
+                assortment.add(getWineFromResultSet(resultSetWines));
+            } catch (WineAlreadyInAssortmentException ignored) {}
         }
         return assortment;
     }

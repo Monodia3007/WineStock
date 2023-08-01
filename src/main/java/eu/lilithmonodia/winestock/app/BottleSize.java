@@ -1,5 +1,7 @@
 package eu.lilithmonodia.winestock.app;
 
+import eu.lilithmonodia.winestock.exceptions.InvalidBottleVolumeException;
+import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
@@ -97,12 +99,12 @@ public enum BottleSize {
      * @param volume the volume to fetch the corresponding `BottleSize` for.
      * @return the `BottleSize` matching the volume, or null if none match.
      */
-    public static @Nullable BottleSize doubleToBottleSize(double volume) {
+    public static @NotNull BottleSize doubleToBottleSize(double volume) throws InvalidBottleVolumeException {
         List<BottleSize> bottleSizes = List.of(BottleSize.values());
         for (BottleSize bottleSize : bottleSizes) {
             if (bottleSize.getVolume() == volume) return bottleSize;
         }
-        return null;
+        throw new InvalidBottleVolumeException("Invalid bottle volume");
     }
 
     /**

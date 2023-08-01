@@ -1,5 +1,8 @@
 package eu.lilithmonodia.winestock.app;
 
+import eu.lilithmonodia.winestock.exceptions.WineAlreadyInAssortmentException;
+import eu.lilithmonodia.winestock.exceptions.WineNotInAssortmentException;
+
 import java.time.Year;
 import java.util.ArrayList;
 import java.util.List;
@@ -64,8 +67,10 @@ public class Assortment {
      * @param wine The Wine object to be added to the Assortment.
      * @return true if the Wine object is successfully added to the Assortment, false otherwise.
      */
-    public boolean add(Wine wine) {
-        if ((year != null && !wine.getYear().equals(year)) || wine.isInAssortment()) return false;
+    public boolean add(Wine wine) throws WineAlreadyInAssortmentException {
+        if ((year != null && !wine.getYear().equals(year)) || wine.isInAssortment()) {
+            throw new WineAlreadyInAssortmentException("Wine is already in the assortment or the year of the wine is not matching with the assortment's year");
+        }
         this.year = wine.getYear();
         wine.setInAssortment(true);
         // Update totalPrice and wineNames
@@ -98,8 +103,10 @@ public class Assortment {
      * @param wine The Wine object to be removed from the Assortment.
      * @return true if the Wine object is successfully removed from the Assortment, false otherwise.
      */
-    public boolean remove(Wine wine) {
-        if (wineList.contains(wine)) {
+    public boolean remove(Wine wine) throws WineNotInAssortmentException {
+        if (!wineList.contains(wine))
+            throw new WineNotInAssortmentException("Wine is not in the assortment");
+        else {
             wine.setInAssortment(false);
             // Update totalPrice and wineNames
             this.totalPrice -= wine.getPrice();
@@ -109,7 +116,6 @@ public class Assortment {
             }
             return wineList.remove(wine);
         }
-        return false;
     }
 
     /**

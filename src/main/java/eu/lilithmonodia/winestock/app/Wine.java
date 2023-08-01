@@ -1,5 +1,6 @@
 package eu.lilithmonodia.winestock.app;
 
+import eu.lilithmonodia.winestock.exceptions.InvalidBottleVolumeException;
 import org.jetbrains.annotations.NotNull;
 
 import java.time.Year;
@@ -28,8 +29,12 @@ public class Wine {
     private Wine(@NotNull Builder builder) {
         this.name = builder.name;
         this.year = Year.of(builder.year);
-        this.volume = BottleSize.doubleToBottleSize(builder.volume);
-        this.color = Color.valueOf(builder.color.toUpperCase());
+        try {
+            this.volume = BottleSize.doubleToBottleSize(builder.volume);
+            this.color = Color.valueOf(builder.color.toUpperCase());
+        } catch (InvalidBottleVolumeException e) {
+            this.volume = BottleSize.BOUTEILLE;
+        }
         this.price = builder.price;
         this.comment = builder.comment;
         this.inAssortment = false;
@@ -86,7 +91,11 @@ public class Wine {
      * @param volume the volume
      */
     public void setVolume(double volume) {
-        this.volume = BottleSize.doubleToBottleSize(volume);
+        try {
+            this.volume = BottleSize.doubleToBottleSize(volume);
+        } catch (InvalidBottleVolumeException e) {
+            this.volume = BottleSize.BOUTEILLE;
+        }
     }
 
     /**
