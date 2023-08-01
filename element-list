@@ -4,3 +4,4 @@ eu.lilithmonodia.winestock.app
 eu.lilithmonodia.winestock.configuration
 eu.lilithmonodia.winestock.data
 eu.lilithmonodia.winestock.database
+eu.lilithmonodia.winestock.exceptions
