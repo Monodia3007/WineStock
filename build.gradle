@@ -115,7 +115,8 @@ publishing {
     repositories {
         maven {
             name = "OSSRH" // Setting repository name
-            url = uri("https://s01.oss.sonatype.org/service/local/staging/deploy/maven2/")  // Maven repository URL where the artifacts will be published
+            url = uri("https://s01.oss.sonatype.org/service/local/staging/deploy/maven2/")
+            // Maven repository URL where the artifacts will be published
             credentials {
                 // The Maven credentials for publishing are pulled from environment variables
                 username = System.getenv("MAVEN_USERNAME")

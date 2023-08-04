@@ -190,7 +190,8 @@ public class PostgreSQLManager {
         while (resultSetWines.next()) {
             try {
                 assortment.add(getWineFromResultSet(resultSetWines));
-            } catch (WineAlreadyInAssortmentException ignored) {}
+            } catch (WineAlreadyInAssortmentException ignored) {
+            }
         }
         return assortment;
     }

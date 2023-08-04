@@ -1,6 +1,6 @@
 # Contributing to WineStock
 
-First off, thanks for taking the time to contribute! 
+First off, thanks for taking the time to contribute!
 
 This document provides guidelines for contributing to the WineStock project.
 
@@ -8,12 +8,14 @@ This document provides guidelines for contributing to the WineStock project.
 
 ### Reporting Bugs
 
-This section guides you through submitting a bug report. Following these guidelines helps maintainers and the community understand your report, reproduce the behavior, and find related reports.
+This section guides you through submitting a bug report. Following these guidelines helps maintainers and the community
+understand your report, reproduce the behavior, and find related reports.
 
 #### Before Submitting A Bug Report
 
 * **Determine which repository the problem should be reported in**.
-* **Perform a cursory search** to see if the problem has already been reported. If it has, add a comment to the existing issue instead of opening a new one.
+* **Perform a cursory search** to see if the problem has already been reported. If it has, add a comment to the existing
+  issue instead of opening a new one.
 
 #### How Do I Submit A (Good) Bug Report?
 
@@ -28,12 +30,14 @@ Bugs are tracked as GitHub issues. Create an issue and provide the following inf
 
 ### Suggesting Enhancements
 
-This section guides you through submitting an enhancement suggestion, including completely new features and minor improvements to existing functionality. 
+This section guides you through submitting an enhancement suggestion, including completely new features and minor
+improvements to existing functionality.
 
 #### Before Submitting An Enhancement Suggestion
 
 * **Check the README.md and docs** Your idea might already be implemented
-* **Perform a cursory search** to see if the enhancement has already been suggested. If it has, add a comment to the existing issue instead of opening a new one.
+* **Perform a cursory search** to see if the enhancement has already been suggested. If it has, add a comment to the
+  existing issue instead of opening a new one.
 
 #### How Do I Submit A (Good) Enhancement Suggestion?
 
@@ -45,7 +49,7 @@ Enhancement suggestions are tracked as GitHub issues. Create an issue and provid
 
 ## Code Contribution
 
-### Fork the repository and make changes as you'd like. 
+### Fork the repository and make changes as you'd like.
 
 If you'd simply like to fix a bug you found, that's awesome! Make your changes and propose a Pull Request.
 
@@ -68,8 +72,11 @@ If you'd like to add a feature, it's suggested to create an issue first to discu
 
 ### Java Styleguide
 
-All Java code must adhere to the [Google Java Styleguide](https://google.github.io/styleguide/javaguide.html). Adherence will be verified using IntelliJ IDEA code formatting.
+All Java code must adhere to the [Google Java Styleguide](https://google.github.io/styleguide/javaguide.html). Adherence
+will be verified using IntelliJ IDEA code formatting.
 
 ## Any contributions you make will be under the MIT Software License
 
-In short, when you submit code changes, your submissions are understood to be under the same [MIT License](http://choosealicense.com/licenses/mit/) that covers the project. Feel free to contact the maintainers if that's a concern.
+In short, when you submit code changes, your submissions are understood to be under the
+same [MIT License](http://choosealicense.com/licenses/mit/) that covers the project. Feel free to contact the
+maintainers if that's a concern.
