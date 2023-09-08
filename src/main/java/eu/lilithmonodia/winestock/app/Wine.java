@@ -14,6 +14,7 @@ import java.time.Year;
  * The wine can also be part of an assortment (collection of wines).
  */
 public class Wine {
+    private static final String INVALID_WINE_MESSAGE = "Invalid Wine, delete it promptly";
     private String name;
     private Year year;
     private BottleSize volume;
@@ -29,31 +30,10 @@ public class Wine {
      */
     private Wine(@NotNull Builder builder) {
         this.name = builder.name;
-        try {
-            this.year = Year.of(builder.year);
-            if (this.year.isAfter(Year.now())) {
-                throw new InvalidYearException("Invalid year. The year must not be after the current year.");
-            }
-        } catch (InvalidYearException e) {
-            System.err.println(e.getMessage());
-            return;
-        }
-
-        try {
-            this.volume = BottleSize.doubleToBottleSize(builder.volume);
-            this.comment = builder.comment;
-        } catch (InvalidBottleVolumeException e) {
-            this.volume = BottleSize.BOUTEILLE;
-            this.comment = "Invalid Wine delete it promptly";
-        }
-
-        try {
-            this.color = Color.valueOf(builder.color.toUpperCase());
-        } catch (IllegalArgumentException e) {
-            System.err.println("Invalid color. The color must be one of the predefined wine colors.");
-            return;
-        }
-
+        this.year = Year.of(builder.year);
+        this.volume = builder.volume;
+        this.comment = builder.comment;
+        this.color = builder.color;
         this.price = builder.price;
         this.inAssortment = false;
     }
@@ -252,13 +232,13 @@ public class Wine {
     public static class Builder {
         private final String name;
         private final int year;
-        private final double volume;
-        private final String color;
+        private final BottleSize volume;
+        private final Color color;
         private final double price;
-        private String comment = "";  // Default value
+        private String comment;  // No default value
 
         /**
-         * Constructs a new Builder object with the given parameters.
+         * Constructs a new Builder object with the given parameters and checks validity of parameters.
          *
          * @param name   the name of the builder
          * @param year   the year of the builder
@@ -267,10 +247,27 @@ public class Wine {
          * @param price  the price of the builder
          */
         public Builder(String name, int year, double volume, String color, double price) {
+            BottleSize volume1;
+            if (year > Year.now().getValue()) {
+                throw new IllegalArgumentException("Invalid year. The year must not be after the current year.");
+            }
+
+            try {
+                volume1 = BottleSize.doubleToBottleSize(volume);
+            } catch (InvalidBottleVolumeException e) {
+                volume1 = BottleSize.BOUTEILLE;
+                this.comment = "Invalid Wine, delete it promptly";
+            }
+
+            this.volume = volume1;
+            try {
+                this.color = Color.valueOf(color.toUpperCase());
+            } catch (IllegalArgumentException e) {
+                throw new IllegalArgumentException("Invalid color. The color must be one of the predefined wine colors.");
+            }
+
             this.name = name;
             this.year = year;
-            this.volume = volume;
-            this.color = color;
             this.price = price;
         }
 
