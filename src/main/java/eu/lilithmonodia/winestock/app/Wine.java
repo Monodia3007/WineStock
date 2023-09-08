@@ -245,6 +245,7 @@ public class Wine {
          * @param volume the volume of the builder
          * @param color  the color of the builder
          * @param price  the price of the builder
+         * @throws IllegalArgumentException if the year is after the current year or if the color is not one of the predefined wine colors
          */
         public Builder(String name, int year, double volume, String color, double price) {
             BottleSize volume1;
