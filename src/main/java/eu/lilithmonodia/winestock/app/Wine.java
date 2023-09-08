@@ -269,6 +269,7 @@ public class Wine {
             this.name = name;
             this.year = year;
             this.price = price;
+            this.comment = "";
         }
 
         /**
