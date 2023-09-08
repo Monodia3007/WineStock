@@ -41,31 +41,10 @@ public class Assortment {
 
     /**
      * Adds a Wine object to the Assortment.
-     * <p>
-     * The add method adds a Wine object to the Assortment. The Wine object will be added to
-     * the wineList ArrayList if the following conditions are met:
-     * 1. If the year of the Wine object is not null and is different from the year of the Assortment, or
-     * 2. If the Wine object is already in the Assortment.
-     * <p>
-     * If the Wine object is successfully added to the Assortment, the year of the Assortment will be
-     * updated to the year of the added Wine object, and the Wine object's isInAssortment flag will be set
-     * to true.
-     * <p>
-     * The totalPrice of the Assortment will be updated by adding the price of the added Wine object.
-     * <p>
-     * The wineNames of the Assortment will be updated by appending the name of the added Wine object,
-     * separated by a comma and a space, if the wineNames is not empty. If the wineNames is empty,
-     * the name of the added Wine object will be appended without any separators.
-     * <p>
-     * Example usage:
-     * <pre>{@code
-     * Assortment assortment = new Assortment();
-     * Wine wine = new Wine("Chardonnay", 2019, 29.99);
-     * boolean added = assortment.add(wine);
-     * }</pre>
      *
      * @param wine The Wine object to be added to the Assortment.
-     * @return true if the Wine object is successfully added to the Assortment, false otherwise.
+     * @return {@code true} if the Wine object is successfully added to the Assortment, {@code false} otherwise.
+     * @throws WineAlreadyInAssortmentException if the Wine object is already in the Assortment or if the year of the wine is not matching with the assortment's year.
      */
     public boolean add(Wine wine) throws WineAlreadyInAssortmentException {
         if ((year != null && !wine.getYear().equals(year)) || wine.isInAssortment()) {
@@ -82,26 +61,28 @@ public class Assortment {
     /**
      * Removes a Wine object from the Assortment.
      * <p>
-     * The remove method removes a Wine object from the Assortment. The Wine object will be removed
-     * from the wineList ArrayList if it is contained in the Assortment.
+     * The remove method removes a Wine object from the Assortment. The Wine object will be removed from
+     * the wineList ArrayList if it exists in the Assortment.
      * <p>
-     * If the Wine object is successfully removed from the Assortment, the Wine object's isInAssortment
-     * flag will be set to false.
+     * If the Wine object is successfully removed from the Assortment, the Wine object's isInAssortment flag will be set
+     * to false.
      * <p>
      * The totalPrice of the Assortment will be updated by subtracting the price of the removed Wine object.
      * <p>
-     * The wineNames of the Assortment will be updated by removing the name of the removed Wine object.
+     * The wineNames of the Assortment will be updated by removing the name of the removed Wine object, if it exists,
+     * and removing any duplicate separators (", ,"). The resulting wineNames will be trimmed. If the resulting wineNames
+     * ends with a comma, the comma will be removed.
      * <p>
      * Example usage:
      * <pre>{@code
      * Assortment assortment = new Assortment();
      * Wine wine = new Wine("Chardonnay", 2019, 29.99);
-     * assortment.add(wine);
      * boolean removed = assortment.remove(wine);
      * }</pre>
      *
      * @param wine The Wine object to be removed from the Assortment.
      * @return true if the Wine object is successfully removed from the Assortment, false otherwise.
+     * @throws WineNotInAssortmentException if the Wine object is not in the assortment.
      */
     public boolean remove(Wine wine) throws WineNotInAssortmentException {
         if (!wineList.contains(wine))

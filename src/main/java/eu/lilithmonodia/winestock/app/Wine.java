@@ -66,9 +66,10 @@ public class Wine {
     }
 
     /**
-     * Sets year.
+     * Sets the year of an object.
      *
-     * @param year the year
+     * @param year the year to be set
+     * @throws InvalidYearException if the year is after the current year
      */
     public void setYear(Year year) throws InvalidYearException {
         if (year.isAfter(Year.now())) {
@@ -87,9 +88,9 @@ public class Wine {
     }
 
     /**
-     * Sets volume.
+     * Sets the volume of the bottle.
      *
-     * @param volume the volume
+     * @param volume the volume of the bottle to be set
      */
     public void setVolume(double volume) {
         try {
