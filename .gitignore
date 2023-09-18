@@ -16,6 +16,8 @@ gradle.properties
 *.iws
 *.iml
 *.ipr
+.idea/modules.xml
+.idea/dataSources
 .idea/workspace.xml
 .idea/tasks.xml
 .idea/dictionaries
