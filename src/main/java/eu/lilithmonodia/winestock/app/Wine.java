@@ -14,7 +14,6 @@ import java.time.Year;
  * The wine can also be part of an assortment (collection of wines).
  */
 public class Wine {
-    private static final String INVALID_WINE_MESSAGE = "Invalid Wine, delete it promptly";
     private String name;
     private Year year;
     private BottleSize volume;
@@ -257,8 +256,7 @@ public class Wine {
             try {
                 volume1 = BottleSize.doubleToBottleSize(volume);
             } catch (InvalidBottleVolumeException e) {
-                volume1 = BottleSize.BOUTEILLE;
-                this.comment = "Invalid Wine, delete it promptly";
+                throw new IllegalArgumentException("Invalid Volume");
             }
 
             this.volume = volume1;
