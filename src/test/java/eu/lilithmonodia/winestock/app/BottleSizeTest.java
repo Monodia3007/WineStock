@@ -14,8 +14,6 @@ public class BottleSizeTest {
      */
     @Test
     public void testInvalidVolume() {
-        assertThrows(InvalidBottleVolumeException.class, () -> {
-            BottleSize.doubleToBottleSize(39);
-        });
+        assertThrows(InvalidBottleVolumeException.class, () -> BottleSize.doubleToBottleSize(39));
     }
 }
