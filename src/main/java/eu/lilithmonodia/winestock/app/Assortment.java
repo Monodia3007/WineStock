@@ -43,7 +43,9 @@ public class Assortment {
      * Adds a Wine object to the Assortment.
      *
      * @param wine The Wine object to be added to the Assortment.
+     *
      * @return {@code true} if the Wine object is successfully added to the Assortment, {@code false} otherwise.
+     *
      * @throws WineAlreadyInAssortmentException if the Wine object is already in the Assortment or if the year of the wine is not matching with the assortment's year.
      */
     public boolean add(Wine wine) throws WineAlreadyInAssortmentException {
@@ -81,7 +83,9 @@ public class Assortment {
      * }</pre>
      *
      * @param wine The Wine object to be removed from the Assortment.
+     *
      * @return true if the Wine object is successfully removed from the Assortment, false otherwise.
+     *
      * @throws WineNotInAssortmentException if the Wine object is not in the assortment.
      */
     public boolean remove(Wine wine) throws WineNotInAssortmentException {
@@ -223,6 +227,7 @@ public class Assortment {
      * }</pre>
      *
      * @param o the object to compare for equality
+     *
      * @return true if this Assortment object is equal to the specified object, false otherwise
      */
     @Override

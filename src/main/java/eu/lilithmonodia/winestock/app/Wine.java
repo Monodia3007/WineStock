@@ -68,6 +68,7 @@ public class Wine {
      * Sets the year of an object.
      *
      * @param year the year to be set
+     *
      * @throws InvalidYearException if the year is after the current year
      */
     public void setYear(Year year) throws InvalidYearException {
@@ -176,6 +177,7 @@ public class Wine {
      * Determines whether the current `Wine` object equals another object.
      *
      * @param o The object to compare against for equality.
+     *
      * @return true if the objects are the same; false otherwise.
      */
     @Override
@@ -245,6 +247,7 @@ public class Wine {
          * @param volume the volume of the builder
          * @param color  the color of the builder
          * @param price  the price of the builder
+         *
          * @throws IllegalArgumentException if the year is after the current year or if the color is not one of the predefined wine colors
          */
         public Builder(String name, int year, double volume, String color, double price) {
@@ -276,6 +279,7 @@ public class Wine {
          * Adds a comment to the Builder object.
          *
          * @param comment the comment to be added
+         *
          * @return the updated Builder object
          */
         public Builder comment(String comment) {

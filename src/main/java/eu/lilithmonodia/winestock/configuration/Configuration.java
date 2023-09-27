@@ -25,6 +25,7 @@ public record Configuration(String databaseHost, String databaseUser, String use
      * The configuration file must be located in the same package as the Configuration class.
      *
      * @return a Configuration object with the values from the configuration file.
+     *
      * @throws IOException if an I/O error occurs while reading the configuration file.
      */
     @NotNull

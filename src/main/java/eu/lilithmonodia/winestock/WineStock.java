@@ -81,6 +81,7 @@ public class WineStock extends Application {
      * and the primary stage is shown.
      *
      * @param primaryStage the primary stage of the application
+     *
      * @throws IOException if an I/O error occurs while loading the FXML file
      */
     @Override

@@ -47,6 +47,7 @@ public class PostgreSQLManager {
      *
      * @param user     the username for the database connection
      * @param password the password for the database connection
+     *
      * @throws IOException  if there is an error reading the configuration file
      * @throws SQLException if there is an error establishing the database connection
      */
@@ -61,6 +62,7 @@ public class PostgreSQLManager {
      * Establishes a connection to the PostgreSQL database using the provided credentials.
      *
      * @return the Connection object representing the database connection
+     *
      * @throws SQLException if there is an error establishing the database connection
      */
     public Connection connect() throws SQLException {
@@ -99,8 +101,10 @@ public class PostgreSQLManager {
      * Inserts a new wine record into the database.
      *
      * @param wine the Wine object representing the wine to be inserted
+     *
      * @return an Optional Long representing the ID of the newly inserted wine record,
      * or an empty Optional if the insertion failed
+     *
      * @throws SQLException if an error occurs while inserting the wine record
      */
     public Optional<Long> insertWine(Wine wine) throws SQLException {
@@ -111,8 +115,10 @@ public class PostgreSQLManager {
      * Inserts a new wine record into the database.
      *
      * @param wine the Wine object representing the wine to be inserted
+     *
      * @return an Optional Long representing the ID of the newly inserted wine record,
      * or an empty Optional if the insertion failed
+     *
      * @throws SQLException if an error occurs while inserting the wine record
      */
     private Optional<Long> insertWineInternal(Wine wine) throws SQLException {
@@ -135,6 +141,7 @@ public class PostgreSQLManager {
      *
      * @param pstmt the PreparedStatement object to set parameters for
      * @param wine  the Wine object containing the values for the parameters
+     *
      * @throws SQLException if an error occurs while setting the parameters
      */
     // Sets parameters for PreparedStatement to be used with INSERT_WINE_SQL query
@@ -177,7 +184,9 @@ public class PostgreSQLManager {
      * Fetches an Assortment for a given ResultSet. Reads all wines in the assortment.
      *
      * @param resultSet the ResultSet containing information about the assortment
+     *
      * @return an Assortment object representing the assortment extracted from the ResultSet
+     *
      * @throws SQLException if an error occurs while accessing the ResultSet
      */
     // Fetches Assortment for a given ResultSet. Reads all wines in the assortment.
@@ -200,7 +209,9 @@ public class PostgreSQLManager {
      * Gets a Wine object from a given ResultSet.
      *
      * @param resultSetWines the ResultSet containing information about the wine
+     *
      * @return a Wine object representing the wine extracted from the ResultSet
+     *
      * @throws SQLException if an error occurs while accessing the ResultSet
      */
     // Gets a Wine object from a given ResultSet.
@@ -218,7 +229,9 @@ public class PostgreSQLManager {
      * Inserts an Assortment object into the database.
      *
      * @param assortment the Assortment object to be inserted
+     *
      * @return an Optional containing the ID of the inserted Assortment, or an empty Optional if the insertion failed
+     *
      * @throws SQLException if an error occurs while accessing the database
      */
     public Optional<Long> insertAssortment(Assortment assortment) throws SQLException {
@@ -245,7 +258,9 @@ public class PostgreSQLManager {
      * Inserts an Assortment object into the database.
      *
      * @param assortment the Assortment object to be inserted
+     *
      * @return an Optional containing the ID of the inserted Assortment, or an empty Optional if the insertion failed
+     *
      * @throws SQLException if an error occurs while accessing the database
      */
     private Optional<Long> insertAssortmentInternal(Assortment assortment) throws SQLException {
@@ -260,6 +275,7 @@ public class PostgreSQLManager {
      *
      * @param pstmtAssortment the PreparedStatement object for inserting the Assortment
      * @param assortment      the Assortment object to be inserted
+     *
      * @throws SQLException if an error occurs while accessing the database
      */
     private void preprocessInsertAssortmentStatement(@NotNull PreparedStatement pstmtAssortment, @NotNull Assortment assortment) throws SQLException {
@@ -271,7 +287,9 @@ public class PostgreSQLManager {
      *
      * @param affectedRows    the number of affected rows by the executed PreparedStatement
      * @param pstmtAssortment the PreparedStatement object that was executed
+     *
      * @return an Optional containing the generated key if available, or an empty Optional if no key was generated
+     *
      * @throws SQLException if an error occurs while accessing the database
      */
     private Optional<Long> fetchKeyFromGeneratedKeys(int affectedRows, PreparedStatement pstmtAssortment) throws SQLException {
@@ -290,6 +308,7 @@ public class PostgreSQLManager {
      *
      * @param wines        the list of wines to insert
      * @param assortmentId the ID of the assortment to insert the wines into
+     *
      * @throws SQLException if an error occurs while accessing the database
      */
     public void insertWinesInAssortment(@NotNull List<Wine> wines, Long assortmentId) throws SQLException {
@@ -303,6 +322,7 @@ public class PostgreSQLManager {
      *
      * @param wine         the wine to insert
      * @param assortmentId the ID of the assortment to insert the wine into
+     *
      * @throws SQLException if an error occurs while accessing the database
      */
     public void insertWineInAssortment(Wine wine, Long assortmentId) throws SQLException {
