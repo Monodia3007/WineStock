@@ -37,6 +37,6 @@ module eu.lilithmonodia.winestock {
     requires org.apache.commons.io;
 
     opens eu.lilithmonodia.winestock to javafx.fxml;
-    opens eu.lilithmonodia.winestock.app to java.base;
+    opens eu.lilithmonodia.winestock.app to java.base, javafx.base;
     exports eu.lilithmonodia.winestock;
 }
