@@ -2,7 +2,26 @@
 
 The WineStock application is a JavaFX-based application for managing wine inventory and assortment data. It provides
 functionality to connect to a PostgreSQL database, retrieve wine information, and perform various operations on the
-data.
+wine and assortment data.
+
+## Table of Contents
+
+- [WineStock Application](#winestock-application)
+  - [Table of Contents](#table-of-contents)
+  - [Description](#description)
+  - [Features](#features)
+  - [Prerequisites](#prerequisites)
+  - [Getting Started](#getting-started)
+  - [Usage](#usage)
+  - [Dependencies](#dependencies)
+  - [Contributing](#contributing)
+  - [License](#license)
+
+## Description
+
+The WineStock application is a JavaFX-based application for managing wine inventory and assortment data. It provides
+functionality to connect to a PostgreSQL database, retrieve wine information, and perform various operations on the
+wine and assortment data.
 
 ## Features
 

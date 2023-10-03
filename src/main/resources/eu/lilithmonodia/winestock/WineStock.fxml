@@ -13,43 +13,40 @@
     <Tab text="Connexion">
         <AnchorPane minHeight="0.0" minWidth="0.0">
             <VBox alignment="CENTER" layoutX="199.0" layoutY="50.0" prefHeight="200.0" prefWidth="223.0">
-                <children>
-                    <ImageView fx:id="icon" fitHeight="128.0" fitWidth="128.0" pickOnBounds="true" preserveRatio="true">
-                        <VBox.margin>
-                            <Insets bottom="5.0" top="5.0"/>
-                        </VBox.margin>
-                    </ImageView>
-                    <Text strokeType="OUTSIDE" strokeWidth="0.0" text="WineStock">
-                        <VBox.margin>
-                            <Insets bottom="5.0" top="5.0"/>
-                        </VBox.margin>
-                        <font>
-                            <Font name="System Bold" size="48.0"/>
-                        </font>
-                    </Text>
-                    <TextField fx:id="usernameField" promptText="Username">
-                        <VBox.margin>
-                            <Insets bottom="5.0" top="5.0"/>
-                        </VBox.margin>
-                    </TextField>
-                    <PasswordField fx:id="passwordField" onAction="#login" promptText="Password">
-                        <VBox.margin>
-                            <Insets bottom="5.0" top="5.0"/>
-                        </VBox.margin>
-                    </PasswordField>
-                    <Button mnemonicParsing="false" onAction="#login" prefHeight="25.0" prefWidth="160.0"
-                            text="Connexion">
-                        <VBox.margin>
-                            <Insets bottom="5.0" top="5.0"/>
-                        </VBox.margin>
-                    </Button>
-                    <Button fx:id="importButton" disable="true" mnemonicParsing="false" onAction="#importDatabase"
-                            prefHeight="24.0" prefWidth="160.0" text="Importer les données">
-                        <VBox.margin>
-                            <Insets bottom="5.0" top="5.0"/>
-                        </VBox.margin>
-                    </Button>
-                </children>
+                <ImageView fx:id="icon" fitHeight="128.0" fitWidth="128.0" pickOnBounds="true" preserveRatio="true">
+                    <VBox.margin>
+                        <Insets bottom="5.0" top="5.0"/>
+                    </VBox.margin>
+                </ImageView>
+                <Text strokeType="OUTSIDE" strokeWidth="0.0" text="WineStock">
+                    <VBox.margin>
+                        <Insets bottom="5.0" top="5.0"/>
+                    </VBox.margin>
+                    <font>
+                        <Font name="System Bold" size="48.0"/>
+                    </font>
+                </Text>
+                <TextField fx:id="usernameField" promptText="Username">
+                    <VBox.margin>
+                        <Insets bottom="5.0" top="5.0"/>
+                    </VBox.margin>
+                </TextField>
+                <PasswordField fx:id="passwordField" onAction="#login" promptText="Password">
+                    <VBox.margin>
+                        <Insets bottom="5.0" top="5.0"/>
+                    </VBox.margin>
+                </PasswordField>
+                <Button mnemonicParsing="false" onAction="#login" prefHeight="25.0" prefWidth="160.0" text="Connexion">
+                    <VBox.margin>
+                        <Insets bottom="5.0" top="5.0"/>
+                    </VBox.margin>
+                </Button>
+                <Button fx:id="importButton" disable="true" mnemonicParsing="false" onAction="#importDatabase"
+                        prefHeight="24.0" prefWidth="160.0" text="Importer les données">
+                    <VBox.margin>
+                        <Insets bottom="5.0" top="5.0"/>
+                    </VBox.margin>
+                </Button>
             </VBox>
         </AnchorPane>
     </Tab>
@@ -83,39 +80,28 @@
     <Tab text="Assortiments">
         <AnchorPane>
             <TabPane prefHeight="449.0" prefWidth="640.0" tabClosingPolicy="UNAVAILABLE">
-                <tabs>
-                    <Tab text="Visualiser">
-                        <content>
-                            <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
-                                <children>
-                                    <TableView fx:id="assortmentsTable" maxHeight="1.7976931348623157E308"
-                                               maxWidth="1.7976931348623157E308" AnchorPane.bottomAnchor="0.0"
-                                               AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0"
-                                               AnchorPane.topAnchor="0.0">
-                                        <columns>
-                                            <TableColumn fx:id="assortmentWines" prefWidth="493.4218571782112"
-                                                         text="Vins"/>
-                                            <TableColumn fx:id="assortmentYear" prefWidth="55.078155517578125"
-                                                         text="Millésime"/>
-                                            <TableColumn fx:id="assortmentTotalPrice" prefWidth="92.24240112304688"
-                                                         text="Prix Total"/>
-                                        </columns>
-                                    </TableView>
-                                </children>
-                            </AnchorPane>
-                        </content>
-                    </Tab>
-                    <Tab text="Chercher">
-                        <content>
-                            <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0"/>
-                        </content>
-                    </Tab>
-                    <Tab text="Modifier">
-                        <content>
-                            <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0"/>
-                        </content>
-                    </Tab>
-                </tabs>
+                <Tab text="Visualiser">
+                    <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                        <TableView fx:id="assortmentsTable" maxHeight="1.7976931348623157E308"
+                                   maxWidth="1.7976931348623157E308" AnchorPane.bottomAnchor="0.0"
+                                   AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0"
+                                   AnchorPane.topAnchor="0.0">
+                            <columns>
+                                <TableColumn fx:id="assortmentWines" prefWidth="493.4218571782112" text="Vins"/>
+                                <TableColumn fx:id="assortmentYear" prefWidth="55.078155517578125"
+                                             text="Millésime"/>
+                                <TableColumn fx:id="assortmentTotalPrice" prefWidth="92.24240112304688"
+                                             text="Prix Total"/>
+                            </columns>
+                        </TableView>
+                    </AnchorPane>
+                </Tab>
+                <Tab text="Chercher">
+                    <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0"/>
+                </Tab>
+                <Tab text="Modifier">
+                    <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0"/>
+                </Tab>
             </TabPane>
         </AnchorPane>
     </Tab>
