@@ -12,7 +12,7 @@ plugins {
 
 // Set the group ID and version number for this project
 group = 'eu.lilithmonodia'
-version = '0.6'
+version = '1.6'
 
 // Indicate where Gradle should look for dependencies
 repositories {
@@ -40,6 +40,8 @@ dependencies {
     implementation 'org.postgresql:postgresql:42.6.0'
     implementation 'com.google.code.gson:gson:2.8.9'
     implementation 'commons-io:commons-io:2.11.0'
+    implementation 'org.apache.logging.log4j:log4j-api:2.20.0'
+    implementation 'org.apache.logging.log4j:log4j-core:2.20.0'
     // Indicate libraries needed for testing this project
     testImplementation "org.junit.jupiter:junit-jupiter-api:${junitVersion}"
     testRuntimeOnly "org.junit.jupiter:junit-jupiter-engine:${junitVersion}"
@@ -72,7 +74,8 @@ test {
 // Configures the `jlink` task to create a custom Java runtime image
 jlink {
     imageZip = project.file("${buildDir}/distributions/app-${javafx.platform.classifier}.zip")
-    options = ['--strip-debug', '--compress', '2', '--no-header-files', '--no-man-pages']
+    options = ['--strip-debug', '--compress', '2', '--no-header-files', '--no-man-pages', '--add-modules', 'org.apache.logging.log4j']
+    forceMerge 'log4j'
     launcher { name = 'WineStock' }
 }
 

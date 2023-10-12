@@ -2,6 +2,8 @@ package eu.lilithmonodia.winestock.app;
 
 import eu.lilithmonodia.winestock.exceptions.InvalidBottleVolumeException;
 import eu.lilithmonodia.winestock.exceptions.InvalidYearException;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.jetbrains.annotations.NotNull;
 
 import java.time.Year;
@@ -14,6 +16,8 @@ import java.time.Year;
  * The wine can also be part of an assortment (collection of wines).
  */
 public class Wine {
+    private static final Logger LOGGER = LogManager.getLogger(Wine.class);
+
     private String name;
     private Year year;
     private BottleSize volume;
@@ -73,9 +77,11 @@ public class Wine {
      */
     public void setYear(Year year) throws InvalidYearException {
         if (year.isAfter(Year.now())) {
+            LOGGER.error("Invalid year. The year must not be after the current year.");
             throw new InvalidYearException("Invalid year. The year must not be after the current year.");
         }
         this.year = year;
+        LOGGER.info("Year set to: " + year);
     }
 
     /**
@@ -293,6 +299,7 @@ public class Wine {
          * @return a new Wine object
          */
         public Wine build() {
+            LOGGER.info("Wine instance created with name: " + this.name);
             return new Wine(this);
         }
     }

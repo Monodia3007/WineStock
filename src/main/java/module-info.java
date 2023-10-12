@@ -9,6 +9,7 @@
  *     <li>javafx.controls: JavaFX GUI controls for creating user interfaces</li>
  *     <li>javafx.fxml: JavaFX package for FXML</li>
  *     <li>java.sql: Core Java package for SQL database management</li>
+ *     <li>org.postgresql.jdbc: PostgreSQL JDBC driver for database connectivity</li>
  *     <li>org.jetbrains.annotations: JetBrains annotations library</li>
  *     <li>java.desktop: Provides interfaces for interconnecting applications with the integrated desktop environment</li>
  *     <li>com.google.gson: Library for converting Java Objects into JSON and back </li>
@@ -35,6 +36,8 @@ module eu.lilithmonodia.winestock {
     requires java.desktop;
     requires com.google.gson;
     requires org.apache.commons.io;
+    requires org.apache.logging.log4j;
+    requires org.postgresql.jdbc;
 
     opens eu.lilithmonodia.winestock to javafx.fxml;
     opens eu.lilithmonodia.winestock.app to java.base, javafx.base;

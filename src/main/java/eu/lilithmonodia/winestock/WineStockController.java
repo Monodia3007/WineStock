@@ -13,13 +13,13 @@ import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import java.io.IOException;
 import java.sql.SQLException;
 import java.time.Year;
 import java.util.Objects;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 /**
  * WineStockController class controls the Wine Stock application's UI.
@@ -29,7 +29,7 @@ import java.util.logging.Logger;
 public class WineStockController {
     // Manager for PostgreSQL Database
     private PostgreSQLManager postgreSQLManager;
-    private static final Logger LOGGER = Logger.getLogger(WineStockController.class.getName());
+    private static final Logger LOGGER = LogManager.getLogger(WineStockController.class);
 
     //FXML Table and Column variables for assortment and wine.
     @FXML
@@ -80,14 +80,14 @@ public class WineStockController {
      * Imports the database by setting cell value factories and refreshing the view.
      */
     public void importDatabase() {
-        LOGGER.log(Level.INFO, "Database import initiated.");
+        LOGGER.info("Database import initiated.");
 
         try {
             setCellValueFactories();
             refresh();
-            LOGGER.log(Level.INFO, "Database successfully imported.");
+            LOGGER.info("Database successfully imported.");
         } catch (Exception e) {
-            LOGGER.log(Level.SEVERE, "Failed to import database.", e);
+            LOGGER.error("Failed to import database.", e);
         }
     }
 
@@ -138,10 +138,10 @@ public class WineStockController {
             postgreSQLManager = new PostgreSQLManager(username, password);
             postgreSQLManager.connect();
             importButton.setDisable(false);
-            LOGGER.log(Level.INFO, "Successful login. Connection established.");
+            LOGGER.info("Successful login. Connection established.");
         } catch (IOException | SQLException e) {
             importButton.setDisable(true);
-            LOGGER.log(Level.SEVERE, "Failed to login and establish database connection.", e);
+            LOGGER.error("Failed to login and establish database connection.", e);
         }
     }
 
@@ -154,7 +154,7 @@ public class WineStockController {
             wineTable.setItems(FXCollections.observableArrayList(postgreSQLManager.getAllWine()));
             assortmentsTable.setItems(FXCollections.observableArrayList(postgreSQLManager.getAllAssortments()));
         } catch (Exception e) {
-            LOGGER.log(Level.SEVERE, "Failed to refresh data from the database.", e);
+            LOGGER.error("Failed to refresh data from the database.", e);
         }
     }
 
@@ -164,7 +164,7 @@ public class WineStockController {
                 // Call the method in your PostgreSQLManager class to close the database connection
                 this.postgreSQLManager.close();
             } catch (SQLException e) {
-                LOGGER.log(Level.SEVERE, "Failed to close PostgreSQLManager", e); // Handle exception appropriately
+                LOGGER.error("Failed to close PostgreSQLManager", e); // Handle exception appropriately
             }
         }
     }
