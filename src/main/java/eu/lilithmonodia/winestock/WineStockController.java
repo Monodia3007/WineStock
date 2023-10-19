@@ -158,6 +158,10 @@ public class WineStockController {
         }
     }
 
+    /**
+     * Closes the application by closing the connection to the PostgreSQL database.
+     * If an exception occurs while closing the connection, a suitable error handling approach may be applied.
+     */
     public void closeApplication() {
         if (postgreSQLManager != null) {
             try {
