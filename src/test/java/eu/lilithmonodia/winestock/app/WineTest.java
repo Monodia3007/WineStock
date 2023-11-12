@@ -13,6 +13,7 @@ class WineTest {
     @BeforeEach
     void initialisation() {
         wine = new Wine.Builder("Cabernet", 2019, 75.0, "ROUGE", 150.0).build();
+        wine.setId(0);
     }
 
     @Test
