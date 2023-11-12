@@ -5,6 +5,8 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.stage.Stage;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.jetbrains.annotations.NotNull;
 
 import javax.imageio.ImageIO;
@@ -12,8 +14,6 @@ import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Objects;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 import static javafx.application.Platform.exit;
 
@@ -23,7 +23,7 @@ import static javafx.application.Platform.exit;
  * with the loaded FXML scene and setting the application icon.
  */
 public class WineStock extends Application {
-    private static final Logger LOGGER = Logger.getLogger(WineStock.class.getName());
+    private static final Logger LOGGER = LogManager.getLogger(WineStock.class);
 
     /**
      * Entry point of the application.
@@ -36,7 +36,7 @@ public class WineStock extends Application {
                 setDockIcon();
             }
         } catch (Exception e) {
-            LOGGER.log(Level.SEVERE, "Exception while setting the Dock Icon", e);
+            LOGGER.error("Error setting dock icon", e);
         } finally {
             launch(args);
         }

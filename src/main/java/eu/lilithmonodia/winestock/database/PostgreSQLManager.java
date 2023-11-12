@@ -4,6 +4,8 @@ import eu.lilithmonodia.winestock.app.Assortment;
 import eu.lilithmonodia.winestock.app.Wine;
 import eu.lilithmonodia.winestock.configuration.Configuration;
 import eu.lilithmonodia.winestock.exceptions.WineAlreadyInAssortmentException;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.jetbrains.annotations.NotNull;
 
 import java.io.IOException;
@@ -11,13 +13,12 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
-import java.util.logging.Logger;
 
 /**
  * A class that manages PostgreSQL database operations for wines and assortments.
  */
 public class PostgreSQLManager {
-    private static final Logger LOGGER = Logger.getLogger(PostgreSQLManager.class.getName());
+    private static final Logger LOGGER = LogManager.getLogger(PostgreSQLManager.class);
     private static final String WINE_SELECT_SQL = "SELECT * FROM public.wine WHERE in_assortment = false";
     private static final String INSERT_WINE_SQL = "INSERT INTO public.wine(name, year, volume, color, price, comment, in_assortment) VALUES(?, ?, ?, ?, ?, ?, ?)";
     private static final String ASSORTMENT_SELECT_SQL = "SELECT * FROM assortment";
@@ -94,7 +95,7 @@ public class PostgreSQLManager {
                 ).comment(resultSet.getString("comment")).build());
             }
         } catch (SQLException e) {
-            LOGGER.severe("Error executing select: " + e.getMessage());
+            LOGGER.error("Error executing select: " + e.getMessage());
         }
         return wines;
     }
@@ -176,7 +177,7 @@ public class PostgreSQLManager {
             }
 
         } catch (SQLException e) {
-            LOGGER.severe("Error executing select: " + e.getMessage());
+            LOGGER.error("Error executing select: " + e.getMessage());
         }
 
         return assortments;
@@ -204,7 +205,7 @@ public class PostgreSQLManager {
             try {
                 assortment.add(getWineFromResultSet(resultSetWines));
             } catch (WineAlreadyInAssortmentException e) {
-                LOGGER.severe("Error adding wine to assortment: " + e.getMessage());
+                LOGGER.error("Error adding wine to assortment: " + e.getMessage());
             }
         }
         return assortment;
@@ -249,11 +250,11 @@ public class PostgreSQLManager {
             connection.commit();
             return assortmentId;
         } catch (SQLException e) {
-            LOGGER.severe("Error executing insert: " + e.getMessage());
+            LOGGER.error("Error executing insert: " + e.getMessage());
             try {
                 connection.rollback();
             } catch (SQLException ex) {
-                LOGGER.severe("Error rolling back transaction: " + ex.getMessage());
+                LOGGER.error("Error rolling back transaction: " + ex.getMessage());
             }
         }
         return Optional.empty();
@@ -338,7 +339,7 @@ public class PostgreSQLManager {
                 pstmtContains.setLong(2, wineId.get());
                 pstmtContains.executeUpdate();
             } catch (SQLException ex) {
-                LOGGER.severe("Error executing insert: " + ex.getMessage());
+                LOGGER.error("Error executing insert: " + ex.getMessage());
             }
         }
     }
