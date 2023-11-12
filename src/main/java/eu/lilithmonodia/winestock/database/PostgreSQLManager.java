@@ -95,7 +95,7 @@ public class PostgreSQLManager {
                 ).comment(resultSet.getString("comment")).build());
             }
         } catch (SQLException e) {
-            LOGGER.error("Error executing select: " + e.getMessage());
+            LOGGER.error("Error executing select: {}", e.getMessage());
         }
         return wines;
     }
@@ -177,7 +177,7 @@ public class PostgreSQLManager {
             }
 
         } catch (SQLException e) {
-            LOGGER.error("Error executing select: " + e.getMessage());
+            LOGGER.error("Error executing select: {}", e.getMessage());
         }
 
         return assortments;
@@ -205,7 +205,7 @@ public class PostgreSQLManager {
             try {
                 assortment.add(getWineFromResultSet(resultSetWines));
             } catch (WineAlreadyInAssortmentException e) {
-                LOGGER.error("Error adding wine to assortment: " + e.getMessage());
+                LOGGER.error("Error adding wine to assortment: {}", e.getMessage());
             }
         }
         return assortment;
@@ -250,11 +250,11 @@ public class PostgreSQLManager {
             connection.commit();
             return assortmentId;
         } catch (SQLException e) {
-            LOGGER.error("Error executing insert: " + e.getMessage());
+            LOGGER.error("Error executing insert: {}", e.getMessage());
             try {
                 connection.rollback();
             } catch (SQLException ex) {
-                LOGGER.error("Error rolling back transaction: " + ex.getMessage());
+                LOGGER.error("Error rolling back transaction: {}", ex.getMessage());
             }
         }
         return Optional.empty();
@@ -339,7 +339,7 @@ public class PostgreSQLManager {
                 pstmtContains.setLong(2, wineId.get());
                 pstmtContains.executeUpdate();
             } catch (SQLException ex) {
-                LOGGER.error("Error executing insert: " + ex.getMessage());
+                LOGGER.error("Error executing insert: {}", ex.getMessage());
             }
         }
     }
