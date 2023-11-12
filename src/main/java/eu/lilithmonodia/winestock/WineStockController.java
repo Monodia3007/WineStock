@@ -1,6 +1,6 @@
 package eu.lilithmonodia.winestock;
 
-// Importing necessary libraries
+// Importing the necessary libraries
 
 import eu.lilithmonodia.winestock.app.Assortment;
 import eu.lilithmonodia.winestock.app.BottleSize;

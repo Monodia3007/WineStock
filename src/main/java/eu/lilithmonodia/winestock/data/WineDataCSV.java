@@ -13,8 +13,10 @@ import java.util.List;
  * <p>
  * Each row of the CSV file corresponds to a `Wine` object in the List. This class is
  * marked as deprecated, which means it's not recommended to use it in new code.
+ *
+ * @deprecated This class is deprecated and will be removed in a future release.
  */
-@Deprecated
+@Deprecated(forRemoval = true)
 public class WineDataCSV extends DataCSV {
     /**
      * Constructs a new `WineDataCSV` object.

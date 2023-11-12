@@ -9,7 +9,7 @@ import java.io.IOException;
 /**
  * Unit tests for the {@link Configuration} class.
  */
-public class ConfigurationTest {
+class ConfigurationTest {
 
     private Configuration configuration;
 
@@ -19,21 +19,21 @@ public class ConfigurationTest {
     }
 
     @Test
-    public void testDatabaseHost() {
+    void testDatabaseHost() {
         String expected = "jdbc:postgresql://lilith-monodia.eu:5432/winestock"; // Please adjust this
         String actual = configuration.databaseHost();
         Assertions.assertEquals(expected, actual);
     }
 
     @Test
-    public void testDatabaseUser() {
+    void testDatabaseUser() {
         String expected = ""; // Please adjust this
         String actual = configuration.databaseUser();
         Assertions.assertEquals(expected, actual);
     }
 
     @Test
-    public void testUserPassword() {
+    void testUserPassword() {
         String expected = ""; // Please adjust this
         String actual = configuration.userPassword();
         Assertions.assertEquals(expected, actual);

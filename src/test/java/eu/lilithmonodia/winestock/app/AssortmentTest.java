@@ -60,7 +60,7 @@ class AssortmentTest {
     }
 
     @Test
-    public void testGetWineNames() {
+    void testGetWineNames() {
         assertDoesNotThrow(() -> {
             assortment.add(wine1);
             assortment.add(wine2);
@@ -73,7 +73,7 @@ class AssortmentTest {
     }
 
     @Test
-    public void testGetYear() {
+    void testGetYear() {
         assertDoesNotThrow(() -> {
             assortment.add(wine1);
 
@@ -82,7 +82,7 @@ class AssortmentTest {
     }
 
     @Test
-    public void testToString() {
+    void testToString() {
         assertDoesNotThrow(() -> {
             assortment.add(wine1);
 
@@ -107,7 +107,7 @@ class AssortmentTest {
     }
 
     @Test
-    public void testEqualsObject() {
+    void testEqualsObject() {
         assertDoesNotThrow(() -> {
             assortment.add(wine1);
 
@@ -128,7 +128,7 @@ class AssortmentTest {
     }
 
     @Test
-    public void testHashCode() {
+    void testHashCode() {
         assertDoesNotThrow(() -> {
             assortment.add(wine1);
 

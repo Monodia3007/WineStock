@@ -11,11 +11,13 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.logging.Logger;
 
 /**
  * A class that manages PostgreSQL database operations for wines and assortments.
  */
 public class PostgreSQLManager {
+    private static final Logger LOGGER = Logger.getLogger(PostgreSQLManager.class.getName());
     private static final String WINE_SELECT_SQL = "SELECT * FROM public.wine WHERE in_assortment = false";
     private static final String INSERT_WINE_SQL = "INSERT INTO public.wine(name, year, volume, color, price, comment, in_assortment) VALUES(?, ?, ?, ?, ?, ?, ?)";
     private static final String ASSORTMENT_SELECT_SQL = "SELECT * FROM assortment";
@@ -92,7 +94,7 @@ public class PostgreSQLManager {
                 ).comment(resultSet.getString("comment")).build());
             }
         } catch (SQLException e) {
-            System.out.println("Error executing select: " + e.getMessage());
+            LOGGER.severe("Error executing select: " + e.getMessage());
         }
         return wines;
     }
@@ -174,7 +176,7 @@ public class PostgreSQLManager {
             }
 
         } catch (SQLException e) {
-            System.out.println("Error executing select: " + e.getMessage());
+            LOGGER.severe("Error executing select: " + e.getMessage());
         }
 
         return assortments;
@@ -192,14 +194,17 @@ public class PostgreSQLManager {
     // Fetches Assortment for a given ResultSet. Reads all wines in the assortment.
     private @NotNull Assortment fetchAssortmentByResultSet(@NotNull ResultSet resultSet) throws SQLException {
         Assortment assortment = new Assortment();
-        PreparedStatement pstmtWines = connect().prepareStatement(WINE_SELECT_ASSORTMENT_SQL);
-        pstmtWines.setInt(1, resultSet.getInt("ano"));
-        ResultSet resultSetWines = pstmtWines.executeQuery();
+        ResultSet resultSetWines;
+        try (PreparedStatement pstmtWines = connect().prepareStatement(WINE_SELECT_ASSORTMENT_SQL)) {
+            pstmtWines.setInt(1, resultSet.getInt("ano"));
+            resultSetWines = pstmtWines.executeQuery();
+        }
 
         while (resultSetWines.next()) {
             try {
                 assortment.add(getWineFromResultSet(resultSetWines));
-            } catch (WineAlreadyInAssortmentException ignored) {
+            } catch (WineAlreadyInAssortmentException e) {
+                LOGGER.severe("Error adding wine to assortment: " + e.getMessage());
             }
         }
         return assortment;
@@ -244,11 +249,11 @@ public class PostgreSQLManager {
             connection.commit();
             return assortmentId;
         } catch (SQLException e) {
-            System.out.println("Error executing insert: " + e.getMessage());
+            LOGGER.severe("Error executing insert: " + e.getMessage());
             try {
                 connection.rollback();
             } catch (SQLException ex) {
-                System.out.println("Error during transaction rollback: " + ex.getMessage());
+                LOGGER.severe("Error rolling back transaction: " + ex.getMessage());
             }
         }
         return Optional.empty();
@@ -333,8 +338,7 @@ public class PostgreSQLManager {
                 pstmtContains.setLong(2, wineId.get());
                 pstmtContains.executeUpdate();
             } catch (SQLException ex) {
-                System.out.println("Error inserting wine in assortment: " + ex.getMessage());
-                throw ex;
+                LOGGER.severe("Error executing insert: " + ex.getMessage());
             }
         }
     }

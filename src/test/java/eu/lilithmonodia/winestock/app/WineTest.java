@@ -100,7 +100,7 @@ class WineTest {
     }
 
     @Test
-    public void testEqualsAndHashCode() {
+    void testEqualsAndHashCode() {
         Wine otherWine = new Wine.Builder("Cabernet", 2019, 75.0, "ROUGE", 150.0).build();
         assertEquals(wine, otherWine);
         assertEquals(wine.hashCode(), otherWine.hashCode());
@@ -111,7 +111,7 @@ class WineTest {
     }
 
     @Test
-    public void testToString() {
+    void testToString() {
         String expectedString = "Wine{name='Cabernet', year=2019, volume=" +
                 "BOUTEILLE(75.0)" + ", color=" +
                 "ROUGE" + ", price=150.0, comment=''}";

@@ -12,8 +12,10 @@ import java.util.ArrayList;
  * in the 2D ArrayList, with each column in a line of the CSV file
  * corresponding to a String in an ArrayList. This class is marked
  * as deprecated, which means it's not recommended to use it in new code.
+ *
+ * @deprecated This class is deprecated and will be removed in a future release.
  */
-@Deprecated
+@Deprecated(forRemoval = true)
 public class DataCSV {
     private final String DELIMITER = ";";
     private final String fileName;

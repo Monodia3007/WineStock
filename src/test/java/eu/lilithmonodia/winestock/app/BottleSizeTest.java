@@ -8,12 +8,12 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 /**
  * The type Bottle size test.
  */
-public class BottleSizeTest {
+class BottleSizeTest {
     /**
      * Test invalid volume.
      */
     @Test
-    public void testInvalidVolume() {
+    void testInvalidVolume() {
         assertThrows(InvalidBottleVolumeException.class, () -> BottleSize.doubleToBottleSize(39));
     }
 }
