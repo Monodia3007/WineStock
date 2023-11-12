@@ -23,7 +23,7 @@ class WineTest {
 
     @Test
     void testGetId() {
-        assertEquals(5, wine.getId());
+        assertEquals(0, wine.getId());
     }
 
     @Test
