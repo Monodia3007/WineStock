@@ -8,5 +8,5 @@
  *
  * @deprecated This package is deprecated and should not be used in new code.
  */
-@Deprecated
+@Deprecated(forRemoval = true)
 package eu.lilithmonodia.winestock.data;
