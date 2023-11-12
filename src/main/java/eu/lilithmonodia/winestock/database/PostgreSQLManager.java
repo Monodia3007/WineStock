@@ -342,4 +342,15 @@ public class PostgreSQLManager {
             }
         }
     }
+
+    /**
+     * Closes the connection to the database.
+     *
+     * @throws SQLException if an error occurs while closing the database connection
+     */
+    public void close() throws SQLException {
+        if (this.connection != null && !this.connection.isClosed()) {
+            this.connection.close();
+        }
+    }
 }

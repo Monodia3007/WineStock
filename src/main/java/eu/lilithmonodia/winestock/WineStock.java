@@ -15,6 +15,8 @@ import java.util.Objects;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import static javafx.application.Platform.exit;
+
 /**
  * The WineStock class is the entry point of the application. It extends the Application class
  * and overrides the start method. It is responsible for initializing and showing the primary stage
@@ -94,5 +96,9 @@ public class WineStock extends Application {
         Image appIcon = new Image(Objects.requireNonNull(getClass().getResourceAsStream("icon.png")));
         primaryStage.getIcons().add(appIcon);
         primaryStage.show();
+        primaryStage.setOnCloseRequest(windowEvent -> {
+            ((WineStockController) fxmlLoader.getController()).closeApplication();
+            exit();
+        });
     }
 }

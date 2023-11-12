@@ -13,6 +13,8 @@ import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import java.io.IOException;
 import java.sql.SQLException;
@@ -27,6 +29,7 @@ import java.util.Objects;
 public class WineStockController {
     // Manager for PostgreSQL Database
     private PostgreSQLManager postgreSQLManager;
+    private static final Logger LOGGER = LogManager.getLogger(WineStockController.class);
 
     //FXML Table and Column variables for assortment and wine.
     @FXML
@@ -77,8 +80,15 @@ public class WineStockController {
      * Imports the database by setting cell value factories and refreshing the view.
      */
     public void importDatabase() {
-        setCellValueFactories();
-        refresh();
+        LOGGER.info("Database import initiated.");
+
+        try {
+            setCellValueFactories();
+            refresh();
+            LOGGER.info("Database successfully imported.");
+        } catch (Exception e) {
+            LOGGER.error("Failed to import database.", e);
+        }
     }
 
     /**
@@ -128,8 +138,10 @@ public class WineStockController {
             postgreSQLManager = new PostgreSQLManager(username, password);
             postgreSQLManager.connect();
             importButton.setDisable(false);
+            LOGGER.info("Successful login. Connection established.");
         } catch (IOException | SQLException e) {
             importButton.setDisable(true);
+            LOGGER.error("Failed to login and establish database connection.", e);
         }
     }
 
@@ -142,7 +154,22 @@ public class WineStockController {
             wineTable.setItems(FXCollections.observableArrayList(postgreSQLManager.getAllWine()));
             assortmentsTable.setItems(FXCollections.observableArrayList(postgreSQLManager.getAllAssortments()));
         } catch (Exception e) {
-            // Handle exception
+            LOGGER.error("Failed to refresh data from the database.", e);
+        }
+    }
+
+    /**
+     * Closes the application by closing the connection to the PostgreSQL database.
+     * If an exception occurs while closing the connection, a suitable error handling approach may be applied.
+     */
+    public void closeApplication() {
+        if (postgreSQLManager != null) {
+            try {
+                // Call the method in your PostgreSQLManager class to close the database connection
+                this.postgreSQLManager.close();
+            } catch (SQLException e) {
+                LOGGER.error("Failed to close PostgreSQLManager", e); // Handle exception appropriately
+            }
         }
     }
 }
