@@ -17,6 +17,7 @@ import java.time.Year;
  */
 public class Wine {
     private static final Logger LOGGER = LogManager.getLogger(Wine.class);
+    public static final String YEAR_AFTER_CURRENT_YEAR_INVALID = "Invalid year. The year must not be after the current year.";
     private static int idCounter = 0;
 
     private int id;
@@ -98,11 +99,11 @@ public class Wine {
      */
     public void setYear(Year year) throws InvalidYearException {
         if (year.isAfter(Year.now())) {
-            LOGGER.error("Invalid year. The year must not be after the current year.");
-            throw new InvalidYearException("Invalid year. The year must not be after the current year.");
+            LOGGER.error(YEAR_AFTER_CURRENT_YEAR_INVALID);
+            throw new InvalidYearException(YEAR_AFTER_CURRENT_YEAR_INVALID);
         }
         this.year = year;
-        LOGGER.info("Year set to: " + year);
+        LOGGER.info("Year set to: {}", year);
     }
 
     /**
@@ -267,6 +268,15 @@ public class Wine {
         private final double price;
         private String comment;  // No default value
 
+        /**
+         * Constructs a new Builder object with the specified parameters.
+         *
+         * @param name   the name of the builder
+         * @param year   the year of the builder
+         * @param volume the volume of the builder
+         * @param color  the color of the builder
+         * @param price  the price of the builder
+         */
         public Builder(String name, int year, double volume, String color, double price) {
             this(++idCounter, name, year, volume, color, price);
         }
@@ -285,7 +295,7 @@ public class Wine {
         public Builder(int id, String name, int year, double volume, String color, double price) {
             BottleSize volume1;
             if (year > Year.now().getValue()) {
-                throw new IllegalArgumentException("Invalid year. The year must not be after the current year.");
+                throw new IllegalArgumentException(YEAR_AFTER_CURRENT_YEAR_INVALID);
             }
 
             try {
@@ -325,7 +335,7 @@ public class Wine {
          * @return a new Wine object
          */
         public Wine build() {
-            LOGGER.info("Wine instance created with name: " + this.name);
+            LOGGER.info("Wine instance created with name: {}", this.name);
             return new Wine(this);
         }
     }
