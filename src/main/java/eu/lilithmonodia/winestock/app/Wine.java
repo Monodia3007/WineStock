@@ -17,7 +17,9 @@ import java.time.Year;
  */
 public class Wine {
     private static final Logger LOGGER = LogManager.getLogger(Wine.class);
+    private static int idCounter = 0;
 
+    private int id;
     private String name;
     private Year year;
     private BottleSize volume;
@@ -32,6 +34,7 @@ public class Wine {
      * @param builder the builder object containing the wine details
      */
     private Wine(@NotNull Builder builder) {
+        this.id = builder.id;
         this.name = builder.name;
         this.year = Year.of(builder.year);
         this.volume = builder.volume;
@@ -39,6 +42,24 @@ public class Wine {
         this.color = builder.color;
         this.price = builder.price;
         this.inAssortment = false;
+    }
+
+    /**
+     * Returns the ID of the Wine object.
+     *
+     * @return the ID of the Wine object
+     */
+    public int getId() {
+        return id;
+    }
+
+    /**
+     * Sets the ID of the Wine object.
+     *
+     * @param id the ID to be set for the Wine object
+     */
+    public void setId(int id) {
+        this.id = id;
     }
 
     /**
@@ -238,6 +259,7 @@ public class Wine {
      * It provides a convenient way to construct Wine objects with optional parameters.
      */
     public static class Builder {
+        private final int id;
         private final String name;
         private final int year;
         private final BottleSize volume;
@@ -245,8 +267,12 @@ public class Wine {
         private final double price;
         private String comment;  // No default value
 
+        public Builder(String name, int year, double volume, String color, double price) {
+            this(++idCounter, name, year, volume, color, price);
+        }
+
         /**
-         * Constructs a new Builder object with the given parameters and checks validity of parameters.
+         * Constructs a new Builder object with the given parameters and checks the validity of parameters.
          *
          * @param name   the name of the builder
          * @param year   the year of the builder
@@ -254,9 +280,9 @@ public class Wine {
          * @param color  the color of the builder
          * @param price  the price of the builder
          *
-         * @throws IllegalArgumentException if the year is after the current year or if the color is not one of the predefined wine colors
+         * @throws IllegalArgumentException if the year is after the current year, or if the color is not one of the predefined wine colors
          */
-        public Builder(String name, int year, double volume, String color, double price) {
+        public Builder(int id, String name, int year, double volume, String color, double price) {
             BottleSize volume1;
             if (year > Year.now().getValue()) {
                 throw new IllegalArgumentException("Invalid year. The year must not be after the current year.");
@@ -274,7 +300,7 @@ public class Wine {
             } catch (IllegalArgumentException e) {
                 throw new IllegalArgumentException("Invalid color. The color must be one of the predefined wine colors.");
             }
-
+            this.id = id;
             this.name = name;
             this.year = year;
             this.price = price;

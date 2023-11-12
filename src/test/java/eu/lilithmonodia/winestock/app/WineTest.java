@@ -21,6 +21,17 @@ class WineTest {
     }
 
     @Test
+    void testGetId() {
+        assertEquals(5, wine.getId());
+    }
+
+    @Test
+    void testSetId() {
+        wine.setId(1);
+        assertEquals(1, wine.getId());
+    }
+
+    @Test
     void testGetName() {
         assertEquals("Cabernet", wine.getName());
     }
