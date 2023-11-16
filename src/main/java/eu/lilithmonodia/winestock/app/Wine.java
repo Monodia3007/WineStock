@@ -17,6 +17,10 @@ import java.time.Year;
  */
 public class Wine {
     private static final Logger LOGGER = LogManager.getLogger(Wine.class);
+    /**
+     * Represents a constant variable for an invalid year.
+     * Provides a message indicating that the year must not be after the current year.
+     */
     public static final String YEAR_AFTER_CURRENT_YEAR_INVALID = "Invalid year. The year must not be after the current year.";
     private static int idCounter = 0;
 
@@ -284,6 +288,7 @@ public class Wine {
         /**
          * Constructs a new Builder object with the given parameters and checks the validity of parameters.
          *
+         * @param id     the id of the builder
          * @param name   the name of the builder
          * @param year   the year of the builder
          * @param volume the volume of the builder
