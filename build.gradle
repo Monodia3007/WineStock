@@ -50,7 +50,8 @@ dependencies {
 // Configures the `jar` task to include the main class in the manifest file
 jar {
     manifest {
-        attributes('Main-Class': 'eu.lilithmonodia.winestock.Launcher')
+        attributes 'Main-Class': 'eu.lilithmonodia.winestock.Launcher'
+        attributes 'Main-Module': 'eu.lilithmonodia.winestock'
     }
 }
 
@@ -87,6 +88,7 @@ shadowJar {
     mergeServiceFiles()
     manifest {
         attributes 'Main-Class': 'eu.lilithmonodia.winestock.Launcher'
+        attributes 'Main-Module': 'eu.lilithmonodia.winestock'
     }
     configurations = [project.configurations.runtimeClasspath]
 }
