@@ -27,8 +27,8 @@ jobs:
         id: get_version
         shell: bash
         run: echo "VERSION=${GITHUB_REF#refs/tags/}" >> $GITHUB_ENV
-          - name: Rename the JAR
-            run: mv build/libs/WineStock-${{ env.VERSION }}-shadow.jar build/libs/WineStock-${{ matrix.os }}.jar
+      - name: Rename the JAR
+        run: mv build/libs/WineStock-${{ env.VERSION }}-shadow.jar build/libs/WineStock-${{ matrix.os }}.jar
       - name: Upload the JAR
         uses: actions/upload-release-asset@v1
         env:
