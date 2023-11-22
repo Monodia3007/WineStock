@@ -20,6 +20,10 @@ public class Assortment {
     private double totalPrice;
     private String wineNames;
 
+    /**
+     * Default constructor for Assortment class.
+     * Initializes an empty Assortment with id set to -1, year set to null, totalPrice set to 0, and wineNames set to an empty string.
+     */
     public Assortment() {
         this.id = -1;
         wineList = new ArrayList<>();
@@ -29,17 +33,10 @@ public class Assortment {
     }
 
     /**
-     * Constructor for creating a new Assortment object.
-     * <p>
-     * The Assortment class represents a collection of wines.
-     * <p>
-     * When a new Assortment object is created, it initializes an empty wineList ArrayList
-     * and sets the year to null.
-     * <p>
-     * Example usage:
-     * <pre>{@code
-     * Assortment assortment = new Assortment();
-     * }</pre>
+     * Constructor for Assortment class with id parameter.
+     * Initializes an empty Assortment with the given id, year set to null, totalPrice set to 0, and wineNames set to an empty string.
+     *
+     * @param id The id to set for the Assortment.
      */
     public Assortment(int id) {
         this.id = id;
