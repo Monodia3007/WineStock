@@ -42,6 +42,15 @@ class AssortmentTest {
     }
 
     @Test
+    void testGetIdSetId() {
+        int newId = 10;
+        assertDoesNotThrow(() -> {
+            assortment.setId(newId);
+            assertEquals(newId, assortment.getId());
+        });
+    }
+
+    @Test
     void testGetWineList() {
         assertDoesNotThrow(() -> {
             assortment.add(wine1);
@@ -128,22 +137,25 @@ class AssortmentTest {
     }
 
     @Test
+    void testNotEqualToNull() {
+        assertNotEquals(null, assortment);  // Should not be equal to null
+    }
+
+    @Test
+    void testNotEqualToDifferentObject() {
+        Object obj = new Object();
+        assertNotEquals(assortment, obj);  // Should not be equal to another type of object
+    }
+    @Test
     void testHashCode() {
-        assertDoesNotThrow(() -> {
-            assortment.add(wine1);
+        Assortment assortment2 = new Assortment();
+        assertEquals(assortment.hashCode(), assortment2.hashCode());
+    }
 
-            Assortment otherAssortment = new Assortment();
-
-            Wine wine1InOtherAssortment = new Wine.Builder("Wine1", 2020, 75,
-                    "ROUGE", 50.0).build();
-            otherAssortment.add(wine1InOtherAssortment);
-
-            assertEquals(assortment.hashCode(), otherAssortment.hashCode());
-
-            Wine wine2InOtherAssortment = new Wine.Builder("Wine2", 2020, 75,
-                    "BLANC", 100.0).build();
-            otherAssortment.add(wine2InOtherAssortment);
-            assertNotEquals(assortment.hashCode(), otherAssortment.hashCode());
-        });
+    @Test
+    void testNotEqualHashCode() {
+        assortment.setId(1);
+        Assortment assortment2 = new Assortment();
+        assertNotEquals(assortment.hashCode(), assortment2.hashCode());
     }
 }
