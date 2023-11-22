@@ -13,6 +13,7 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.function.LongConsumer;
 
 /**
  * A class that manages PostgreSQL database operations for wines and assortments.
@@ -87,6 +88,7 @@ public class PostgreSQLManager {
              ResultSet resultSet = pstmt.executeQuery()) {
             while (resultSet.next()) {
                 wines.add(new Wine.Builder(
+                        resultSet.getInt("wno"),
                         resultSet.getString("name"),
                         resultSet.getInt("year"),
                         resultSet.getDouble("volume"),
@@ -127,17 +129,7 @@ public class PostgreSQLManager {
     private Optional<Long> insertWineInternal(Wine wine) throws SQLException {
         try (PreparedStatement pstmt = connect().prepareStatement(INSERT_WINE_SQL, Statement.RETURN_GENERATED_KEYS)) {
             setParametersInStatement(pstmt, wine);
-            int affectedRows = pstmt.executeUpdate();
-            if (affectedRows > 0) {
-                try (ResultSet rs = pstmt.getGeneratedKeys()) {
-                    if (rs.next()) {
-                        long id = rs.getLong(1);
-                        wine.setId((int) id);
-                        return Optional.of(id);
-                    }
-                }
-            }
-            return Optional.empty();
+            return handleResponse(pstmt, id -> wine.setId((int) id));
         }
     }
 
@@ -194,18 +186,17 @@ public class PostgreSQLManager {
      * @throws SQLException if an error occurs while accessing the ResultSet
      */
     private @NotNull Assortment fetchAssortmentByResultSet(@NotNull ResultSet resultSet) throws SQLException {
-        Assortment assortment = new Assortment();
-        ResultSet resultSetWines;
+        Assortment assortment = new Assortment(resultSet.getInt("ano"));
         try (PreparedStatement pstmtWines = connect().prepareStatement(WINE_SELECT_ASSORTMENT_SQL)) {
             pstmtWines.setInt(1, resultSet.getInt("ano"));
-            resultSetWines = pstmtWines.executeQuery();
-        }
-
-        while (resultSetWines.next()) {
-            try {
-                assortment.add(getWineFromResultSet(resultSetWines));
-            } catch (WineAlreadyInAssortmentException e) {
-                LOGGER.error("Error adding wine to assortment: {}", e.getMessage());
+            try (ResultSet resultSetWines = pstmtWines.executeQuery()) {
+                while (resultSetWines.next()) {
+                    try {
+                        assortment.add(getWineFromResultSet(resultSetWines));
+                    } catch (WineAlreadyInAssortmentException e) {
+                        LOGGER.error("Error adding wine to assortment: {}", e.getMessage());
+                    }
+                }
             }
         }
         return assortment;
@@ -269,9 +260,9 @@ public class PostgreSQLManager {
      * @throws SQLException if an error occurs while accessing the database
      */
     private Optional<Long> insertAssortmentInternal(Assortment assortment) throws SQLException {
-        try (PreparedStatement pstmtAssortment = connection.prepareStatement(INSERT_ASSORTMENT_SQL, Statement.RETURN_GENERATED_KEYS)) {
-            preprocessInsertAssortmentStatement(pstmtAssortment, assortment);
-            return fetchKeyFromGeneratedKeys(pstmtAssortment.executeUpdate(), pstmtAssortment);
+        try (PreparedStatement pstmt = connect().prepareStatement(INSERT_ASSORTMENT_SQL, Statement.RETURN_GENERATED_KEYS)) {
+            pstmt.setInt(1, assortment.getYear().getValue());
+            return handleResponse(pstmt, id -> assortment.setId((int) id));
         }
     }
 
@@ -341,6 +332,28 @@ public class PostgreSQLManager {
                 LOGGER.error("Error executing insert: {}", ex.getMessage());
             }
         }
+    }
+
+    /**
+     * Handles the response of executing a prepared statement and retrieves the generated keys.
+     *
+     * @param pstmt      the prepared statement to execute
+     * @param idConsumer the consumer to accept the generated ID
+     * @return an Optional containing the generated ID if available, otherwise empty
+     * @throws SQLException if an error occurs while accessing the database
+     */
+    private Optional<Long> handleResponse(PreparedStatement pstmt, LongConsumer idConsumer) throws SQLException {
+        int affectedRows = pstmt.executeUpdate();
+        if (affectedRows > 0) {
+            try (ResultSet rs = pstmt.getGeneratedKeys()) {
+                if (rs.next()) {
+                    long id = rs.getLong(1);
+                    idConsumer.accept(id);
+                    return Optional.of(id);
+                }
+            }
+        }
+        return Optional.empty();
     }
 
     /**

@@ -38,12 +38,16 @@ public class WineStockController {
     private TableView<Wine> wineTable;
 
     @FXML
+    private TableColumn<Assortment, Integer> assortmentID;
+    @FXML
     private TableColumn<Assortment, Double> assortmentTotalPrice;
     @FXML
     private TableColumn<Assortment, Year> assortmentYear;
     @FXML
     private TableColumn<Assortment, String> assortmentWines;
 
+    @FXML
+    private TableColumn<Wine, Integer> wineTableID;
     @FXML
     private TableColumn<Wine, String> wineTableName;
     @FXML
@@ -103,6 +107,7 @@ public class WineStockController {
      * Sets cell value factories for each TableColumn in Wine TableView.
      */
     private void setWineTableCellValueFactories() {
+        wineTableID.setCellValueFactory(new PropertyValueFactory<>("id"));
         wineTableName.setCellValueFactory(new PropertyValueFactory<>("name"));
         wineTableYear.setCellValueFactory(new PropertyValueFactory<>("year"));
         wineTableVolume.setCellValueFactory(new PropertyValueFactory<>("volume"));
@@ -115,6 +120,7 @@ public class WineStockController {
      * Sets cell value factories for each TableColumn in Assortment TableView.
      */
     private void setAssortmentTableCellValueFactories() {
+        assortmentID.setCellValueFactory(new PropertyValueFactory<>("id"));
         assortmentWines.setCellValueFactory(new PropertyValueFactory<>("wineNames"));
         assortmentYear.setCellValueFactory(new PropertyValueFactory<>("year"));
         assortmentTotalPrice.setCellValueFactory(new PropertyValueFactory<>("totalPrice"));

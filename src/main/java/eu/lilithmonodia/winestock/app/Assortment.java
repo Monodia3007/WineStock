@@ -14,10 +14,19 @@ import java.util.Objects;
  * It provides methods to add and remove wines, get the total price of the assortment, and retrieve the list of wines.
  */
 public class Assortment {
+    private int id;
     private final List<Wine> wineList;
     private Year year;
     private double totalPrice;
     private String wineNames;
+
+    public Assortment() {
+        this.id = -1;
+        wineList = new ArrayList<>();
+        year = null;
+        totalPrice = 0;
+        wineNames = "";
+    }
 
     /**
      * Constructor for creating a new Assortment object.
@@ -32,7 +41,8 @@ public class Assortment {
      * Assortment assortment = new Assortment();
      * }</pre>
      */
-    public Assortment() {
+    public Assortment(int id) {
+        this.id = id;
         wineList = new ArrayList<>();
         year = null;
         totalPrice = 0;
@@ -101,6 +111,34 @@ public class Assortment {
             }
             return wineList.remove(wine);
         }
+    }
+
+    /**
+     * Returns the ID of the object.
+     * <p>
+     * The getId method returns the ID of the object. The ID is an integer value that uniquely identifies the object.
+     * <p>
+     * Example usage:
+     * <pre>{@code
+     * Wine wine = new Wine("Chardonnay", 2019, 29.99);
+     * int id = wine.getId();
+     * }</pre>
+     *
+     * @return the ID of the object.
+     */
+    public int getId() {
+        return id;
+    }
+
+    /**
+     * Sets the ID of the object.
+     * <p>
+     * The setId method sets the ID of the object to the specified integer value.
+     *
+     * @param id the new ID of the object.
+     */
+    public void setId(int id) {
+        this.id = id;
     }
 
     /**

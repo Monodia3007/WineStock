@@ -54,12 +54,13 @@
                     <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="417.0" prefWidth="640.0">
                         <TableView fx:id="wineTable" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="417.0" prefWidth="641.0">
                             <columns>
-                                <TableColumn fx:id="wineTableName" prefWidth="196.0" text="Nom" />
-                                <TableColumn fx:id="wineTableYear" minWidth="0.0" prefWidth="65.0" text="Millésime" />
-                                <TableColumn fx:id="wineTableVolume" prefWidth="78.0" text="Contenance" />
-                                <TableColumn fx:id="wineTableColor" prefWidth="63.0" text="Couleur" />
+                        <TableColumn fx:id="wineTableID" prefWidth="32.0" text="ID" />
+                                <TableColumn fx:id="wineTableName" prefWidth="158.0" text="Nom" />
+                                <TableColumn fx:id="wineTableYear" minWidth="0.0" prefWidth="76.0" text="Millésime" />
+                                <TableColumn fx:id="wineTableVolume" prefWidth="99.0" text="Contenance" />
+                                <TableColumn fx:id="wineTableColor" prefWidth="69.0" text="Couleur" />
                                 <TableColumn fx:id="wineTablePrice" prefWidth="50.0" text="Prix" />
-                                <TableColumn fx:id="wineTableComment" prefWidth="187.0" text="Commentaire" />
+                                <TableColumn fx:id="wineTableComment" prefWidth="156.0" text="Commentaire" />
                             </columns>
                         </TableView>
                     </AnchorPane>
@@ -80,9 +81,10 @@
                     <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                         <TableView fx:id="assortmentsTable" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                             <columns>
-                                <TableColumn fx:id="assortmentWines" prefWidth="493.4218571782112" text="Vins" />
-                                <TableColumn fx:id="assortmentYear" prefWidth="55.078155517578125" text="Millésime" />
-                                <TableColumn fx:id="assortmentTotalPrice" prefWidth="92.24240112304688" text="Prix Total" />
+                        <TableColumn fx:id="assortmentID" prefWidth="47.0" text="ID" />
+                                <TableColumn fx:id="assortmentWines" prefWidth="413.0" text="Vins" />
+                                <TableColumn fx:id="assortmentYear" prefWidth="66.0" text="Millésime" />
+                                <TableColumn fx:id="assortmentTotalPrice" prefWidth="113.0" text="Prix Total" />
                             </columns>
                         </TableView>
                     </AnchorPane>
