@@ -131,7 +131,9 @@ public class PostgreSQLManager {
             if (affectedRows > 0) {
                 try (ResultSet rs = pstmt.getGeneratedKeys()) {
                     if (rs.next()) {
-                        return Optional.of(rs.getLong(1));
+                        long id = rs.getLong(1);
+                        wine.setId((int) id);
+                        return Optional.of(id);
                     }
                 }
             }
