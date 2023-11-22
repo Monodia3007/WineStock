@@ -22,7 +22,6 @@ public class Wine {
      * Provides a message indicating that the year must not be after the current year.
      */
     public static final String YEAR_AFTER_CURRENT_YEAR_INVALID = "Invalid year. The year must not be after the current year.";
-    private static int idCounter = 0;
 
     private int id;
     private String name;
@@ -270,7 +269,7 @@ public class Wine {
         private final BottleSize volume;
         private final Color color;
         private final double price;
-        private String comment;  // No default value
+        private String comment;
 
         /**
          * Constructs a new Builder object with the specified parameters.
@@ -282,7 +281,7 @@ public class Wine {
          * @param price  the price of the builder
          */
         public Builder(String name, int year, double volume, String color, double price) {
-            this(++idCounter, name, year, volume, color, price);
+            this(-1, name, year, volume, color, price);
         }
 
         /**

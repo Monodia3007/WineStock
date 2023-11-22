@@ -147,7 +147,6 @@ public class PostgreSQLManager {
      *
      * @throws SQLException if an error occurs while setting the parameters
      */
-    // Sets parameters for PreparedStatement to be used with INSERT_WINE_SQL query
     private void setParametersInStatement(@NotNull PreparedStatement pstmt, @NotNull Wine wine) throws SQLException {
         pstmt.setString(1, wine.getName());
         pstmt.setInt(2, wine.getYear().getValue());
@@ -192,7 +191,6 @@ public class PostgreSQLManager {
      *
      * @throws SQLException if an error occurs while accessing the ResultSet
      */
-    // Fetches Assortment for a given ResultSet. Reads all wines in the assortment.
     private @NotNull Assortment fetchAssortmentByResultSet(@NotNull ResultSet resultSet) throws SQLException {
         Assortment assortment = new Assortment();
         ResultSet resultSetWines;
@@ -220,7 +218,6 @@ public class PostgreSQLManager {
      *
      * @throws SQLException if an error occurs while accessing the ResultSet
      */
-    // Gets a Wine object from a given ResultSet.
     private Wine getWineFromResultSet(@NotNull ResultSet resultSetWines) throws SQLException {
         return new Wine.Builder(
                 resultSetWines.getString("name"),

@@ -10,6 +10,7 @@ import org.apache.logging.log4j.Logger;
 import org.jetbrains.annotations.NotNull;
 
 import javax.imageio.ImageIO;
+import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.io.InputStream;
@@ -64,8 +65,8 @@ public class WineStock extends Application {
         InputStream stream = WineStock.class.getResourceAsStream("icon.png");
         if (stream != null) {
             BufferedImage image = ImageIO.read(stream);
-            if (java.awt.Taskbar.isTaskbarSupported()) {
-                java.awt.Taskbar.getTaskbar().setIconImage(image);
+            if (Taskbar.isTaskbarSupported()) {
+                Taskbar.getTaskbar().setIconImage(image);
             }
         } else {
             throw new IOException("Icon file not found");
