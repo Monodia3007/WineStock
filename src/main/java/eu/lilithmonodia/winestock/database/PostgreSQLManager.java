@@ -339,7 +339,9 @@ public class PostgreSQLManager {
      *
      * @param pstmt      the prepared statement to execute
      * @param idConsumer the consumer to accept the generated ID
+     *
      * @return an Optional containing the generated ID if available, otherwise empty
+     *
      * @throws SQLException if an error occurs while accessing the database
      */
     private Optional<Long> handleResponse(PreparedStatement pstmt, LongConsumer idConsumer) throws SQLException {

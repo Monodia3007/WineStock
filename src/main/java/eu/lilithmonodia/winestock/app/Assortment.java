@@ -14,8 +14,8 @@ import java.util.Objects;
  * It provides methods to add and remove wines, get the total price of the assortment, and retrieve the list of wines.
  */
 public class Assortment {
-    private int id;
     private final List<Wine> wineList;
+    private int id;
     private Year year;
     private double totalPrice;
     private String wineNames;
@@ -268,13 +268,16 @@ public class Assortment {
      *
      * @return true if this Assortment object is equal to the specified object, false otherwise
      */
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (!(o instanceof Assortment that)) return false;
-
-        if (!wineList.equals(that.wineList)) return false;
-        return Objects.equals(year, that.year);
+        return getId() == that.getId() &&
+                Double.compare(getTotalPrice(), that.getTotalPrice()) == 0 &&
+                Objects.equals(getWineList(), that.getWineList()) &&
+                Objects.equals(getYear(), that.getYear()) &&
+                Objects.equals(getWineNames(), that.getWineNames());
     }
 
     /**
@@ -294,8 +297,12 @@ public class Assortment {
      */
     @Override
     public int hashCode() {
-        int result = wineList.hashCode();
-        result = 31 * result + (year != null ? year.hashCode() : 0);
-        return result;
+        return Objects.hash(
+                getWineList(),
+                getId(),
+                getYear(),
+                getTotalPrice(),
+                getWineNames()
+        );
     }
 }

@@ -7,6 +7,7 @@ import org.apache.logging.log4j.Logger;
 import org.jetbrains.annotations.NotNull;
 
 import java.time.Year;
+import java.util.Objects;
 
 /**
  * This class represents a specific type of wine which encapsulates various
@@ -16,13 +17,12 @@ import java.time.Year;
  * The wine can also be part of an assortment (collection of wines).
  */
 public class Wine {
-    private static final Logger LOGGER = LogManager.getLogger(Wine.class);
     /**
      * Represents a constant variable for an invalid year.
      * Provides a message indicating that the year must not be after the current year.
      */
     public static final String YEAR_AFTER_CURRENT_YEAR_INVALID = "Invalid year. The year must not be after the current year.";
-
+    private static final Logger LOGGER = LogManager.getLogger(Wine.class);
     private int id;
     private String name;
     private Year year;
@@ -215,12 +215,13 @@ public class Wine {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (!(o instanceof Wine wine)) return false;
-
-        if (Double.compare(wine.getPrice(), getPrice()) != 0) return false;
-        if (!getName().equals(wine.getName())) return false;
-        if (!getYear().equals(wine.getYear())) return false;
-        if (getVolume() != wine.getVolume()) return false;
-        return getColor() == wine.getColor();
+        return getId() == wine.getId() &&
+                Double.compare(getPrice(), wine.getPrice()) == 0 &&
+                isInAssortment() == wine.isInAssortment() &&
+                Objects.equals(getName(), wine.getName()) && Objects.equals(getYear(), wine.getYear()) &&
+                getVolume() == wine.getVolume() &&
+                getColor() == wine.getColor() &&
+                Objects.equals(getComment(), wine.getComment());
     }
 
     /**
@@ -230,15 +231,16 @@ public class Wine {
      */
     @Override
     public int hashCode() {
-        int result;
-        long temp;
-        result = getName().hashCode();
-        result = 31 * result + getYear().hashCode();
-        result = 31 * result + getVolume().hashCode();
-        result = 31 * result + getColor().hashCode();
-        temp = Double.doubleToLongBits(getPrice());
-        result = 31 * result + (int) (temp ^ (temp >>> 32));
-        return result;
+        return Objects.hash(
+                getId(),
+                getName(),
+                getYear(),
+                getVolume(),
+                getColor(),
+                getPrice(),
+                getComment(),
+                isInAssortment()
+        );
     }
 
     /**

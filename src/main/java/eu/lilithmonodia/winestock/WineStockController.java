@@ -27,10 +27,9 @@ import java.util.Objects;
  * and updating the table view as appropriate.
  */
 public class WineStockController {
+    private static final Logger LOGGER = LogManager.getLogger(WineStockController.class);
     // Manager for PostgreSQL Database
     private PostgreSQLManager postgreSQLManager;
-    private static final Logger LOGGER = LogManager.getLogger(WineStockController.class);
-
     //FXML Table and Column variables for assortment and wine.
     @FXML
     private TableView<Assortment> assortmentsTable;
