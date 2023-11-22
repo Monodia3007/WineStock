@@ -22,7 +22,8 @@ public class Assortment {
 
     /**
      * Default constructor for Assortment class.
-     * Initializes an empty Assortment with id set to -1, year set to null, totalPrice set to 0, and wineNames set to an empty string.
+     * Initializes an empty Assortment with id set to -1, the year set to null,
+     * totalPrice set to 0, and wineNames set to an empty string.
      */
     public Assortment() {
         this.id = -1;
@@ -53,7 +54,7 @@ public class Assortment {
      *
      * @return {@code true} if the Wine object is successfully added to the Assortment, {@code false} otherwise.
      *
-     * @throws WineAlreadyInAssortmentException if the Wine object is already in the Assortment or if the year of the wine is not matching with the assortment's year.
+     * @throws WineAlreadyInAssortmentException if the Wine object is already in the Assortment, or if the year of the wine is not matching with the assortment's year.
      */
     public boolean add(Wine wine) throws WineAlreadyInAssortmentException {
         if ((year != null && !wine.getYear().equals(year)) || wine.isInAssortment()) {
@@ -78,7 +79,7 @@ public class Assortment {
      * <p>
      * The totalPrice of the Assortment will be updated by subtracting the price of the removed Wine object.
      * <p>
-     * The wineNames of the Assortment will be updated by removing the name of the removed Wine object, if it exists,
+     * The wineNames of the Assortment will be updated by removing the name of the removed Wine object if it exists,
      * and removing any duplicate separators (", ,"). The resulting wineNames will be trimmed. If the resulting wineNames
      * ends with a comma, the comma will be removed.
      * <p>
@@ -143,7 +144,7 @@ public class Assortment {
      * <p>
      * This method retrieves the list of Wine objects currently stored in the
      * Assortment.<br/>
-     * The list is returned as a java.util.List&lt;Wine&gt;.
+     * The list is returned as a java.util.List&lt;Wine&gt; .
      * <p>
      * The returned list contains all Wine objects that are currently part of
      * the Assortment, in the order they were added.
