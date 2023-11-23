@@ -14,7 +14,7 @@ import java.util.function.Consumer;
  * It allows for various operations including addition, removal, and retrieval of wines.
  * The class maintains the properties such as ID, total price, and wine names in the Assortment.
  */
-public class Assortment implements Collection<Wine>, Iterable<Wine> {
+public class Assortment implements Collection<Wine> {
     private final List<Wine> wineList;
     private int id;
     private Year year;
