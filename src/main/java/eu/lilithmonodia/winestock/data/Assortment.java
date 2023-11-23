@@ -120,7 +120,6 @@ public class Assortment implements Collection<Wine> {
         } catch (WineAlreadyInAssortmentException e) {
             return false;
         }
-
     }
 
     /**
