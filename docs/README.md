@@ -8,6 +8,7 @@ wine and assortment data.
 
 - [WineStock Application](#winestock-application)
   - [Table of Contents](#table-of-contents)
+  - [UML Diagram](#uml-diagram)
   - [Description](#description)
   - [Features](#features)
   - [Prerequisites](#prerequisites)
@@ -16,6 +17,12 @@ wine and assortment data.
   - [Dependencies](#dependencies)
   - [Contributing](#contributing)
   - [License](#license)
+
+## UML Diagram
+
+Here is the UML class diagram of the application:
+
+![UML Class Diagram](images/uml-diagram-0.6.3.png)
 
 ## Description
 

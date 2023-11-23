@@ -78,6 +78,7 @@ public class WineStockController {
 
     /**
      * Sets the root pane of the application.
+     *
      * @param rootPane the root pane of the application
      */
     public void setRootPane(TabPane rootPane) {
