@@ -234,9 +234,11 @@ public class PostgreSQLManager {
         try {
             connection.setAutoCommit(false);
             Optional<Long> assortmentId = insertAssortmentInternal(assortment);
+
             if (assortmentId.isPresent()) {
-                insertWinesInAssortment(assortment.getWineList(), assortmentId.get());
+                insertWinesInAssortment(assortment, assortmentId.get());
             }
+
             connection.commit();
             return assortmentId;
         } catch (SQLException e) {
@@ -302,13 +304,13 @@ public class PostgreSQLManager {
     /**
      * Inserts a list of wines into the assortment with the specified assortment ID.
      *
-     * @param wines        the list of wines to insert
+     * @param assortment   the list of wines to insert
      * @param assortmentId the ID of the assortment to insert the wines into
      *
      * @throws SQLException if an error occurs while accessing the database
      */
-    public void insertWinesInAssortment(@NotNull List<Wine> wines, Long assortmentId) throws SQLException {
-        for (Wine wine : wines) {
+    public void insertWinesInAssortment(@NotNull Assortment assortment, Long assortmentId) throws SQLException {
+        for (Wine wine : assortment) {
             insertWineInAssortment(wine, assortmentId);
         }
     }
