@@ -5,7 +5,7 @@ import eu.lilithmonodia.winestock.exceptions.WineNotInAssortmentException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import java.util.Arrays;
+import java.util.*;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -102,9 +102,11 @@ class AssortmentTest {
 
     @Test
     void testAddWineAlreadyInAssortment() {
+        assertDoesNotThrow(() -> {
+            assortment.add(wine1);  // Should throw WineAlreadyInAssortmentException
+        });
         assertThrows(WineAlreadyInAssortmentException.class, () -> {
             assortment.add(wine1);
-            assortment.add(wine1);  // Should throw WineAlreadyInAssortmentException
         });
     }
 
@@ -157,5 +159,53 @@ class AssortmentTest {
         assortment.setId(1);
         Assortment assortment2 = new Assortment();
         assertNotEquals(assortment.hashCode(), assortment2.hashCode());
+    }
+
+    @Test
+    void testIterator() {
+        assertDoesNotThrow(() -> {
+            assortment.add(wine1);
+            assortment.add(wine2);
+
+            Iterator<Wine> iterator = assortment.iterator();
+            assertTrue(iterator.hasNext());
+            assertEquals(wine1, iterator.next());
+            assertEquals(wine2, iterator.next());
+            assertFalse(iterator.hasNext());
+        });
+    }
+
+    @Test
+    void testForEach() {
+        assertDoesNotThrow(() -> {
+            assortment.add(wine1);
+            assortment.add(wine2);
+
+            List<Wine> list = new ArrayList<>();
+            assortment.forEach(list::add);
+
+            assertTrue(list.contains(wine1));
+            assertTrue(list.contains(wine2));
+        });
+    }
+
+    @Test
+    void testSpliterator() {
+        assertDoesNotThrow(() -> {
+            assortment.add(wine1);
+            assortment.add(wine2);
+
+            Spliterator<Wine> spliterator = assortment.spliterator();
+            assertNotNull(spliterator);
+
+            assertTrue(spliterator.hasCharacteristics(Spliterator.ORDERED));
+            assertEquals(2, spliterator.estimateSize());
+
+            List<Wine> list = new ArrayList<>();
+            spliterator.forEachRemaining(list::add);
+
+            assertTrue(list.contains(wine1));
+            assertTrue(list.contains(wine2));
+        });
     }
 }
