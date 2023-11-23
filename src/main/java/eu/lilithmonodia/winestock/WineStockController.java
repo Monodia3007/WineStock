@@ -236,4 +236,6 @@ public class WineStockController {
             }
         }
     }
+    //TODO add an interface for the user to add/modifiy/delete wines and assortments and a interface
+    // to search for wines and assortments
 }
