@@ -316,6 +316,13 @@ public class Assortment implements Collection<Wine> {
     }
 
     /**
+     * Sorts the Wine list according to the ID of the Wines.
+     */
+    public void sort() {
+        Collections.sort(wineList);
+    }
+
+    /**
      * Creates an Iterator for the Wine list.
      *
      * @return an Iterator for the Wine list
