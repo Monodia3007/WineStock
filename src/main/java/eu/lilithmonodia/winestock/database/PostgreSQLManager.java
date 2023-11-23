@@ -227,10 +227,8 @@ public class PostgreSQLManager {
      * @param assortment the Assortment object to be inserted
      *
      * @return an Optional containing the ID of the inserted Assortment, or an empty Optional if the insertion failed
-     *
-     * @throws SQLException if an error occurs while accessing the database
      */
-    public Optional<Long> insertAssortment(Assortment assortment) throws SQLException {
+    public Optional<Long> insertAssortment(Assortment assortment) {
         try {
             connection.setAutoCommit(false);
             Optional<Long> assortmentId = insertAssortmentInternal(assortment);
