@@ -19,6 +19,7 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.jetbrains.annotations.Nullable;
 
 import java.io.IOException;
 import java.sql.SQLException;
@@ -113,7 +114,7 @@ public class WineStockController {
 
         Task<Void> task = new Task<>() {
             @Override
-            public Void call() {
+            public @Nullable Void call() {
                 try {
                     setCellValueFactories();
                     refresh();
@@ -176,7 +177,7 @@ public class WineStockController {
 
         Task<Void> task = new Task<>() {
             @Override
-            public Void call() {
+            public @Nullable Void call() {
                 attemptLogin(username, password);
                 return null;
             }
@@ -236,6 +237,6 @@ public class WineStockController {
             }
         }
     }
-    //TODO add an interface for the user to add/modify/delete wines and assortments and a interface
+    //TODO add an interface for the user to add/modify/delete wines and assortments and an interface
     // to search for wines and assortments
 }
