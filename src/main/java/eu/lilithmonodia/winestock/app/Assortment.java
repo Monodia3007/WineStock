@@ -2,18 +2,18 @@ package eu.lilithmonodia.winestock.app;
 
 import eu.lilithmonodia.winestock.exceptions.WineAlreadyInAssortmentException;
 import eu.lilithmonodia.winestock.exceptions.WineNotInAssortmentException;
+import org.jetbrains.annotations.NotNull;
 
 import java.time.Year;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Objects;
+import java.util.*;
+import java.util.function.Consumer;
 
 /**
  * The Assortment class represents a collection of wines.
  * <p>
  * It provides methods to add and remove wines, get the total price of the assortment, and retrieve the list of wines.
  */
-public class Assortment {
+public class Assortment implements Iterable<Wine> {
     private final List<Wine> wineList;
     private int id;
     private Year year;
@@ -302,5 +302,40 @@ public class Assortment {
                 getTotalPrice(),
                 getWineNames()
         );
+    }
+
+    /**
+     * Returns an iterator over the elements in the `wineList`.
+     * The iterator will return the wines in the order they were added.
+     *
+     * @return an Iterator over the wines in the `wineList`
+     */
+    @NotNull
+    @Override
+    public Iterator<Wine> iterator() {
+        return wineList.iterator();
+    }
+
+    /**
+     * Perform the provided action for each wine in the `wineList`.
+     * The action is performed in the order the wines were added.
+     *
+     * @param action The action to be performed for each wine
+     */
+
+    @Override
+    public void forEach(Consumer<? super Wine> action) {
+        wineList.forEach(action);
+    }
+
+    /**
+     * Returns a Spliterator over the wines in the `wineList`.
+     * This can be used for operations such as parallel processing.
+     *
+     * @return a Spliterator over the wines in the `wineList`
+     */
+    @Override
+    public Spliterator<Wine> spliterator() {
+        return wineList.spliterator();
     }
 }
