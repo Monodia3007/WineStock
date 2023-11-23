@@ -102,15 +102,13 @@ class AssortmentTest {
 
     @Test
     void testAddWineAlreadyInAssortment() {
-        assertDoesNotThrow(() -> assortment.add(wine1));
-        assertThrows(WineAlreadyInAssortmentException.class, () -> assortment.add(wine1));
+        assertTrue(assortment.add(wine1));
+        assertFalse(assortment.add(wine1));
     }
 
     @Test
     void testRemoveWineNotInAssortment() {
-        assertThrows(WineNotInAssortmentException.class, () -> {
-            assortment.remove(wine1);  // Should throw WineNotInAssortmentException
-        });
+        assertFalse(assortment.remove(wine1));
     }
 
     @Test
@@ -233,5 +231,50 @@ class AssortmentTest {
             assertFalse(wineNamesAfterRemoving.endsWith(",")); // test that last character is not a comma
             assertFalse(wineNamesAfterRemoving.contains(wine2.getName())); // test removed wine's name is not in wineNames
         });
+    }
+
+    @Test
+    void testClearFunctionality() {
+        assortment.add(wine1);
+        assortment.add(wine2);
+
+        // Check that our assortment is not empty
+        assertFalse(assortment.isEmpty());
+
+        assortment.clear();
+
+        // Check that our assortment is empty
+        assertTrue(assortment.isEmpty());
+
+        // Check that totalPrice is reset
+        assertEquals(0, assortment.getTotalPrice(), 0.001);
+
+        // Check that wineNames is reset
+        assertEquals("", assortment.getWineNames());
+    }
+
+    @Test
+    void testAddAllFunctionality() {
+        List<Wine> wines = Arrays.asList(wine1, wine2);
+
+        assortment.addAll(wines);
+
+        // Check that our assortment has all the added wines
+        assertTrue(assortment.containsAll(wines));
+    }
+
+    @Test
+    void testRemoveAllFunctionality() {
+        List<Wine> wines = Arrays.asList(wine1, wine2);
+
+        assortment.addAll(wines);
+
+        // Check that our assortment has all the added wines
+        assertTrue(assortment.containsAll(wines));
+
+        assortment.removeAll(wines);
+
+        // Check that our assortment no longer has the removed wines
+        assertFalse(assortment.containsAll(wines));
     }
 }

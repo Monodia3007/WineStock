@@ -191,11 +191,7 @@ public class PostgreSQLManager {
             pstmtWines.setInt(1, resultSet.getInt("ano"));
             try (ResultSet resultSetWines = pstmtWines.executeQuery()) {
                 while (resultSetWines.next()) {
-                    try {
-                        assortment.add(getWineFromResultSet(resultSetWines));
-                    } catch (WineAlreadyInAssortmentException e) {
-                        LOGGER.error("Error adding wine to assortment: {}", e.getMessage(), e);
-                    }
+                    assortment.add(getWineFromResultSet(resultSetWines));
                 }
             }
         }

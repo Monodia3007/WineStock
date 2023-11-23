@@ -331,7 +331,13 @@ public class Assortment implements Collection<Wine>, Iterable<Wine> {
      */
     @Override
     public boolean addAll(@NotNull Collection<? extends Wine> c) {
-        return wineList.addAll(c);
+        boolean isAdded = false;
+        for (Wine wine : c) {
+            if (add(wine)) {
+                isAdded = true;
+            }
+        }
+        return isAdded;
     }
 
     /**
@@ -342,28 +348,66 @@ public class Assortment implements Collection<Wine>, Iterable<Wine> {
      */
     @Override
     public boolean removeAll(@NotNull Collection<?> c) {
-        return wineList.removeAll(c);
+        boolean isRemoved = false;
+        for (Object o : c) {
+            if (o instanceof Wine wine && remove(wine)) {
+                isRemoved = true;
+            }
+        }
+        return isRemoved;
     }
 
     /**
      * Retains only the elements in the `wineList` that are contained in the specified collection (`c`).
      * In other words, removes from the `wineList` all elements that are not present in `c`.
+     * Updates `wineNames` and `totalPrice` accordingly.
      *
      * @param c the collection containing elements to be retained in the `wineList`
      * @return true if the `wineList` changed as a result of the operation, false otherwise
      */
     @Override
     public boolean retainAll(@NotNull Collection<?> c) {
-        return wineList.retainAll(c);
+        boolean isChanged = false;
+        Iterator<Wine> iterator = wineList.iterator();
+
+        // recreate wineNames and totalPrice
+        StringBuilder wineNamesBuilder = new StringBuilder();
+        this.totalPrice = 0.0;
+
+        while (iterator.hasNext()) {
+            Wine wine = iterator.next();
+            if (!c.contains(wine)) {
+                wine.setInAssortment(false);
+                iterator.remove();
+                isChanged = true;
+            } else {
+                // update wineNames and totalPrice
+                this.totalPrice += wine.getPrice();
+                if (!wineNamesBuilder.isEmpty()) {
+                    wineNamesBuilder.append(", ");
+                }
+                wineNamesBuilder.append(wine.getName());
+            }
+        }
+
+        // assign the updated wine names
+        this.wineNames = wineNamesBuilder.toString();
+
+        return isChanged;
     }
 
     /**
-     * Removes all elements from the `wineList`.
+     * Removes all elements from the `wineList`. Also resets the totalPrice and wineNames.
      * The `wineList` will be empty after this method is called.
      */
     @Override
     public void clear() {
+        for (Wine wine : wineList) {
+            wine.setInAssortment(false);
+        }
         wineList.clear();
+        this.totalPrice = 0;
+        this.wineNames = "";
     }
 
     /**
