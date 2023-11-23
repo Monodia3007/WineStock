@@ -7,8 +7,12 @@ import eu.lilithmonodia.winestock.app.BottleSize;
 import eu.lilithmonodia.winestock.app.Color;
 import eu.lilithmonodia.winestock.app.Wine;
 import eu.lilithmonodia.winestock.database.PostgreSQLManager;
+import javafx.application.Platform;
 import javafx.collections.FXCollections;
+import javafx.concurrent.Task;
 import javafx.fxml.FXML;
+import javafx.scene.Cursor;
+import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.Image;
@@ -29,6 +33,8 @@ import java.util.Objects;
 public class WineStockController {
     private static final Logger LOGGER = LogManager.getLogger(WineStockController.class);
     // Manager for PostgreSQL Database
+
+    private TabPane rootPane;
     private PostgreSQLManager postgreSQLManager;
     //FXML Table and Column variables for assortment and wine.
     @FXML
@@ -71,6 +77,14 @@ public class WineStockController {
     private ImageView icon;
 
     /**
+     * Sets the root pane of the application.
+     * @param rootPane the root pane of the application
+     */
+    public void setRootPane(TabPane rootPane) {
+        this.rootPane = rootPane;
+    }
+
+    /**
      * Initializes the controller, setting the icon image and disabling the import button.
      */
     @FXML
@@ -85,13 +99,29 @@ public class WineStockController {
     public void importDatabase() {
         LOGGER.info("Database import initiated.");
 
-        try {
-            setCellValueFactories();
-            refresh();
-            LOGGER.info("Database successfully imported.");
-        } catch (Exception e) {
-            LOGGER.error("Failed to import database.", e);
-        }
+        // Set cursor to wait
+        Scene scene = rootPane.getScene(); // replace rootPane with your actual root pane
+        scene.setCursor(Cursor.WAIT); // loading cursor
+
+        Task<Void> task = new Task<>() {
+            @Override
+            public Void call() {
+                try {
+                    setCellValueFactories();
+                    refresh();
+                    LOGGER.info("Database successfully imported.");
+                } catch (Exception e) {
+                    LOGGER.error("Failed to import database.", e);
+                    // Set cursor to normal
+                    Platform.runLater(() -> scene.setCursor(Cursor.DEFAULT));
+                }
+                return null;
+            }
+        };
+
+        task.setOnSucceeded(event -> scene.setCursor(Cursor.DEFAULT));
+
+        new Thread(task).start();
     }
 
     /**
@@ -132,7 +162,23 @@ public class WineStockController {
     public void login() {
         String username = usernameField.getText();
         String password = passwordField.getText();
-        attemptLogin(username, password);
+
+        Scene scene = rootPane.getScene(); // replace rootPane with your actual root pane
+        scene.setCursor(Cursor.WAIT); // loading cursor
+
+        Task<Void> task = new Task<>() {
+            @Override
+            public Void call() {
+                attemptLogin(username, password);
+                return null;
+            }
+        };
+
+        task.setOnSucceeded(event -> scene.setCursor(Cursor.DEFAULT));
+
+        task.setOnFailed(event -> scene.setCursor(Cursor.DEFAULT));
+
+        new Thread(task).start();
     }
 
     /**

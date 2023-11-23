@@ -3,6 +3,7 @@ package eu.lilithmonodia.winestock;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
+import javafx.scene.control.TabPane;
 import javafx.scene.image.Image;
 import javafx.stage.Stage;
 import org.apache.logging.log4j.LogManager;
@@ -90,13 +91,16 @@ public class WineStock extends Application {
     @Override
     public void start(@NotNull Stage primaryStage) throws IOException {
         FXMLLoader fxmlLoader = new FXMLLoader(WineStock.class.getResource("WineStock.fxml"));
-        Scene scene = new Scene(fxmlLoader.load());
+        TabPane rootPane = fxmlLoader.load();
+        Scene scene = new Scene(rootPane);
         primaryStage.setTitle("WineStock");
         primaryStage.setScene(scene);
         primaryStage.setResizable(false);
         Image appIcon = new Image(Objects.requireNonNull(getClass().getResourceAsStream("icon.png")));
         primaryStage.getIcons().add(appIcon);
         primaryStage.show();
+        WineStockController controller = fxmlLoader.getController();
+        controller.setRootPane(rootPane);
         primaryStage.setOnCloseRequest(windowEvent -> {
             ((WineStockController) fxmlLoader.getController()).closeApplication();
             exit();
