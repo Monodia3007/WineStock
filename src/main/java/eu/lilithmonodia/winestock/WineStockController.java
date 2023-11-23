@@ -2,10 +2,10 @@ package eu.lilithmonodia.winestock;
 
 // Importing the necessary libraries
 
-import eu.lilithmonodia.winestock.app.Assortment;
-import eu.lilithmonodia.winestock.app.BottleSize;
-import eu.lilithmonodia.winestock.app.Color;
-import eu.lilithmonodia.winestock.app.Wine;
+import eu.lilithmonodia.winestock.data.Assortment;
+import eu.lilithmonodia.winestock.data.BottleSize;
+import eu.lilithmonodia.winestock.data.Color;
+import eu.lilithmonodia.winestock.data.Wine;
 import eu.lilithmonodia.winestock.database.PostgreSQLManager;
 import javafx.application.Platform;
 import javafx.collections.FXCollections;

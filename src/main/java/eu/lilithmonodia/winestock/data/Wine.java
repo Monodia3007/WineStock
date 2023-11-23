@@ -1,4 +1,4 @@
-package eu.lilithmonodia.winestock.app;
+package eu.lilithmonodia.winestock.data;
 
 import eu.lilithmonodia.winestock.exceptions.InvalidBottleVolumeException;
 import eu.lilithmonodia.winestock.exceptions.InvalidYearException;

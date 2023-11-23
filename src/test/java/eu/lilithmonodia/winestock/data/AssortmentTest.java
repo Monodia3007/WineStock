@@ -1,4 +1,4 @@
-package eu.lilithmonodia.winestock.app;
+package eu.lilithmonodia.winestock.data;
 
 import eu.lilithmonodia.winestock.exceptions.WineAlreadyInAssortmentException;
 import eu.lilithmonodia.winestock.exceptions.WineNotInAssortmentException;
@@ -148,6 +148,7 @@ class AssortmentTest {
         Object obj = new Object();
         assertNotEquals(assortment, obj);  // Should not be equal to another type of object
     }
+
     @Test
     void testHashCode() {
         Assortment assortment2 = new Assortment();

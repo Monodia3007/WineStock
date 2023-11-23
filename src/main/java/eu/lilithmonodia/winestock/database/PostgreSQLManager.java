@@ -1,8 +1,8 @@
 package eu.lilithmonodia.winestock.database;
 
-import eu.lilithmonodia.winestock.app.Assortment;
-import eu.lilithmonodia.winestock.app.Wine;
 import eu.lilithmonodia.winestock.configuration.Configuration;
+import eu.lilithmonodia.winestock.data.Assortment;
+import eu.lilithmonodia.winestock.data.Wine;
 import eu.lilithmonodia.winestock.exceptions.WineAlreadyInAssortmentException;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;

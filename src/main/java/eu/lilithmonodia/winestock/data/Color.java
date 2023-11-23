@@ -1,4 +1,4 @@
-package eu.lilithmonodia.winestock.app;
+package eu.lilithmonodia.winestock.data;
 
 /**
  * This `Color` enum represents the possible colors of the wine.

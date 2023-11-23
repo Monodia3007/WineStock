@@ -1,6 +1,5 @@
-package eu.lilithmonodia.winestock.app;
+package eu.lilithmonodia.winestock.data;
 
-import eu.lilithmonodia.winestock.exceptions.InvalidBottleVolumeException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 

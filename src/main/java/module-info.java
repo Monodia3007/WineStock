@@ -20,7 +20,7 @@
  * to access types in these packages:
  * <ul>
  *    <li>The 'eu.lilithmonodia.winestock' package is opened to the 'javafx.fxml' module. This allows the JavaFX runtime to access annotated fields and methods within this package.</li>
- *    <li>The 'eu.lilithmonodia.winestock.app' package is opened to the 'java.base' module. This allows Java's base module to access types within this package.</li>
+ *    <li>The 'eu.lilithmonodia.winestock.data' package is opened to the 'java.base' module. This allows Java's base module to access types within this package.</li>
  * </ul>
  * <p>
  * The exports directive exports a package for use by other modules:
@@ -40,6 +40,6 @@ module eu.lilithmonodia.winestock {
     requires org.postgresql.jdbc;
 
     opens eu.lilithmonodia.winestock to javafx.fxml;
-    opens eu.lilithmonodia.winestock.app to java.base, javafx.base;
+    opens eu.lilithmonodia.winestock.data to java.base, javafx.base;
     exports eu.lilithmonodia.winestock;
 }
