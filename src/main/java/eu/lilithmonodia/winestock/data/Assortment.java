@@ -61,6 +61,17 @@ public class Assortment implements Collection<Wine>, Iterable<Wine> {
     }
 
     /**
+     * Sets the ID of the object.
+     * <p>
+     * The setId method sets the ID of the object to the specified integer value.
+     *
+     * @param id the new ID of the object.
+     */
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    /**
      * Returns the list of Wine objects in the Assortment collection.
      * <p>
      * This method retrieves the list of Wine objects currently stored in the
@@ -143,17 +154,6 @@ public class Assortment implements Collection<Wine>, Iterable<Wine> {
      */
     public Year getYear() {
         return year;
-    }
-
-    /**
-     * Sets the ID of the object.
-     * <p>
-     * The setId method sets the ID of the object to the specified integer value.
-     *
-     * @param id the new ID of the object.
-     */
-    public void setId(int id) {
-        this.id = id;
     }
 
     /**
@@ -280,6 +280,7 @@ public class Assortment implements Collection<Wine>, Iterable<Wine> {
      * Returns true if the `wineList` contains the specified element, false otherwise.
      *
      * @param o the element whose presence in the `wineList` is to be tested
+     *
      * @return true if the `wineList` contains the specified element, false otherwise
      */
     @Override
@@ -303,8 +304,9 @@ public class Assortment implements Collection<Wine>, Iterable<Wine> {
      * Returns an array containing all the elements in the `wineList` in a proper sequence (from first to last element).
      * The returned array will be "safe" as any modification to the array will not affect the original `wineList`.
      *
-     * @return an array containing all the elements in the `wineList` in a proper sequence
      * @param a the array into which the elements of the `wineList` are to be stored, if it is big enough; otherwise, a new array of the same runtime type is allocated for this purpose.
+     *
+     * @return an array containing all the elements in the `wineList` in a proper sequence
      */
     @NotNull
     @Override
@@ -316,6 +318,7 @@ public class Assortment implements Collection<Wine>, Iterable<Wine> {
      * Returns true if all the elements in the `wineList` are contained in the specified collection (`c`).
      *
      * @param c the collection to be checked for containment in the `wineList`
+     *
      * @return true if all the elements in the `wineList` are contained in the specified collection (`c`), false otherwise.
      */
     @Override
@@ -327,6 +330,7 @@ public class Assortment implements Collection<Wine>, Iterable<Wine> {
      * Adds all the elements in the specified collection (`c`) to the `wineList`.
      *
      * @param c the collection containing elements to be added to the `wineList`
+     *
      * @return true if the `wineList` changed as a result of the operation, false otherwise
      */
     @Override
@@ -344,6 +348,7 @@ public class Assortment implements Collection<Wine>, Iterable<Wine> {
      * Removes all elements from the `wineList` that are present in the specified collection (`c`).
      *
      * @param c the collection containing elements to be removed from the `wineList`
+     *
      * @return true if the `wineList` changed as a result of the operation, false otherwise
      */
     @Override
@@ -363,6 +368,7 @@ public class Assortment implements Collection<Wine>, Iterable<Wine> {
      * Updates `wineNames` and `totalPrice` accordingly.
      *
      * @param c the collection containing elements to be retained in the `wineList`
+     *
      * @return true if the `wineList` changed as a result of the operation, false otherwise
      */
     @Override

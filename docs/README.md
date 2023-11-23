@@ -7,16 +7,16 @@ wine and assortment data.
 ## Table of Contents
 
 - [WineStock Application](#winestock-application)
-  - [Table of Contents](#table-of-contents)
-  - [UML Diagram](#uml-diagram)
-  - [Description](#description)
-  - [Features](#features)
-  - [Prerequisites](#prerequisites)
-  - [Getting Started](#getting-started)
-  - [Usage](#usage)
-  - [Dependencies](#dependencies)
-  - [Contributing](#contributing)
-  - [License](#license)
+    - [Table of Contents](#table-of-contents)
+    - [UML Diagram](#uml-diagram)
+    - [Description](#description)
+    - [Features](#features)
+    - [Prerequisites](#prerequisites)
+    - [Getting Started](#getting-started)
+    - [Usage](#usage)
+    - [Dependencies](#dependencies)
+    - [Contributing](#contributing)
+    - [License](#license)
 
 ## UML Diagram
 

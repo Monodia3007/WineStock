@@ -1,7 +1,5 @@
 package eu.lilithmonodia.winestock.data;
 
-import eu.lilithmonodia.winestock.exceptions.WineAlreadyInAssortmentException;
-import eu.lilithmonodia.winestock.exceptions.WineNotInAssortmentException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 

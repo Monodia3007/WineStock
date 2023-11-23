@@ -59,7 +59,7 @@ class WineTest {
 
     @Test
     void testSetYearInvalid() {
-        assertThrows(InvalidYearException.class, ()-> {
+        assertThrows(InvalidYearException.class, () -> {
             wine.setYear(Year.now().plusYears(1));
         });
     }
