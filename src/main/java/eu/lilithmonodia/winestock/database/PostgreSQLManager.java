@@ -22,8 +22,8 @@ public class PostgreSQLManager {
     private static final Logger LOGGER = LogManager.getLogger(PostgreSQLManager.class);
     private static final String WINE_SELECT_SQL = "SELECT * FROM public.wine WHERE in_assortment = false";
     private static final String INSERT_WINE_SQL = "INSERT INTO public.wine(name, year, volume, color, price, comment, in_assortment) VALUES(?, ?, ?, ?, ?, ?, ?)";
-    private static final String ASSORTMENT_SELECT_SQL = "SELECT * FROM assortment";
-    private static final String WINE_SELECT_ASSORTMENT_SQL = "SELECT * FROM wine WHERE wno IN (SELECT wno FROM contains WHERE ano = ?)";
+    private static final String ASSORTMENT_SELECT_SQL = "SELECT * FROM public.assortment";
+    private static final String WINE_SELECT_ASSORTMENT_SQL = "SELECT * FROM public.wine WHERE wno IN (SELECT wno FROM contains WHERE ano = ?)";
     private static final String INSERT_ASSORTMENT_SQL = "INSERT INTO public.assortment(year) VALUES(?)";
     private static final String INSERT_CONTAINS_SQL = "INSERT INTO public.contains(wno, ano) VALUES(?, ?)";
 
