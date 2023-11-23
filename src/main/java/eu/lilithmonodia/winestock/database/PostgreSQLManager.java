@@ -97,7 +97,7 @@ public class PostgreSQLManager {
                 ).comment(resultSet.getString("comment")).build());
             }
         } catch (SQLException e) {
-            LOGGER.error("Error executing select: {}", e.getMessage());
+            LOGGER.error("Error executing select: {}", e.getMessage(), e);
         }
         return wines;
     }
@@ -170,7 +170,7 @@ public class PostgreSQLManager {
             }
 
         } catch (SQLException e) {
-            LOGGER.error("Error executing select: {}", e.getMessage());
+            LOGGER.error("Error executing select: {}", e.getMessage(), e);
         }
 
         return assortments;
@@ -194,7 +194,7 @@ public class PostgreSQLManager {
                     try {
                         assortment.add(getWineFromResultSet(resultSetWines));
                     } catch (WineAlreadyInAssortmentException e) {
-                        LOGGER.error("Error adding wine to assortment: {}", e.getMessage());
+                        LOGGER.error("Error adding wine to assortment: {}", e.getMessage(), e);
                     }
                 }
             }
@@ -240,11 +240,11 @@ public class PostgreSQLManager {
             connection.commit();
             return assortmentId;
         } catch (SQLException e) {
-            LOGGER.error("Error executing insert: {}", e.getMessage());
+            LOGGER.error("Error executing insert: {}", e.getMessage(), e);
             try {
                 connection.rollback();
             } catch (SQLException ex) {
-                LOGGER.error("Error rolling back transaction: {}", ex.getMessage());
+                LOGGER.error("Error rolling back transaction: {}", ex.getMessage(), ex);
             }
         }
         return Optional.empty();
@@ -328,8 +328,8 @@ public class PostgreSQLManager {
                 pstmtContains.setLong(1, assortmentId);
                 pstmtContains.setLong(2, wineId.get());
                 pstmtContains.executeUpdate();
-            } catch (SQLException ex) {
-                LOGGER.error("Error executing insert: {}", ex.getMessage());
+            } catch (SQLException e) {
+                LOGGER.error("Error executing insert: {}", e.getMessage(), e);
             }
         }
     }
