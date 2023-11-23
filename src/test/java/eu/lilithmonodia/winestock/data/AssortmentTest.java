@@ -102,12 +102,8 @@ class AssortmentTest {
 
     @Test
     void testAddWineAlreadyInAssortment() {
-        assertDoesNotThrow(() -> {
-            assortment.add(wine1);  // Should throw WineAlreadyInAssortmentException
-        });
-        assertThrows(WineAlreadyInAssortmentException.class, () -> {
-            assortment.add(wine1);
-        });
+        assertDoesNotThrow(() -> assortment.add(wine1));
+        assertThrows(WineAlreadyInAssortmentException.class, () -> assortment.add(wine1));
     }
 
     @Test
@@ -207,6 +203,35 @@ class AssortmentTest {
 
             assertTrue(list.contains(wine1));
             assertTrue(list.contains(wine2));
+        });
+    }
+
+    @Test
+    void testConstructorWithId() {
+        int id = 12345;
+        Assortment assortment = new Assortment(id);
+
+        assertEquals(id, assortment.getId()); // test setId
+        assertEquals(0, assortment.getTotalPrice(), 0.01); // test setting totalPrice to 0
+        assertEquals("", assortment.getWineNames()); // test setting wineNames to an empty string
+        assertEquals(0, assortment.getWineList().size()); // test that wineList is initialized and empty
+        assertNull(assortment.getYear());  // test that year is null
+    }
+
+    @Test
+    void testRemoveWineAndWineNames() {
+        assertDoesNotThrow(() -> {
+            assortment.add(wine1);
+            assortment.add(wine2);
+            String wineNamesBeforeRemoving = assortment.getWineNames();
+            assertTrue(wineNamesBeforeRemoving.endsWith(wine2.getName()));
+
+            // remove wine2
+            assortment.remove(wine2);
+            String wineNamesAfterRemoving = assortment.getWineNames();
+
+            assertFalse(wineNamesAfterRemoving.endsWith(",")); // test that last character is not a comma
+            assertFalse(wineNamesAfterRemoving.contains(wine2.getName())); // test removed wine's name is not in wineNames
         });
     }
 }

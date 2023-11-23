@@ -1,5 +1,6 @@
 package eu.lilithmonodia.winestock.data;
 
+import eu.lilithmonodia.winestock.exceptions.InvalidYearException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -53,6 +54,13 @@ class WineTest {
         assertDoesNotThrow(() -> {
             wine.setYear(Year.of(2020));
             assertEquals(Year.of(2020), wine.getYear());
+        });
+    }
+
+    @Test
+    void testSetYearInvalid() {
+        assertThrows(InvalidYearException.class, ()-> {
+            wine.setYear(Year.now().plusYears(1));
         });
     }
 
@@ -149,5 +157,50 @@ class WineTest {
         assertEquals(120.0, wineWithComment.getPrice());
         assertEquals("Excellent", wineWithComment.getComment());
         assertFalse(wineWithComment.isInAssortment());  // Default assortment value
+    }
+
+    @Test
+    void testInvalidColor() {
+        assertThrows(IllegalArgumentException.class, () -> {
+            new Wine.Builder("Cabernet", 2018, 75.0, "INVALID_COLOR", 150.0).build();
+        });
+    }
+
+    @Test
+    void testInvalidBottleSize() {
+        assertThrows(IllegalArgumentException.class, () -> {
+            new Wine.Builder("Cabernet", 2018, 999, "ROUGE", 150.0).build();
+        });
+    }
+
+    @Test
+    void testInvalidYearInFutureInBuilder() {
+        assertThrows(IllegalArgumentException.class, () -> {
+            new Wine.Builder("Cabernet", Year.now().getValue() + 1, 75.0, "ROUGE", 150.0).build();
+        });
+    }
+
+    @Test
+    void testSetVolumeInvalid() {
+        assertDoesNotThrow(() -> {
+            wine.setVolume(999);
+            assertEquals(BottleSize.BOUTEILLE, wine.getVolume());
+        });
+    }
+
+    @Test
+    void testCompareTo() {
+        Wine otherWine = new Wine.Builder("Cabernet", 2019, 75.0, "ROUGE", 150.0).build();
+        otherWine.setId(1); // This ID is greater than wine's ID, which is 0.
+
+        assertTrue(wine.compareTo(otherWine) < 0); // wine's ID is less than otherWine's ID.
+
+        otherWine.setId(0); // Now, both IDs are equal.
+
+        assertEquals(0, wine.compareTo(otherWine)); // Since both IDs are equal, compareTo should return 0.
+
+        wine.setId(2); // Now, wine's ID is greater than otherWine's ID.
+
+        assertTrue(wine.compareTo(otherWine) > 0); // Since wine's ID is greater, compareTo should return a positive number.
     }
 }
