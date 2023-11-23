@@ -13,7 +13,7 @@ import java.util.function.Consumer;
  * <p>
  * It provides methods to add and remove wines, get the total price of the assortment, and retrieve the list of wines.
  */
-public class Assortment implements Iterable<Wine> {
+public class Assortment implements Collection<Wine>, Iterable<Wine> {
     private final List<Wine> wineList;
     private int id;
     private Year year;
@@ -26,11 +26,7 @@ public class Assortment implements Iterable<Wine> {
      * totalPrice set to 0, and wineNames set to an empty string.
      */
     public Assortment() {
-        this.id = -1;
-        wineList = new ArrayList<>();
-        year = null;
-        totalPrice = 0;
-        wineNames = "";
+        this(-1);
     }
 
     /**
@@ -48,70 +44,6 @@ public class Assortment implements Iterable<Wine> {
     }
 
     /**
-     * Adds a Wine object to the Assortment.
-     *
-     * @param wine The Wine object to be added to the Assortment.
-     *
-     * @return {@code true} if the Wine object is successfully added to the Assortment, {@code false} otherwise.
-     *
-     * @throws WineAlreadyInAssortmentException if the Wine object is already in the Assortment, or if the year of the wine is not matching with the assortment's year.
-     */
-    public boolean add(Wine wine) throws WineAlreadyInAssortmentException {
-        if ((year != null && !wine.getYear().equals(year)) || wine.isInAssortment()) {
-            throw new WineAlreadyInAssortmentException("Wine is already in the assortment or the year of the wine is not matching with the assortment's year");
-        }
-        this.year = wine.getYear();
-        wine.setInAssortment(true);
-        // Update totalPrice and wineNames
-        this.totalPrice += wine.getPrice();
-        this.wineNames += (this.wineNames.isEmpty() ? "" : ", ") + wine.getName();
-        return wineList.add(wine);
-    }
-
-    /**
-     * Removes a Wine object from the Assortment.
-     * <p>
-     * The remove method removes a Wine object from the Assortment. The Wine object will be removed from
-     * the wineList ArrayList if it exists in the Assortment.
-     * <p>
-     * If the Wine object is successfully removed from the Assortment, the Wine object's isInAssortment flag will be set
-     * to false.
-     * <p>
-     * The totalPrice of the Assortment will be updated by subtracting the price of the removed Wine object.
-     * <p>
-     * The wineNames of the Assortment will be updated by removing the name of the removed Wine object if it exists,
-     * and removing any duplicate separators (", ,"). The resulting wineNames will be trimmed. If the resulting wineNames
-     * ends with a comma, the comma will be removed.
-     * <p>
-     * Example usage:
-     * <pre>{@code
-     * Assortment assortment = new Assortment();
-     * Wine wine = new Wine("Chardonnay", 2019, 29.99);
-     * boolean removed = assortment.remove(wine);
-     * }</pre>
-     *
-     * @param wine The Wine object to be removed from the Assortment.
-     *
-     * @return true if the Wine object is successfully removed from the Assortment, false otherwise.
-     *
-     * @throws WineNotInAssortmentException if the Wine object is not in the assortment.
-     */
-    public boolean remove(Wine wine) throws WineNotInAssortmentException {
-        if (!wineList.contains(wine))
-            throw new WineNotInAssortmentException("Wine is not in the assortment");
-        else {
-            wine.setInAssortment(false);
-            // Update totalPrice and wineNames
-            this.totalPrice -= wine.getPrice();
-            this.wineNames = this.wineNames.replace(wine.getName(), "").replace(", ,", ", ").trim();
-            if (this.wineNames.endsWith(",")) {
-                this.wineNames = this.wineNames.substring(0, this.wineNames.length() - 1);
-            }
-            return wineList.remove(wine);
-        }
-    }
-
-    /**
      * Returns the ID of the object.
      * <p>
      * The getId method returns the ID of the object. The ID is an integer value that uniquely identifies the object.
@@ -126,17 +58,6 @@ public class Assortment implements Iterable<Wine> {
      */
     public int getId() {
         return id;
-    }
-
-    /**
-     * Sets the ID of the object.
-     * <p>
-     * The setId method sets the ID of the object to the specified integer value.
-     *
-     * @param id the new ID of the object.
-     */
-    public void setId(int id) {
-        this.id = id;
     }
 
     /**
@@ -225,6 +146,262 @@ public class Assortment implements Iterable<Wine> {
     }
 
     /**
+     * Sets the ID of the object.
+     * <p>
+     * The setId method sets the ID of the object to the specified integer value.
+     *
+     * @param id the new ID of the object.
+     */
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    /**
+     * Adds a Wine object to the Assortment.
+     *
+     * @param wine The Wine object to be added to the Assortment.
+     *
+     * @return {@code true} if the Wine object is successfully added to the Assortment, {@code false} otherwise.
+     */
+    public boolean add(Wine wine) {
+        try {
+            if ((year != null && !wine.getYear().equals(year)) || wine.isInAssortment()) {
+                throw new WineAlreadyInAssortmentException("Wine is already in the assortment or the year of the wine is not matching with the assortment's year");
+            }
+            this.year = wine.getYear();
+            wine.setInAssortment(true);
+            // Update totalPrice and wineNames
+            this.totalPrice += wine.getPrice();
+            this.wineNames += (this.wineNames.isEmpty() ? "" : ", ") + wine.getName();
+            return wineList.add(wine);
+        } catch (WineAlreadyInAssortmentException e) {
+            return false;
+        }
+
+    }
+
+    /**
+     * Removes a Wine object from the Assortment.
+     * <p>
+     * The remove method removes a Wine object from the Assortment. The Wine object will be removed from
+     * the wineList ArrayList if it exists in the Assortment.
+     * <p>
+     * If the Wine object is successfully removed from the Assortment, the Wine object's isInAssortment flag will be set
+     * to false.
+     * <p>
+     * The totalPrice of the Assortment will be updated by subtracting the price of the removed Wine object.
+     * <p>
+     * The wineNames of the Assortment will be updated by removing the name of the removed Wine object if it exists,
+     * and removing any duplicate separators (", ,"). The resulting wineNames will be trimmed. If the resulting wineNames
+     * ends with a comma, the comma will be removed.
+     * <p>
+     * Example usage:
+     * <pre>{@code
+     * Assortment assortment = new Assortment();
+     * Wine wine = new Wine("Chardonnay", 2019, 29.99);
+     * boolean removed = assortment.remove(wine);
+     * }</pre>
+     *
+     * @param wine The Wine object to be removed from the Assortment.
+     *
+     * @return true if the Wine object is successfully removed from the Assortment, false otherwise.
+     */
+    public boolean remove(Wine wine) {
+        try {
+            if (!wineList.contains(wine))
+                throw new WineNotInAssortmentException("Wine is not in the assortment");
+            else {
+                wine.setInAssortment(false);
+                // Update totalPrice and wineNames
+                this.totalPrice -= wine.getPrice();
+                this.wineNames = this.wineNames.replace(wine.getName(), "").replace(", ,", ", ").trim();
+                if (this.wineNames.endsWith(",")) {
+                    this.wineNames = this.wineNames.substring(0, this.wineNames.length() - 1);
+                }
+                return wineList.remove(wine);
+            }
+        } catch (WineNotInAssortmentException e) {
+            return false;
+        }
+    }
+
+    /**
+     * Removes a Wine object from the Assortment.
+     * <p>
+     * The remove method removes a Wine object from the Assortment. The Wine object will be removed from
+     * the wineList ArrayList if it exists in the Assortment.
+     * <p>
+     * If the Wine object is successfully removed from the Assortment, the Wine object's isInAssortment flag will be set
+     * to false.
+     * <p>
+     * The totalPrice of the Assortment will be updated by subtracting the price of the removed Wine object.
+     * <p>
+     * The wineNames of the Assortment will be updated by removing the name of the removed Wine object if it exists,
+     * and removing any duplicate separators (", ,"). The resulting wineNames will be trimmed. If the resulting wineNames
+     * ends with a comma, the comma will be removed.
+     * <p>
+     * Example usage:
+     * <pre>{@code
+     * Assortment assortment = new Assortment();
+     * Wine wine = new Wine("Chardonnay", 2019, 29.99);
+     * boolean removed = assortment.remove(wine);
+     * }</pre>
+     *
+     * @param o The Wine object or object of its subclass to be removed from the Assortment.
+     *
+     * @return true if the Wine object is successfully removed from the Assortment, false otherwise.
+     */
+    @Override
+    public boolean remove(Object o) {
+        return o instanceof Wine wine && remove(wine);
+    }
+
+    /**
+     * Returns the number of wines in the `wineList`.
+     *
+     * @return the number of wines in the `wineList`
+     */
+    @Override
+    public int size() {
+        return wineList.size();
+    }
+
+    /**
+     * Returns true if the `wineList` is empty, false otherwise.
+     *
+     * @return true if the `wineList` is empty, false otherwise
+     */
+    @Override
+    public boolean isEmpty() {
+        return wineList.isEmpty();
+    }
+
+    /**
+     * Returns true if the `wineList` contains the specified element, false otherwise.
+     *
+     * @param o the element whose presence in the `wineList` is to be tested
+     * @return true if the `wineList` contains the specified element, false otherwise
+     */
+    @Override
+    public boolean contains(Object o) {
+        return wineList.contains(o);
+    }
+
+    /**
+     * Returns an array containing all the elements in the `wineList` in a proper sequence (from first to last element).
+     * The returned array will be "safe" as any modification to the array will not affect the original `wineList`.
+     *
+     * @return an array containing all the elements in the `wineList` in a proper sequence
+     */
+    @NotNull
+    @Override
+    public Object @NotNull [] toArray() {
+        return wineList.toArray();
+    }
+
+    /**
+     * Returns an array containing all the elements in the `wineList` in a proper sequence (from first to last element).
+     * The returned array will be "safe" as any modification to the array will not affect the original `wineList`.
+     *
+     * @return an array containing all the elements in the `wineList` in a proper sequence
+     * @param a the array into which the elements of the `wineList` are to be stored, if it is big enough; otherwise, a new array of the same runtime type is allocated for this purpose.
+     */
+    @NotNull
+    @Override
+    public <T> T @NotNull [] toArray(@NotNull T @NotNull [] a) {
+        return wineList.toArray(a);
+    }
+
+    /**
+     * Returns true if all the elements in the `wineList` are contained in the specified collection (`c`).
+     *
+     * @param c the collection to be checked for containment in the `wineList`
+     * @return true if all the elements in the `wineList` are contained in the specified collection (`c`), false otherwise.
+     */
+    @Override
+    public boolean containsAll(@NotNull Collection<?> c) {
+        return new HashSet<>(wineList).containsAll(c);
+    }
+
+    /**
+     * Adds all the elements in the specified collection (`c`) to the `wineList`.
+     *
+     * @param c the collection containing elements to be added to the `wineList`
+     * @return true if the `wineList` changed as a result of the operation, false otherwise
+     */
+    @Override
+    public boolean addAll(@NotNull Collection<? extends Wine> c) {
+        return wineList.addAll(c);
+    }
+
+    /**
+     * Removes all elements from the `wineList` that are present in the specified collection (`c`).
+     *
+     * @param c the collection containing elements to be removed from the `wineList`
+     * @return true if the `wineList` changed as a result of the operation, false otherwise
+     */
+    @Override
+    public boolean removeAll(@NotNull Collection<?> c) {
+        return wineList.removeAll(c);
+    }
+
+    /**
+     * Retains only the elements in the `wineList` that are contained in the specified collection (`c`).
+     * In other words, removes from the `wineList` all elements that are not present in `c`.
+     *
+     * @param c the collection containing elements to be retained in the `wineList`
+     * @return true if the `wineList` changed as a result of the operation, false otherwise
+     */
+    @Override
+    public boolean retainAll(@NotNull Collection<?> c) {
+        return wineList.retainAll(c);
+    }
+
+    /**
+     * Removes all elements from the `wineList`.
+     * The `wineList` will be empty after this method is called.
+     */
+    @Override
+    public void clear() {
+        wineList.clear();
+    }
+
+    /**
+     * Returns an iterator over the elements in the `wineList`.
+     * The iterator will return the wines in the order they were added.
+     *
+     * @return an Iterator over the wines in the `wineList`
+     */
+    @NotNull
+    @Override
+    public Iterator<Wine> iterator() {
+        return wineList.iterator();
+    }
+
+    /**
+     * Perform the provided action for each wine in the `wineList`.
+     * The action is performed in the order the wines were added.
+     *
+     * @param action The action to be performed for each wine
+     */
+
+    @Override
+    public void forEach(Consumer<? super Wine> action) {
+        wineList.forEach(action);
+    }
+
+    /**
+     * Returns a Spliterator over the wines in the `wineList`.
+     * This can be used for operations such as parallel processing.
+     *
+     * @return a Spliterator over the wines in the `wineList`
+     */
+    @Override
+    public Spliterator<Wine> spliterator() {
+        return wineList.spliterator();
+    }
+
+    /**
      * Returns a string representation of the Assortment object.
      * <p>
      * This method returns a string that represents the current state of the Assortment object.
@@ -302,40 +479,5 @@ public class Assortment implements Iterable<Wine> {
                 getTotalPrice(),
                 getWineNames()
         );
-    }
-
-    /**
-     * Returns an iterator over the elements in the `wineList`.
-     * The iterator will return the wines in the order they were added.
-     *
-     * @return an Iterator over the wines in the `wineList`
-     */
-    @NotNull
-    @Override
-    public Iterator<Wine> iterator() {
-        return wineList.iterator();
-    }
-
-    /**
-     * Perform the provided action for each wine in the `wineList`.
-     * The action is performed in the order the wines were added.
-     *
-     * @param action The action to be performed for each wine
-     */
-
-    @Override
-    public void forEach(Consumer<? super Wine> action) {
-        wineList.forEach(action);
-    }
-
-    /**
-     * Returns a Spliterator over the wines in the `wineList`.
-     * This can be used for operations such as parallel processing.
-     *
-     * @return a Spliterator over the wines in the `wineList`
-     */
-    @Override
-    public Spliterator<Wine> spliterator() {
-        return wineList.spliterator();
     }
 }
