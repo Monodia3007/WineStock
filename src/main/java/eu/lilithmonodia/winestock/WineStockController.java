@@ -96,6 +96,13 @@ public class WineStockController {
 
     /**
      * Imports the database by setting cell value factories and refreshing the view.
+     * <p>
+     * This method initializes a new Task to perform the database import asynchronously,
+     * logging the progress and handling any exceptions that may occur. The import process
+     * includes setting the cell value factories and refreshing the view. Upon successful
+     * completion, the method logs that the database has been successfully imported.
+     * If an exception is thrown during the import process, the method logs an error
+     * message and sets the cursor back to its default state.
      */
     public void importDatabase() {
         LOGGER.info("Database import initiated.");
@@ -183,7 +190,12 @@ public class WineStockController {
     }
 
     /**
-     * This method attempts to create a connection to the database using a username and password.
+     * This method attempts to connect to a PostgreSQL database using the provided username and password.
+     * If the login is successful, the importButton will be enabled.
+     * If the login fails, the importButton will be disabled and an error message will be logged.
+     *
+     * @param username the username for logging in to the database
+     * @param password the password for logging in to the database
      */
     private void attemptLogin(String username, String password) {
         try {
