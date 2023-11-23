@@ -275,4 +275,57 @@ class AssortmentTest {
         // Check that our assortment no longer has the removed wines
         assertFalse(assortment.containsAll(wines));
     }
+
+    @Test
+    void testRemoveObject(){
+        assortment.add(wine1);
+        assertTrue(assortment.remove(wine1));
+        assertFalse(assortment.remove(wine1)); //At this point it should be already removed
+    }
+
+    //Testing size() method
+    @Test
+    void testSize() {
+        assertEquals(0, assortment.size()); //Assortment should be initially empty
+        assortment.add(wine1);
+        assertEquals(1, assortment.size());
+    }
+
+    //Testing contains(Object o) method
+    @Test
+    void testContains() {
+        assertFalse(assortment.contains(wine1)); // Does not contain wine1 yet
+        assortment.add(wine1);
+        assertTrue(assortment.contains(wine1));
+    }
+
+    //Testing toArray() method
+    @Test
+    void testToArray() {
+        assortment.add(wine1);
+        Object[] array = assortment.toArray();
+        assertEquals(1, array.length);
+        assertSame(array[0], wine1); // Comparing references here, not the actual objects (can use equals(..) if applicable)
+    }
+
+    //Testing generic toArray(T[] a) method
+    @Test
+    void testToArrayGeneric() {
+        assortment.add(wine1);
+        Wine[] array = new Wine[1];
+        array = assortment.toArray(array);
+        assertEquals(1, array.length);
+        assertSame(array[0], wine1); // Comparing references here, not the actual objects (can use equals(..) if applicable)
+    }
+
+    //Testing retainAll(Collection<?> c)
+    @Test
+    void testRetainAll() {
+        assortment.add(wine1);
+        Wine wine2 = new Wine.Builder("Wine2", 2020, 75, "BLANC", 100.0).build();
+        List<Wine> list = new ArrayList<>();
+        list.add(wine2);
+        assortment.retainAll(list);
+        assertFalse(assortment.contains(wine1)); //wine1 should be removed while retainAll(..) operation
+    }
 }
