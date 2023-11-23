@@ -8,6 +8,7 @@ import org.jetbrains.annotations.NotNull;
 
 import java.time.Year;
 import java.util.Objects;
+
 /**
  * This class represents a specific type of wine which encapsulates various
  * attributes of the wine such as its name, production year, bottle size,
@@ -15,7 +16,7 @@ import java.util.Objects;
  * <p>
  * The wine can also be part of an assortment (collection of wines).
  */
-public class Wine implements Comparable<Wine>{
+public class Wine implements Comparable<Wine> {
     /**
      * Represents a constant variable for an invalid year.
      * Provides a message indicating that the year must not be after the current year.
@@ -263,6 +264,7 @@ public class Wine implements Comparable<Wine>{
      * Compares this `Wine` object with the specified object for order.
      *
      * @param o the `Wine` object to be compared.
+     *
      * @return a negative integer, zero, or a positive integer as this object is less than,
      * equal to, or greater than the specified object.
      *
