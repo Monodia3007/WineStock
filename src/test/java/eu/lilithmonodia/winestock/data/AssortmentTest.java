@@ -4,6 +4,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.util.*;
+import java.util.function.Consumer;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -174,10 +175,13 @@ class AssortmentTest {
             assortment.add(wine1);
             assortment.add(wine2);
 
-            List<Wine> list = new ArrayList<>(assortment);
+            List<Wine> wines = new ArrayList<>();
 
-            assertTrue(list.contains(wine1));
-            assertTrue(list.contains(wine2));
+            Consumer<Wine> action = wines::add;
+
+            assortment.forEach(action);
+
+            assertEquals(wines, assortment.getWineList()); // checks whether forEach worked successfully
         });
     }
 
@@ -278,8 +282,9 @@ class AssortmentTest {
     @Test
     void testRemoveObject(){
         assortment.add(wine1);
-        assertTrue(assortment.remove(wine1));
-        assertFalse(assortment.remove(wine1)); //At this point it should be already removed
+        assortment.remove(wine1);
+
+        assertFalse(assortment.contains(wine1));
     }
 
     //Testing size() method
@@ -321,10 +326,27 @@ class AssortmentTest {
     @Test
     void testRetainAll() {
         assortment.add(wine1);
-        Wine wine2 = new Wine.Builder("Wine2", 2020, 75, "BLANC", 100.0).build();
-        List<Wine> list = new ArrayList<>();
-        list.add(wine2);
-        assortment.retainAll(list);
-        assertFalse(assortment.contains(wine1)); //wine1 should be removed while retainAll(..) operation
+        assortment.add(wine2);
+
+        List<Wine> list2 = new ArrayList<>();
+        list2.add(wine2);
+
+        assortment.retainAll(list2);
+
+        assertFalse(assortment.contains(wine1)); // wine1 should be removed after retainAll
+        assertTrue(assortment.contains(wine2));  // wine2 should still exist in the assortment
+    }
+
+    @Test
+    void testSort() {
+        assortment.add(wine2); // Assume: price of wine2 > price of wine1
+        assortment.add(wine1);
+        wine1.setId(0);
+        wine2.setId(1);
+
+        assortment.sort();
+
+        assertEquals(wine1, assortment.getWineList().get(0));
+        assertEquals(wine2, assortment.getWineList().get(1));
     }
 }

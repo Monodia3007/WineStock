@@ -166,7 +166,7 @@ public class Assortment<W extends Wine> implements Collection<W> {
      * @param wine The Wine object to be updated before removed.
      * @return true if the Wine object is removed, false otherwise.
      */
-    private boolean wineListRemoveActions(W wine) {
+    private boolean wineListRemoveActions(@NotNull W wine) {
         wine.setInAssortment(false);
         this.totalPrice -= wine.getPrice();
         this.wineNames = this.wineNames.replace(wine.getName(), "").replace(", ,", ", ").trim();
@@ -356,9 +356,7 @@ public class Assortment<W extends Wine> implements Collection<W> {
      */
     @Override
     public void forEach(Consumer<? super W> action) {
-        for (W wine : wineList) {
-            action.accept(wine);
-        }
+        wineList.forEach(action);
     }
 
     /**
