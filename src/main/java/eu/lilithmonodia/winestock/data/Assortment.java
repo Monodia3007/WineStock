@@ -14,8 +14,8 @@ import java.util.function.Consumer;
  * It allows for various operations including addition, removal, and retrieval of wines.
  * The class maintains the properties such as ID, total price, and wine names in the Assortment.
  */
-public class Assortment implements Collection<Wine> {
-    private final List<Wine> wineList;
+public class Assortment<W extends Wine> implements Collection<W> {
+    private final List<W> wineList;
     private int id;
     private Year year;
     private double totalPrice;
@@ -68,7 +68,7 @@ public class Assortment implements Collection<Wine> {
      *
      * @return List of Wine objects in the Assortment
      */
-    public List<Wine> getWineList() {
+    public List<W> getWineList() {
         return wineList;
     }
 
@@ -106,7 +106,7 @@ public class Assortment implements Collection<Wine> {
      *
      * @return {@code true} if the Wine object is successfully added to the Assortment, {@code false} otherwise.
      */
-    public boolean add(Wine wine) {
+    public boolean add(W wine) {
         try {
             if ((year != null && !wine.getYear().equals(year)) || wine.isInAssortment()) {
                 throw new WineAlreadyInAssortmentException("Wine is already in the assortment or the year of the wine is not matching with the assortment's year");
@@ -129,7 +129,7 @@ public class Assortment implements Collection<Wine> {
      *
      * @return true if the Wine object is successfully removed from the Assortment, false otherwise.
      */
-    public boolean remove(Wine wine) {
+    public boolean remove(W wine) {
         try {
             if (!wineList.contains(wine))
                 throw new WineNotInAssortmentException("Wine is not in the assortment");
@@ -236,9 +236,9 @@ public class Assortment implements Collection<Wine> {
      * @return `true` if Wine list is modified as a result, `false` otherwise
      */
     @Override
-    public boolean addAll(@NotNull Collection<? extends Wine> c) {
+    public boolean addAll(@NotNull Collection<? extends W> c) {
         boolean isAdded = false;
-        for (Wine wine : c) {
+        for (W wine : c) {
             if (add(wine)) {
                 isAdded = true;
             }
@@ -274,7 +274,7 @@ public class Assortment implements Collection<Wine> {
     @Override
     public boolean retainAll(@NotNull Collection<?> c) {
         boolean isChanged = false;
-        Iterator<Wine> iterator = wineList.iterator();
+        Iterator<W> iterator = wineList.iterator();
 
         // recreate wineNames and totalPrice
         StringBuilder wineNamesBuilder = new StringBuilder();
@@ -329,7 +329,7 @@ public class Assortment implements Collection<Wine> {
      */
     @NotNull
     @Override
-    public Iterator<Wine> iterator() {
+    public Iterator<W> iterator() {
         return wineList.iterator();
     }
 
@@ -339,8 +339,10 @@ public class Assortment implements Collection<Wine> {
      * @param action The action to be performed for each Wine
      */
     @Override
-    public void forEach(Consumer<? super Wine> action) {
-        wineList.forEach(action);
+    public void forEach(Consumer<? super W> action) {
+        for (W wine : wineList) {
+            action.accept(wine);
+        }
     }
 
     /**
@@ -349,7 +351,7 @@ public class Assortment implements Collection<Wine> {
      * @return a Spliterator over the Wine list
      */
     @Override
-    public Spliterator<Wine> spliterator() {
+    public Spliterator<W> spliterator() {
         return wineList.spliterator();
     }
 
@@ -375,7 +377,7 @@ public class Assortment implements Collection<Wine> {
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (!(o instanceof Assortment that)) return false;
+        if (!(o instanceof Assortment<?> that)) return false;
         return getId() == that.getId() &&
                 Double.compare(getTotalPrice(), that.getTotalPrice()) == 0 &&
                 Objects.equals(getWineList(), that.getWineList()) &&
@@ -395,7 +397,6 @@ public class Assortment implements Collection<Wine> {
                 getId(),
                 getYear(),
                 getTotalPrice(),
-                getWineNames()
-        );
+                getWineNames());
     }
 }

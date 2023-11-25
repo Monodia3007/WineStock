@@ -9,7 +9,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class AssortmentTest {
 
-    private Assortment assortment;
+    private Assortment<Wine> assortment;
     private Wine wine1;
     private Wine wine2;
 
@@ -114,7 +114,7 @@ class AssortmentTest {
         assertDoesNotThrow(() -> {
             assortment.add(wine1);
 
-            Assortment otherAssortment = new Assortment();
+            Assortment<Wine> otherAssortment = new Assortment<>();
             assertNotEquals(assortment, otherAssortment);
 
             Wine wine1InOtherAssortment = new Wine.Builder("Wine1", 2020, 75,
@@ -143,14 +143,14 @@ class AssortmentTest {
 
     @Test
     void testHashCode() {
-        Assortment assortment2 = new Assortment();
+        Assortment<Wine> assortment2 = new Assortment<>();
         assertEquals(assortment.hashCode(), assortment2.hashCode());
     }
 
     @Test
     void testNotEqualHashCode() {
         assortment.setId(1);
-        Assortment assortment2 = new Assortment();
+        Assortment<Wine> assortment2 = new Assortment<>();
         assertNotEquals(assortment.hashCode(), assortment2.hashCode());
     }
 
@@ -174,8 +174,7 @@ class AssortmentTest {
             assortment.add(wine1);
             assortment.add(wine2);
 
-            List<Wine> list = new ArrayList<>();
-            assortment.forEach(list::add);
+            List<Wine> list = new ArrayList<>(assortment);
 
             assertTrue(list.contains(wine1));
             assertTrue(list.contains(wine2));
@@ -205,7 +204,7 @@ class AssortmentTest {
     @Test
     void testConstructorWithId() {
         int id = 12345;
-        Assortment assortment = new Assortment(id);
+        Assortment<Wine> assortment = new Assortment<>(id);
 
         assertEquals(id, assortment.getId()); // test setId
         assertEquals(0, assortment.getTotalPrice(), 0.01); // test setting totalPrice to 0

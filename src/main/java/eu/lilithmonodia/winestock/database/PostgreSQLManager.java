@@ -155,8 +155,8 @@ public class PostgreSQLManager {
      *
      * @return a List of Assortment objects representing all the assortments in the database
      */
-    public List<Assortment> getAllAssortments() {
-        List<Assortment> assortments = new ArrayList<>();
+    public List<Assortment<Wine>> getAllAssortments() {
+        List<Assortment<Wine>> assortments = new ArrayList<>();
 
         try (Connection conn = connect();
              PreparedStatement pstmt = conn.prepareStatement(ASSORTMENT_SELECT_SQL)) {
@@ -164,7 +164,7 @@ public class PostgreSQLManager {
             ResultSet resultSet = pstmt.executeQuery();
 
             while (resultSet.next()) {
-                Assortment assortment = fetchAssortmentByResultSet(resultSet);
+                Assortment<Wine> assortment = fetchAssortmentByResultSet(resultSet);
                 assortments.add(assortment);
             }
 
@@ -184,8 +184,8 @@ public class PostgreSQLManager {
      *
      * @throws SQLException if an error occurs while accessing the ResultSet
      */
-    private @NotNull Assortment fetchAssortmentByResultSet(@NotNull ResultSet resultSet) throws SQLException {
-        Assortment assortment = new Assortment(resultSet.getInt("ano"));
+    private @NotNull Assortment<Wine> fetchAssortmentByResultSet(@NotNull ResultSet resultSet) throws SQLException {
+        Assortment<Wine> assortment = new Assortment<>(resultSet.getInt("ano"));
         try (PreparedStatement pstmtWines = connect().prepareStatement(WINE_SELECT_ASSORTMENT_SQL)) {
             pstmtWines.setInt(1, resultSet.getInt("ano"));
             try (ResultSet resultSetWines = pstmtWines.executeQuery()) {
@@ -223,7 +223,7 @@ public class PostgreSQLManager {
      *
      * @return an Optional containing the ID of the inserted Assortment, or an empty Optional if the insertion failed
      */
-    public Optional<Long> insertAssortment(Assortment assortment) {
+    public Optional<Long> insertAssortment(Assortment<Wine> assortment) {
         try {
             connection.setAutoCommit(false);
             Optional<Long> assortmentId = insertAssortmentInternal(assortment);
@@ -254,7 +254,7 @@ public class PostgreSQLManager {
      *
      * @throws SQLException if an error occurs while accessing the database
      */
-    private Optional<Long> insertAssortmentInternal(Assortment assortment) throws SQLException {
+    private Optional<Long> insertAssortmentInternal(Assortment<Wine> assortment) throws SQLException {
         try (PreparedStatement pstmt = connect().prepareStatement(INSERT_ASSORTMENT_SQL, Statement.RETURN_GENERATED_KEYS)) {
             pstmt.setInt(1, assortment.getYear().getValue());
             return handleResponse(pstmt, id -> assortment.setId((int) id));
@@ -302,7 +302,7 @@ public class PostgreSQLManager {
      *
      * @throws SQLException if an error occurs while accessing the database
      */
-    public void insertWinesInAssortment(@NotNull Assortment assortment, Long assortmentId) throws SQLException {
+    public void insertWinesInAssortment(@NotNull Assortment<Wine> assortment, Long assortmentId) throws SQLException {
         for (Wine wine : assortment) {
             insertWineInAssortment(wine, assortmentId);
         }
