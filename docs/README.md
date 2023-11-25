@@ -2,13 +2,13 @@
 
 [![Code Smells](https://sonarcloud.io/api/project_badges/measure?project=Monodia3007_WineStock&metric=code_smells)](https://sonarcloud.io/summary/new_code?id=Monodia3007_WineStock)
 [![Maintainability Rating](https://sonarcloud.io/api/project_badges/measure?project=Monodia3007_WineStock&metric=sqale_rating)](https://sonarcloud.io/summary/new_code?id=Monodia3007_WineStock)
-[![Security Rating](https://sonarcloud.io/api/project_badges/measure?project=Monodia3007_WineStock&metric=security_rating)](https://sonarcloud.io/summary/new_code?id=Monodia3007_WineStock)
+[![Security Rating](https://sonarcloud.io/api/project_badges/measure?project=Monodia3007_WineStock&metric=security_rating)](https://sonarcloud.io/summary/new_code?id=Monodia3007_WineStock)  
 [![Bugs](https://sonarcloud.io/api/project_badges/measure?project=Monodia3007_WineStock&metric=bugs)](https://sonarcloud.io/summary/new_code?id=Monodia3007_WineStock)
 [![Vulnerabilities](https://sonarcloud.io/api/project_badges/measure?project=Monodia3007_WineStock&metric=vulnerabilities)](https://sonarcloud.io/summary/new_code?id=Monodia3007_WineStock)
-[![Duplicated Lines (%)](https://sonarcloud.io/api/project_badges/measure?project=Monodia3007_WineStock&metric=duplicated_lines_density)](https://sonarcloud.io/summary/new_code?id=Monodia3007_WineStock)
+[![Duplicated Lines (%)](https://sonarcloud.io/api/project_badges/measure?project=Monodia3007_WineStock&metric=duplicated_lines_density)](https://sonarcloud.io/summary/new_code?id=Monodia3007_WineStock)  
 [![Reliability Rating](https://sonarcloud.io/api/project_badges/measure?project=Monodia3007_WineStock&metric=reliability_rating)](https://sonarcloud.io/summary/new_code?id=Monodia3007_WineStock)
 [![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=Monodia3007_WineStock&metric=alert_status)](https://sonarcloud.io/summary/new_code?id=Monodia3007_WineStock)
-[![Technical Debt](https://sonarcloud.io/api/project_badges/measure?project=Monodia3007_WineStock&metric=sqale_index)](https://sonarcloud.io/summary/new_code?id=Monodia3007_WineStock)
+[![Technical Debt](https://sonarcloud.io/api/project_badges/measure?project=Monodia3007_WineStock&metric=sqale_index)](https://sonarcloud.io/summary/new_code?id=Monodia3007_WineStock)  
 [![Coverage](https://sonarcloud.io/api/project_badges/measure?project=Monodia3007_WineStock&metric=coverage)](https://sonarcloud.io/summary/new_code?id=Monodia3007_WineStock)
 [![Lines of Code](https://sonarcloud.io/api/project_badges/measure?project=Monodia3007_WineStock&metric=ncloc)](https://sonarcloud.io/summary/new_code?id=Monodia3007_WineStock)
 
