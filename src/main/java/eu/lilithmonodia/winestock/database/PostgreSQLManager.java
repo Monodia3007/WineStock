@@ -254,44 +254,11 @@ public class PostgreSQLManager {
      *
      * @throws SQLException if an error occurs while accessing the database
      */
-    private Optional<Long> insertAssortmentInternal(Assortment<Wine> assortment) throws SQLException {
+    private Optional<Long> insertAssortmentInternal(@NotNull Assortment<Wine> assortment) throws SQLException {
         try (PreparedStatement pstmt = connect().prepareStatement(INSERT_ASSORTMENT_SQL, Statement.RETURN_GENERATED_KEYS)) {
             pstmt.setInt(1, assortment.getYear().getValue());
             return handleResponse(pstmt, id -> assortment.setId((int) id));
         }
-    }
-
-    /**
-     * Preprocesses the PreparedStatement for inserting an Assortment object into the database.
-     *
-     * @param pstmtAssortment the PreparedStatement object for inserting the Assortment
-     * @param assortment      the Assortment object to be inserted
-     *
-     * @throws SQLException if an error occurs while accessing the database
-     */
-    private void preprocessInsertAssortmentStatement(@NotNull PreparedStatement pstmtAssortment, @NotNull Assortment assortment) throws SQLException {
-        pstmtAssortment.setInt(1, assortment.getYear().getValue());
-    }
-
-    /**
-     * Fetches the generated key from the ResultSet of the executed PreparedStatement.
-     *
-     * @param affectedRows    the number of affected rows by the executed PreparedStatement
-     * @param pstmtAssortment the PreparedStatement object that was executed
-     *
-     * @return an Optional containing the generated key if available, or an empty Optional if no key was generated
-     *
-     * @throws SQLException if an error occurs while accessing the database
-     */
-    private Optional<Long> fetchKeyFromGeneratedKeys(int affectedRows, PreparedStatement pstmtAssortment) throws SQLException {
-        if (affectedRows > 0) {
-            try (ResultSet rs = pstmtAssortment.getGeneratedKeys()) {
-                if (rs.next()) {
-                    return Optional.of(rs.getLong(1));
-                }
-            }
-        }
-        return Optional.empty();
     }
 
     /**
@@ -339,7 +306,7 @@ public class PostgreSQLManager {
      *
      * @throws SQLException if an error occurs while accessing the database
      */
-    private Optional<Long> handleResponse(PreparedStatement pstmt, LongConsumer idConsumer) throws SQLException {
+    private Optional<Long> handleResponse(@NotNull PreparedStatement pstmt, LongConsumer idConsumer) throws SQLException {
         int affectedRows = pstmt.executeUpdate();
         if (affectedRows > 0) {
             try (ResultSet rs = pstmt.getGeneratedKeys()) {
