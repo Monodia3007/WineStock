@@ -8,6 +8,7 @@ plugins {
     id 'com.github.johnrengelman.shadow' version '8.0.0' // Used to create an uber JAR or fat JAR of the project
     id 'maven-publish' // Enables publication of build artifacts to Maven repositories
     id 'signing' // Enables the ability to create and configure digital signatures for artifacts
+    id "org.sonarqube" version "4.4.1.3373" // Enables the ability to run SonarQube analysis
 }
 
 // Set the group ID and version number for this project
@@ -174,5 +175,13 @@ javadoc {
     options {
         encoding = 'UTF-8'
         charSet = 'UTF-8'
+    }
+}
+
+sonar {
+    properties {
+        property "sonar.projectKey", "Monodia3007_WineStock"
+        property "sonar.organization", "monodia3007"
+        property "sonar.host.url", "https://sonarcloud.io"
     }
 }
