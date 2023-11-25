@@ -39,18 +39,18 @@ public class WineStockController {
     private PostgreSQLManager postgreSQLManager;
     //FXML Table and Column variables for assortment and wine.
     @FXML
-    private TableView<Assortment> assortmentsTable;
+    private TableView<Assortment<Wine>> assortmentsTable;
     @FXML
     private TableView<Wine> wineTable;
 
     @FXML
-    private TableColumn<Assortment, Integer> assortmentID;
+    private TableColumn<Assortment<Wine>, Integer> assortmentID;
     @FXML
-    private TableColumn<Assortment, Double> assortmentTotalPrice;
+    private TableColumn<Assortment<Wine>, Double> assortmentTotalPrice;
     @FXML
-    private TableColumn<Assortment, Year> assortmentYear;
+    private TableColumn<Assortment<Wine>, Year> assortmentYear;
     @FXML
-    private TableColumn<Assortment, String> assortmentWines;
+    private TableColumn<Assortment<Wine>, String> assortmentWines;
 
     @FXML
     private TableColumn<Wine, Integer> wineTableID;
