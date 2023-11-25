@@ -10,4 +10,8 @@
         <description>Created after removal of "Main Module" from WineStock</description>
         <accepts>Main-Module.html</accepts>
     </rule>
+    <rule id="7a0cbd7a">
+        <description>Created after removal of "How to" from WineStock</description>
+        <accepts>How-to.html</accepts>
+    </rule>
 </rules>
