@@ -110,3 +110,5 @@ please submit an issue or create a pull request.
 ## License
 
 This project is licensed under the [MIT License](../LICENSE).
+
+[![SonarCloud](https://sonarcloud.io/images/project_badges/sonarcloud-black.svg)](https://sonarcloud.io/summary/new_code?id=Monodia3007_WineStock)
