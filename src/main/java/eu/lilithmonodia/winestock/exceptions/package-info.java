@@ -8,8 +8,6 @@
  *     (E.g., year is in the future or far in the past)</li>
  *     <li><b>InvalidBottleVolumeException:</b> Thrown if the bottle size volume does not
  *     match any volume in the BottleSize enum.</li>
- *     <li><b>InvalidWineColorException:</b> Thrown if the set wine color does not align
- *     with any color in the Color enum.</li>
  *     <li><b>WineAlreadyInAssortmentException:</b> Thrown to prevent a wine already present
  *     in an assortment from being added again.</li>
  *     <li><b>WineNotInAssortmentException:</b> Thrown if an attempt is made to remove a wine

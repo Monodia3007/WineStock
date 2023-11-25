@@ -7,4 +7,14 @@
                  start-page="starter-topic.md">
 
     <toc-element topic="starter-topic.md"/>
+    <toc-element topic="Winestock-Module.md">
+        <toc-element topic="Winestock-Package.md">
+            <toc-element topic="Exceptions-Package.md"/>
+            <toc-element topic="Database-Package.md"/>
+            <toc-element topic="Configuration-Package.md">
+                <toc-element topic="Configuration-Record.md"/>
+            </toc-element>
+            <toc-element topic="Data-Package.md"/>
+        </toc-element>
+    </toc-element>
 </instance-profile>
