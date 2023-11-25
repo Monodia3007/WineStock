@@ -134,14 +134,7 @@ public class Assortment<W extends Wine> implements Collection<W> {
             if (!wineList.contains(wine))
                 throw new WineNotInAssortmentException("Wine is not in the assortment");
             else {
-                wine.setInAssortment(false);
-                // Update totalPrice and wineNames
-                this.totalPrice -= wine.getPrice();
-                this.wineNames = this.wineNames.replace(wine.getName(), "").replace(", ,", ", ").trim();
-                if (this.wineNames.endsWith(",")) {
-                    this.wineNames = this.wineNames.substring(0, this.wineNames.length() - 1);
-                }
-                return wineList.remove(wine);
+                return wineListRemoveActions(wine);
             }
         } catch (WineNotInAssortmentException e) {
             return false;
@@ -157,7 +150,30 @@ public class Assortment<W extends Wine> implements Collection<W> {
      */
     @Override
     public boolean remove(Object o) {
-        return o instanceof Wine wine && remove(wine);
+        if (!(o instanceof Wine)) {
+            return false;
+        }
+        W wine = (W) o;
+        if (!wineList.contains(wine)) {
+            return false;
+        }
+        return wineListRemoveActions(wine);
+    }
+
+    /**
+     * Execute wine removing actions
+     *
+     * @param wine The Wine object to be updated before removed.
+     * @return true if the Wine object is removed, false otherwise.
+     */
+    private boolean wineListRemoveActions(W wine) {
+        wine.setInAssortment(false);
+        this.totalPrice -= wine.getPrice();
+        this.wineNames = this.wineNames.replace(wine.getName(), "").replace(", ,", ", ").trim();
+        if (this.wineNames.endsWith(",")) {
+            this.wineNames = this.wineNames.substring(0, this.wineNames.length() - 1);
+        }
+        return wineList.remove(wine);
     }
 
     /**
