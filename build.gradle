@@ -1,18 +1,18 @@
-// Define the plugins needed for this build
+// Plugin definition - these plugins enable necessary functionalities to complete different stages of the build
 plugins {
-    id 'java' // Provides basic functionalities to build Java applications
-    id 'application' // Supports building and running applications
-    id 'org.javamodularity.moduleplugin' version '1.8.12' // Helps in building Java 9+ modules
-    id 'org.openjfx.javafxplugin' version '0.0.14' // Provides support for building JavaFX applications
-    id 'org.beryx.jlink' version '2.25.0' // Helps in creating custom Java runtime images
-    id 'com.github.johnrengelman.shadow' version '8.0.0' // Used to create an uber JAR or fat JAR of the project
-    id 'maven-publish' // Enables publication of build artifacts to Maven repositories
-    id 'signing' // Enables the ability to create and configure digital signatures for artifacts
-    id "org.sonarqube" version "4.4.1.3373" // Enables the ability to run SonarQube analysis
-    id 'jacoco' // Enables the ability to generate code coverage reports
+    id 'java'
+    id 'application'
+    id 'org.javamodularity.moduleplugin' version '1.8.12'
+    id 'org.openjfx.javafxplugin' version '0.0.14'
+    id 'org.beryx.jlink' version '2.25.0'
+    id 'com.github.johnrengelman.shadow' version '8.0.0'
+    id 'maven-publish'
+    id 'signing'
+    id "org.sonarqube" version "4.4.1.3373"
+    id 'jacoco'
 }
 
-// Set the group ID and version number for this project
+// Basic Metadata - This section contains basic metadata for your project.
 group = 'eu.lilithmonodia'
 version = '0.6.3'
 
@@ -21,21 +21,20 @@ repositories {
     mavenCentral() // Gradle should use the central Maven repository for dependencies
 }
 
-// Define the extra properties needed for the build
 ext {
-    junitVersion = '5.9.2' // Specifies the version of JUnit to use
+    junitVersion = '5.9.2'
 }
 
-// Set the Java compatibility versions
-sourceCompatibility = '17' // Specifies that the source code is written using Java 17
-targetCompatibility = '17' // Specifies that the bytecode should be compatible with Java 17
+// Source & Target Java Version
+sourceCompatibility = '17'
+targetCompatibility = '17'
 
-// Configures all JavaCompile tasks to use UTF-8 encoding
-tasks.withType(JavaCompile) {
-    options.encoding = 'UTF-8' // Sets file encoding to UTF-8
+// Repositories - Specify which repositories gradle will use to fetch project dependencies.
+repositories {
+    mavenCentral()
 }
 
-// Define the dependencies of the project
+// Dependencies - Declaring project dependencies (both runtime and test scope).
 dependencies {
     // Indicate libraries the project needs to compile and run
     implementation 'org.jetbrains:annotations:24.0.0'
@@ -49,7 +48,7 @@ dependencies {
     testRuntimeOnly "org.junit.jupiter:junit-jupiter-engine:${junitVersion}"
 }
 
-// Configures the `jar` task to include the main class in the manifest file
+// Jar Config - Configurations for the `Jar` tasks.
 jar {
     manifest {
         attributes 'Main-Class': 'eu.lilithmonodia.winestock.Launcher'
@@ -57,21 +56,20 @@ jar {
     }
 }
 
-// Defines how the application should be launched
+tasks.withType(JavaCompile) {
+    options.encoding = 'UTF-8'
+}
+
+// Application Configuration - Details of the application's main entry.
 application {
     mainModule = 'eu.lilithmonodia.winestock'
     mainClass = 'eu.lilithmonodia.winestock.Launcher'
 }
 
-// Configures the JavaFX plugin
+// JavaFX Configuration - JavaFX related configurations.
 javafx {
-    version = '17.0.7' // Sets JavaFX version
-    modules = ['javafx.controls', 'javafx.fxml'] // Specifies the JavaFX modules to be used
-}
-
-// Configures the `test` task to use the JUnit platform
-test {
-    useJUnitPlatform()
+    version = '17.0.7'
+    modules = ['javafx.controls', 'javafx.fxml']
 }
 
 // Configures the `jlink` task to create a custom Java runtime image
@@ -82,7 +80,7 @@ jlink {
     launcher { name = 'WineStock' }
 }
 
-// Configure the `shadowJar` task to create a fat JAR of this project
+// Shadow JAR - Config for creating a fat JAR or an uber JAR that contains all dependencies.
 shadowJar {
     archiveBaseName.set('WineStock')
     archiveVersion.set("${version}")
@@ -95,12 +93,11 @@ shadowJar {
     configurations = [project.configurations.runtimeClasspath]
 }
 
-// Create tasks for generating Javadoc and source Jar
+// Javadoc & Source Jar - Config for generating Javadoc and source Jar.
 task javadocJar(type: Jar) {
     archiveClassifier.set('javadoc')
     from javadoc
 }
-
 task sourcesJar(type: Jar) {
     archiveClassifier.set('sources')
     from sourceSets.main.allSource
@@ -189,13 +186,15 @@ sonar {
     }
 }
 
+// Testing - Config for running tests in the project.
 test {
-    finalizedBy jacocoTestReport
+    useJUnitPlatform()
+    finalizedBy jacocoTestReport // Make jacocoTestReport run always after the test task.
 }
 
 jacocoTestReport {
-    dependsOn test
+    dependsOn test // Make jacocoTestReport dependent on the successful completion of test task.
     reports {
-        xml.required = true
+        xml.required = true  // Enable XML report.
     }
 }
