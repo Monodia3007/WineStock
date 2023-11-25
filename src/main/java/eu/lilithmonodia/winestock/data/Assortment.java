@@ -100,6 +100,20 @@ public class Assortment<W extends Wine> implements Collection<W> {
     }
 
     /**
+     * Resets the `wineNames` attribute according to the current `wineList`.
+     */
+    private void resetWineNames() {
+        StringBuilder wineNamesBuilder = new StringBuilder();
+        for (W wine : wineList) {
+            if (!wineNamesBuilder.isEmpty()) {
+                wineNamesBuilder.append(", ");
+            }
+            wineNamesBuilder.append(wine.getName());
+        }
+        this.wineNames = wineNamesBuilder.toString();
+    }
+
+    /**
      * Adds a Wine object to the Assortment.
      *
      * @param wine The Wine object to be added to the Assortment.
@@ -115,8 +129,9 @@ public class Assortment<W extends Wine> implements Collection<W> {
             wine.setInAssortment(true);
             // Update totalPrice and wineNames
             this.totalPrice += wine.getPrice();
-            this.wineNames += (this.wineNames.isEmpty() ? "" : ", ") + wine.getName();
-            return wineList.add(wine);
+            boolean wasAdded = wineList.add(wine);
+            this.resetWineNames();
+            return wasAdded;
         } catch (WineAlreadyInAssortmentException e) {
             return false;
         }
@@ -169,11 +184,9 @@ public class Assortment<W extends Wine> implements Collection<W> {
     private boolean wineListRemoveActions(@NotNull W wine) {
         wine.setInAssortment(false);
         this.totalPrice -= wine.getPrice();
-        this.wineNames = this.wineNames.replace(wine.getName(), "").replace(", ,", ", ").trim();
-        if (this.wineNames.endsWith(",")) {
-            this.wineNames = this.wineNames.substring(0, this.wineNames.length() - 1);
-        }
-        return wineList.remove(wine);
+        boolean wasRemoved = wineList.remove(wine);
+        this.resetWineNames();
+        return wasRemoved;
     }
 
     /**
@@ -292,8 +305,7 @@ public class Assortment<W extends Wine> implements Collection<W> {
         boolean isChanged = false;
         Iterator<W> iterator = wineList.iterator();
 
-        // recreate wineNames and totalPrice
-        StringBuilder wineNamesBuilder = new StringBuilder();
+        // reset totalPrice
         this.totalPrice = 0.0;
 
         while (iterator.hasNext()) {
@@ -305,15 +317,11 @@ public class Assortment<W extends Wine> implements Collection<W> {
             } else {
                 // update wineNames and totalPrice
                 this.totalPrice += wine.getPrice();
-                if (!wineNamesBuilder.isEmpty()) {
-                    wineNamesBuilder.append(", ");
-                }
-                wineNamesBuilder.append(wine.getName());
             }
         }
 
         // assign the updated wine names
-        this.wineNames = wineNamesBuilder.toString();
+        this.resetWineNames();
 
         return isChanged;
     }
@@ -328,7 +336,7 @@ public class Assortment<W extends Wine> implements Collection<W> {
         }
         wineList.clear();
         this.totalPrice = 0;
-        this.wineNames = "";
+        this.resetWineNames();
     }
 
     /**
@@ -336,6 +344,7 @@ public class Assortment<W extends Wine> implements Collection<W> {
      */
     public void sort() {
         Collections.sort(wineList);
+        this.resetWineNames();
     }
 
     /**
