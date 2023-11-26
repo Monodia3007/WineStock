@@ -27,7 +27,8 @@ public class Assortment<W extends Wine> implements Collection<W> {
     /**
      * Default constructor for the Assortment class.
      * <p>
-     * Initializes an Assortment with a default ID of -1, an empty Wine list, null year, zero total price, and an empty wine names string.
+     * Initializes an Assortment with a default ID of -1, an empty Wine list,
+     * null year, total price of zero, and an empty wine names string.
      */
     public Assortment() {
         this(-1);
@@ -36,7 +37,8 @@ public class Assortment<W extends Wine> implements Collection<W> {
     /**
      * Overloaded constructor for the Assortment class.
      * <p>
-     * Initializes an Assortment with the given ID, an empty Wine list, null year, zero total price, and an empty wine names string.
+     * Initializes an Assortment with the given ID, an empty Wine list,
+     * null year, total price of zero, and an empty wine names string.
      *
      * @param id The ID for the Assortment
      */
@@ -219,7 +221,7 @@ public class Assortment<W extends Wine> implements Collection<W> {
     }
 
     /**
-     * Checks if the specified element is in wineList.
+     * Checks if the specified element is in the wineList.
      *
      * @param o the element to be checked
      *
@@ -255,11 +257,11 @@ public class Assortment<W extends Wine> implements Collection<W> {
     }
 
     /**
-     * Checks if collection is contained in Wine list.
+     * Checks if the collection is contained in the Wine list.
      *
      * @param c Collection to be checked
      *
-     * @return `true` if collection is in Wine list, `false` otherwise
+     * @return `true` if the collection is in the Wine list, `false` otherwise
      */
     @Override
     public boolean containsAll(@NotNull Collection<?> c) {
@@ -267,11 +269,11 @@ public class Assortment<W extends Wine> implements Collection<W> {
     }
 
     /**
-     * Adds all elements in specified collection to Wine list.
+     * Adds all elements in specified collection to the Wine list.
      *
-     * @param c Collection whose elements are to be added to Wine list
+     * @param c Collection whose elements are to be added to the Wine list
      *
-     * @return `true` if Wine list is modified as a result, `false` otherwise
+     * @return `true` if the Wine list is modified as a result, `false` otherwise
      */
     @Override
     public boolean addAll(@NotNull Collection<? extends W> c) {
@@ -285,11 +287,11 @@ public class Assortment<W extends Wine> implements Collection<W> {
     }
 
     /**
-     * Removes from Wine list all its elements that are also present in the specified collection.
+     * Removes from the Wine list all its elements that are also present in the specified collection.
      *
-     * @param c Collection containing elements to be removed from Wine list
+     * @param c Collection containing elements to be removed from the Wine list
      *
-     * @return `true` if Wine list is modified as a result, `false` otherwise
+     * @return `true` if the Wine list is modified as a result, `false` otherwise
      */
     @Override
     public boolean removeAll(@NotNull Collection<?> c) {

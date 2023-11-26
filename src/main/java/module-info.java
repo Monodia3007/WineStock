@@ -16,14 +16,14 @@
  *     <li>org.apache.commons.io: Commons IO suite of utilities and component libraries </li>
  * </ul>
  * <p>
- * The opens directive is used to open packages to specific modules, allowing them to use reflection
+ * The "opens" directive is used to open packages to specific modules, allowing them to use reflection
  * to access types in these packages:
  * <ul>
  *    <li>The 'eu.lilithmonodia.winestock' package is opened to the 'javafx.fxml' module. This allows the JavaFX runtime to access annotated fields and methods within this package.</li>
  *    <li>The 'eu.lilithmonodia.winestock.data' package is opened to the 'java.base' module. This allows Java's base module to access types within this package.</li>
  * </ul>
  * <p>
- * The exports directive exports a package for use by other modules:
+ * The "exports" directive exports a package for use by other modules:
  * <ul>
  *     <li>The 'eu.lilithmonodia.winestock' package is exported, allowing other modules to read its public types and their public.</li>
  * </ul>
