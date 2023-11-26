@@ -2,6 +2,8 @@ package eu.lilithmonodia.winestock.data;
 
 import eu.lilithmonodia.winestock.exceptions.WineAlreadyInAssortmentException;
 import eu.lilithmonodia.winestock.exceptions.WineNotInAssortmentException;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.jetbrains.annotations.NotNull;
 
 import java.time.Year;
@@ -15,6 +17,7 @@ import java.util.function.Consumer;
  * The class maintains the properties such as ID, total price, and wine names in the Assortment.
  */
 public class Assortment<W extends Wine> implements Collection<W> {
+    private static final Logger LOGGER = LogManager.getLogger(Assortment.class);
     private final List<W> wineList;
     private int id;
     private Year year;
@@ -129,10 +132,11 @@ public class Assortment<W extends Wine> implements Collection<W> {
             wine.setInAssortment(true);
             // Update totalPrice and wineNames
             this.totalPrice += wine.getPrice();
-            boolean wasAdded = wineList.add(wine);
+            wineList.add(wine);
             this.resetWineNames();
-            return wasAdded;
+            return true;
         } catch (WineAlreadyInAssortmentException e) {
+            LOGGER.error(e.getMessage());
             return false;
         }
     }
@@ -165,14 +169,19 @@ public class Assortment<W extends Wine> implements Collection<W> {
      */
     @Override
     public boolean remove(Object o) {
-        if (!(o instanceof Wine)) {
+        try {
+            if (!(o instanceof Wine)) {
+                return false;
+            }
+            W wine = (W) o;
+            if (!wineList.contains(wine)) {
+                throw new WineNotInAssortmentException("Wine is not in the assortment");
+            }
+            return wineListRemoveActions(wine);
+        } catch (WineNotInAssortmentException e) {
+            LOGGER.error(e.getMessage());
             return false;
         }
-        W wine = (W) o;
-        if (!wineList.contains(wine)) {
-            return false;
-        }
-        return wineListRemoveActions(wine);
     }
 
     /**
