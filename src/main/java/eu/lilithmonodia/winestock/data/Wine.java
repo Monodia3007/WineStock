@@ -21,7 +21,7 @@ public class Wine implements Comparable<Wine> {
      * Represents a constant variable for an invalid year.
      * Provides a message indicating that the year must not be after the current year.
      */
-    public static final String YEAR_AFTER_CURRENT_YEAR_INVALID = "Invalid year. The year must not be after the current year.";
+    private static final String YEAR_AFTER_CURRENT_YEAR_INVALID = "Invalid year. The year must not be after the current year.";
     private static final Logger LOGGER = LogManager.getLogger(Wine.class);
     private int id;
     private String name;

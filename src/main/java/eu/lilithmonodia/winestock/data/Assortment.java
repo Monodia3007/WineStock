@@ -18,6 +18,7 @@ import java.util.function.Consumer;
  */
 public class Assortment<W extends Wine> implements Collection<W> {
     private static final Logger LOGGER = LogManager.getLogger(Assortment.class);
+    private static final String WINE_IS_NOT_IN_THE_ASSORTMENT = "Wine is not in the assortment";
     private final List<W> wineList;
     private int id;
     private Year year;
@@ -153,11 +154,12 @@ public class Assortment<W extends Wine> implements Collection<W> {
     public boolean remove(W wine) {
         try {
             if (!wineList.contains(wine))
-                throw new WineNotInAssortmentException("Wine is not in the assortment");
+                throw new WineNotInAssortmentException(WINE_IS_NOT_IN_THE_ASSORTMENT);
             else {
                 return wineListRemoveActions(wine);
             }
         } catch (WineNotInAssortmentException e) {
+            LOGGER.error(e.getMessage());
             return false;
         }
     }
@@ -171,19 +173,25 @@ public class Assortment<W extends Wine> implements Collection<W> {
      */
     @Override
     public boolean remove(Object o) {
+        if (o == null) return false;
+        if (!wineList.removeIf(w -> w.equals(o))) {  // using java.util.Predicate
+            LOGGER.error(WINE_IS_NOT_IN_THE_ASSORTMENT);
+            return false;
+        }
+        W wine;
         try {
-            if (!(o instanceof Wine)) {
-                return false;
-            }
-            W wine = (W) o;
-            if (!wineList.contains(wine)) {
-                throw new WineNotInAssortmentException("Wine is not in the assortment");
-            }
-            return wineListRemoveActions(wine);
+            wine = wineList.stream() // Re-fetching wine because it's guaranteed to exist and be of type W.
+                    .filter(w -> w.equals(o))
+                    .findFirst()
+                    .orElseThrow(() -> new WineNotInAssortmentException(WINE_IS_NOT_IN_THE_ASSORTMENT));
         } catch (WineNotInAssortmentException e) {
             LOGGER.error(e.getMessage());
             return false;
         }
+        wine.setInAssortment(false);
+        this.totalPrice -= wine.getPrice();
+        this.resetWineNames();
+        return true;
     }
 
     /**
