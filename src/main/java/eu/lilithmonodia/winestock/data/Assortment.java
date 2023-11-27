@@ -119,6 +119,13 @@ public class Assortment<W extends Wine> implements Collection<W> {
         this.wineNames = wineNamesBuilder.toString();
     }
 
+    private void resetTotalPrice() {
+        this.totalPrice = 0;
+        for (W wine : wineList) {
+            this.totalPrice += wine.getPrice();
+        }
+    }
+
     /**
      * Adds a Wine object to the Assortment.
      *
@@ -134,8 +141,8 @@ public class Assortment<W extends Wine> implements Collection<W> {
             this.year = wine.getYear();
             wine.setInAssortment(true);
             // Update totalPrice and wineNames
-            this.totalPrice += wine.getPrice();
             wineList.add(wine);
+            this.resetTotalPrice();
             this.resetWineNames();
             return true;
         } catch (WineAlreadyInAssortmentException e) {
@@ -173,25 +180,28 @@ public class Assortment<W extends Wine> implements Collection<W> {
      */
     @Override
     public boolean remove(Object o) {
-        if (o == null) return false;
-        if (!wineList.removeIf(w -> w.equals(o))) {  // using java.util.Predicate
-            LOGGER.error(WINE_IS_NOT_IN_THE_ASSORTMENT);
-            return false;
-        }
-        W wine;
         try {
-            wine = wineList.stream() // Re-fetching wine because it's guaranteed to exist and be of type W.
-                    .filter(w -> w.equals(o))
-                    .findFirst()
-                    .orElseThrow(() -> new WineNotInAssortmentException(WINE_IS_NOT_IN_THE_ASSORTMENT));
+            if (!(o instanceof Wine)) {
+                return false;
+            }
+
+            boolean isRemoved = wineList.removeIf(w -> w.equals(o));
+
+            if (!isRemoved) {
+                throw new WineNotInAssortmentException(WINE_IS_NOT_IN_THE_ASSORTMENT);
+            }
+
+            // The unchecked warning here cannot be removed because of type erasure in Java generics.
+            // It is safe as we have already verified that o instanceof Wine.
+            @SuppressWarnings("unchecked")
+            W wine = (W) o;
+
+            return wineListRemoveActions(wine);
         } catch (WineNotInAssortmentException e) {
             LOGGER.error(e.getMessage());
             return false;
         }
-        wine.setInAssortment(false);
-        this.totalPrice -= wine.getPrice();
-        this.resetWineNames();
-        return true;
+
     }
 
     /**
@@ -202,8 +212,8 @@ public class Assortment<W extends Wine> implements Collection<W> {
      */
     private boolean wineListRemoveActions(@NotNull W wine) {
         wine.setInAssortment(false);
-        this.totalPrice -= wine.getPrice();
         boolean wasRemoved = wineList.remove(wine);
+        this.resetTotalPrice();
         this.resetWineNames();
         return wasRemoved;
     }
@@ -285,13 +295,10 @@ public class Assortment<W extends Wine> implements Collection<W> {
      */
     @Override
     public boolean addAll(@NotNull Collection<? extends W> c) {
-        boolean isAdded = false;
-        for (W wine : c) {
-            if (add(wine)) {
-                isAdded = true;
-            }
-        }
-        return isAdded;
+        boolean result = wineList.addAll(c);
+        this.resetTotalPrice();
+        this.resetWineNames();
+        return result;
     }
 
     /**
@@ -303,13 +310,10 @@ public class Assortment<W extends Wine> implements Collection<W> {
      */
     @Override
     public boolean removeAll(@NotNull Collection<?> c) {
-        boolean isRemoved = false;
-        for (Object o : c) {
-            if (o instanceof Wine wine && remove(wine)) {
-                isRemoved = true;
-            }
-        }
-        return isRemoved;
+        boolean result = wineList.removeAll(c);
+        this.resetTotalPrice();
+        this.resetWineNames();
+        return result;
     }
 
     /**
@@ -324,22 +328,17 @@ public class Assortment<W extends Wine> implements Collection<W> {
         boolean isChanged = false;
         Iterator<W> iterator = wineList.iterator();
 
-        // reset totalPrice
-        this.totalPrice = 0.0;
-
         while (iterator.hasNext()) {
             Wine wine = iterator.next();
             if (!c.contains(wine)) {
                 wine.setInAssortment(false);
                 iterator.remove();
                 isChanged = true;
-            } else {
-                // update wineNames and totalPrice
-                this.totalPrice += wine.getPrice();
             }
         }
 
-        // assign the updated wine names
+        // assign the updated wine names and total price
+        this.resetTotalPrice();
         this.resetWineNames();
 
         return isChanged;
@@ -354,7 +353,7 @@ public class Assortment<W extends Wine> implements Collection<W> {
             wine.setInAssortment(false);
         }
         wineList.clear();
-        this.totalPrice = 0;
+        this.resetTotalPrice();
         this.resetWineNames();
     }
 
