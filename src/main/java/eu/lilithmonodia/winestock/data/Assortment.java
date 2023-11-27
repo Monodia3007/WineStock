@@ -146,7 +146,7 @@ public class Assortment<W extends Wine> implements Collection<W> {
             this.resetWineNames();
             return true;
         } catch (WineAlreadyInAssortmentException e) {
-            LOGGER.error(e.getMessage());
+            LOGGER.error(new StringBuilder().append(e.getMessage()).append("{}"), e);
             return false;
         }
     }
@@ -166,7 +166,7 @@ public class Assortment<W extends Wine> implements Collection<W> {
                 return wineListRemoveActions(wine);
             }
         } catch (WineNotInAssortmentException e) {
-            LOGGER.error(e.getMessage());
+            LOGGER.error(new StringBuilder().append(e.getMessage()).append("{}"), e);
             return false;
         }
     }
@@ -198,7 +198,7 @@ public class Assortment<W extends Wine> implements Collection<W> {
 
             return wineListRemoveActions(wine);
         } catch (WineNotInAssortmentException e) {
-            LOGGER.error(e.getMessage());
+            LOGGER.error(new StringBuilder().append(e.getMessage()).append("{}"), e);
             return false;
         }
 
