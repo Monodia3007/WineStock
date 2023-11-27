@@ -280,7 +280,7 @@ class AssortmentTest {
     }
 
     @Test
-    void testRemoveObject(){
+    void testRemoveObject() {
         assortment.add(wine1);
         assortment.remove(wine1);
 

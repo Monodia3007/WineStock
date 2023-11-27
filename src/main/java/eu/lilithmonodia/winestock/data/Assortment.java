@@ -208,6 +208,7 @@ public class Assortment<W extends Wine> implements Collection<W> {
      * Execute wine removing actions
      *
      * @param wine The Wine object to be updated before removed.
+     *
      * @return true if the Wine object is removed, false otherwise.
      */
     private boolean wineListRemoveActions(@NotNull W wine) {
