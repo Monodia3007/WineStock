@@ -100,7 +100,7 @@ public class Wine implements Comparable<Wine> {
      *
      * @throws InvalidYearException if the year is after the current year
      */
-    public void setYear(Year year) throws InvalidYearException {
+    public void setYear(@NotNull Year year) throws InvalidYearException {
         if (year.isAfter(Year.now())) {
             LOGGER.error(YEAR_AFTER_CURRENT_YEAR_INVALID);
             throw new InvalidYearException(YEAR_AFTER_CURRENT_YEAR_INVALID);
