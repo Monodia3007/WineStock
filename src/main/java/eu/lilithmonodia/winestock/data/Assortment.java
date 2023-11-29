@@ -302,21 +302,14 @@ public class Assortment<W extends Wine> implements List<W> {
     }
 
     /**
-     * Inserts all the elements in the specified collection into this list at the specified position
-     * (optional operation).
-     * Shifts the element currently at that position (if any) and any subsequent elements to the right
-     * (increases their indices).
-     * The new elements will appear in this list in the order
-     * that they are returned by the specified collection's iterator.
-     * The behavior of this operation is undefined
-     * if the specified collection is modified while the operation is in progress.
-     * (Note that this will occur if the specified collection is this list, and it's nonempty.)
-     * This method also updates the total price and wine names of the assortment.
+     * Inserts all the elements in the specified collection into this list at the specified position.
+     * Existing elements are shifted to the right.
+     * The operation is undefined if the collection is modified while the operation is in progress.
      *
-     * @param index index at which to insert the first element from the specified collection
-     * @param c     collection containing elements to be added to this list
+     * @param index Index at which to insert the first element from the collection
+     * @param c Collection containing elements to be added to this list
      *
-     * @return true if this list changed as a result of the call
+     * @return `true` if this list changed as a result of the call, `false` otherwise
      */
     @Override
     public boolean addAll(int index, @NotNull Collection<? extends W> c) {
@@ -535,16 +528,11 @@ public class Assortment<W extends Wine> implements List<W> {
     }
 
     /**
-     * Returns the index of the first occurrence of the specified element in this list,
-     * or -1 if this list does not contain the element.
-     * More formally,
-     * returns the lowest index i such that
-     * (o==null ? get(i)==null: o.equals(get(i))), or -1 if there is no such index.
+     * Returns the index of the first occurrence of the specified element in the Wine list.
      *
-     * @param o element to search for
+     * @param o Element to search for
      *
-     * @return the index of the first occurrence of the specified element in this list,
-     * or -1 if this list does not contain the element
+     * @return The index of the first occurrence, or -1 if not found
      */
     @Override
     public int indexOf(Object o) {
@@ -552,15 +540,11 @@ public class Assortment<W extends Wine> implements List<W> {
     }
 
     /**
-     * Returns the index of the last occurrence of the specified element in this list,
-     * or -1 if this list does not contain the element.
-     * More formally,
-     * returns the highest index i such that
-     * (o==null ? get(i)==null: o.equals(get(i))), or -1 if there is no such index.
+     * Returns the index of the last occurrence of the specified element in the Wine list.
      *
-     * @param o element to search for
+     * @param o Element to search for
      *
-     * @return the index of the last occurrence of the specified element in this list, or -1 if this list does not contain the element
+     * @return The index of the last occurrence, or -1 if not found
      */
     @Override
     public int lastIndexOf(Object o) {
@@ -568,16 +552,9 @@ public class Assortment<W extends Wine> implements List<W> {
     }
 
     /**
-     * Returns a list iterator over the elements in this list (in a proper sequence).
-     * The returned list iterator is backed by this list,
-     * so non-structural changes in the returned list iterator are reflected in this list, and vice-versa.
-     * The list iterator has no current element;
-     * its cursor position always lies between the element that would be returned by a call to previous()
-     * and the element that would be returned by a call to next().
-     * An initial call to next would return the first element in the list;
-     * an initial call to previous would return the last element in the list.
+     * Returns a list iterator over the elements in the Wine list.
      *
-     * @return a list iterator over the elements in this list (in a proper sequence)
+     * @return List iterator over the elements
      */
     @NotNull
     @Override
@@ -586,16 +563,11 @@ public class Assortment<W extends Wine> implements List<W> {
     }
 
     /**
-     * Returns a list iterator over the elements in this list (in a proper sequence),
-     * starting at the specified position in the list.
-     * The specified index indicates the first element that would be returned by an initial call to next.
-     * An initial call to previous would return the element with the specified index minus one.
-     * The returned list iterator is backed by this list,
-     * so non-structural changes in the returned list iterator are reflected in this list, and vice-versa.
+     * Returns a list iterator over the elements in the Wine list, starting at a specified position.
      *
-     * @param index index of the first element to be returned from the list iterator (by a call to next)
+     * @param index Start position for the iterator
      *
-     * @return a list iterator over the elements in this list (in a proper sequence), starting at the specified position in the list
+     * @return List iterator starting at specified position
      */
     @NotNull
     @Override
@@ -604,17 +576,12 @@ public class Assortment<W extends Wine> implements List<W> {
     }
 
     /**
-     * Returns a view of the portion of this list between the specified fromIndex, inclusive, and toIndex, exclusive.
-     * The returned list is backed by this list,
-     * so non-structural changes in the returned list are reflected in this list, and vice-versa.
-     * This method eliminates the need for explicit range operations (of the sort that commonly exist for arrays).
-     * Any operation that expects a list can be used as a range operation
-     * by passing a subList view instead of a whole list.
+     * Returns a sublist from the Wine list within a specified range.
      *
-     * @param fromIndex low endpoint (inclusive) of the subList
-     * @param toIndex   high endpoint (exclusive) of the subList
+     * @param fromIndex Start index for the sublist
+     * @param toIndex   End index for the sublist
      *
-     * @return a view of the specified range within this list
+     * @return Sublist from the Wine list within the specified range
      */
     @NotNull
     @Override
