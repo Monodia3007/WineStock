@@ -1,7 +1,9 @@
 package eu.lilithmonodia.winestock.data;
 
+import eu.lilithmonodia.winestock.exceptions.WineAlreadyInAssortmentException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.function.Executable;
 
 import java.util.*;
 import java.util.function.Consumer;
@@ -348,5 +350,80 @@ class AssortmentTest {
 
         assertEquals(wine1, assortment.getWineList().get(0));
         assertEquals(wine2, assortment.getWineList().get(1));
+    }
+
+    @Test
+    void testGet() {
+        assortment.add(wine1);
+        assortment.add(wine2);
+        assertEquals(wine1, assortment.get(0));
+        assertEquals(wine2, assortment.get(1));
+    }
+
+    @Test
+    void testSet() {
+        assortment.add(wine1);
+        assortment.set(0, wine2);
+        assertEquals(wine2, assortment.get(0));
+    }
+
+    @Test
+    void testAddAtIndex() {
+        assortment.add(0, wine1);
+        assertEquals(wine1, assortment.get(0));
+    }
+
+    @Test
+    void testRemove() {
+        assortment.add(wine1);
+        assortment.remove(0);
+        assertEquals(0, assortment.size());
+    }
+
+    @Test
+    void testIndexOf() {
+        assortment.add(wine1);
+        assortment.add(wine2);
+        assertEquals(0, assortment.indexOf(wine1));
+        assertEquals(1, assortment.indexOf(wine2));
+    }
+
+    @Test
+    void testLastIndexOf() {
+        assortment.add(wine1);
+        assortment.add(wine2);
+        assertEquals(0, assortment.lastIndexOf(wine1));
+    }
+
+    @Test
+    void testListIterator() {
+        assortment.add(wine1);
+        assortment.add(wine2);
+        ListIterator<Wine> iterator = assortment.listIterator();
+        assertTrue(iterator.hasNext());
+        assertEquals(wine1, iterator.next());
+    }
+
+    @Test
+    void testListIteratorAtIndex() {
+        assortment.add(wine1);
+        assortment.add(wine2);
+        ListIterator<Wine> iterator = assortment.listIterator(1);
+        assertTrue(iterator.hasNext());
+        assertEquals(wine2, iterator.next());
+    }
+
+    @Test
+    void testSubList() {
+        assortment.add(wine1);
+        assortment.add(wine2);
+        assertEquals(Collections.singletonList(wine1), assortment.subList(0, 1));
+    }
+
+    @Test
+    void testAddAllAtIndex() {
+        assortment.addAll(0, Collections.singletonList(wine1));
+
+        assertEquals(wine1, assortment.get(0));
     }
 }

@@ -16,7 +16,7 @@ import java.util.function.Consumer;
  * It allows for various operations including addition, removal, and retrieval of wines.
  * The class maintains the properties such as ID, total price, and wine names in the Assortment.
  */
-public class Assortment<W extends Wine> implements Collection<W> {
+public class Assortment<W extends Wine> implements List<W> {
     private static final Logger LOGGER = LogManager.getLogger(Assortment.class);
     private static final String WINE_IS_NOT_IN_THE_ASSORTMENT = "Wine is not in the assortment";
     private final List<W> wineList;
@@ -201,7 +201,6 @@ public class Assortment<W extends Wine> implements Collection<W> {
             LOGGER.error(new StringBuilder().append(e.getMessage()).append("{}"), e);
             return false;
         }
-
     }
 
     /**
@@ -296,9 +295,40 @@ public class Assortment<W extends Wine> implements Collection<W> {
      */
     @Override
     public boolean addAll(@NotNull Collection<? extends W> c) {
-        boolean result = wineList.addAll(c);
-        this.resetTotalPrice();
-        this.resetWineNames();
+        for (W wine : c) {
+            add(wine);
+        }
+        return true;
+    }
+
+    /**
+     * Inserts all the elements in the specified collection into this list at the specified position
+     * (optional operation).
+     * Shifts the element currently at that position (if any) and any subsequent elements to the right
+     * (increases their indices).
+     * The new elements will appear in this list in the order
+     * that they are returned by the specified collection's iterator.
+     * The behavior of this operation is undefined
+     * if the specified collection is modified while the operation is in progress.
+     * (Note that this will occur if the specified collection is this list, and it's nonempty.)
+     * This method also updates the total price and wine names of the assortment.
+     *
+     * @param index index at which to insert the first element from the specified collection
+     * @param c     collection containing elements to be added to this list
+     *
+     * @return true if this list changed as a result of the call
+     */
+    @Override
+    public boolean addAll(int index, @NotNull Collection<? extends W> c) {
+        boolean result = true;
+        for (W wine : c) {
+            if (wineList.contains(wine)) {
+                LOGGER.error("Wine is already in the assortment or the year of the wine is not matching with the assortment's year");
+                result = false;
+                continue;
+            }
+            this.add(index++, wine);
+        }
         return result;
     }
 
@@ -311,9 +341,10 @@ public class Assortment<W extends Wine> implements Collection<W> {
      */
     @Override
     public boolean removeAll(@NotNull Collection<?> c) {
-        boolean result = wineList.removeAll(c);
-        this.resetTotalPrice();
-        this.resetWineNames();
+        boolean result = true;
+        for (Object obj: c) {
+            result &= remove(obj);
+        }
         return result;
     }
 
@@ -440,5 +471,154 @@ public class Assortment<W extends Wine> implements Collection<W> {
                 getYear(),
                 getTotalPrice(),
                 getWineNames());
+    }
+
+    /**
+     * Returns the element at the specified position in this list.
+     *
+     * @param index index of the element to return
+     *
+     * @return the element at the specified position in this list
+     */
+    @Override
+    public W get(int index) {
+        return this.wineList.get(index);
+    }
+
+    /**
+     * Replaces the element at the specified position in this list with the specified element.
+     * The element previously at the specified position is returned.
+     *
+     * @param index   index of the element to replace
+     * @param element element to be stored at the specified position
+     *
+     * @return the element previously at the specified position
+     */
+    @Override
+    public W set(int index, W element) {
+        return this.wineList.set(index, element);
+    }
+
+    /**
+     * Inserts the specified element at the specified position in this list.
+     * Shifts the element currently at that position (if any) and any subsequent elements to the right
+     * (adds one to their indices).
+     *
+     * @param index   index at which the specified element is to be inserted
+     * @param element element to be inserted
+     */
+    @Override
+    public void add(int index, W element) {
+        try {
+            if (this.wineList.contains(element)) {
+                throw new WineAlreadyInAssortmentException("Wine is already in the assortment");
+            }
+            this.wineList.add(index, element);
+        } catch (WineAlreadyInAssortmentException e) {
+            LOGGER.error(new StringBuilder().append(e.getMessage()).append("{}"), e);
+        }
+
+    }
+
+    /**
+     * Removes the element at the specified position in this list.
+     * Shifts any subsequent elements to the left (subtracts one from their indices).
+     * Returns the element removed from the list.
+     *
+     * @param index the index of the element to be removed
+     *
+     * @return the element previously at the specified position
+     */
+    @Override
+    public W remove(int index) {
+        return this.wineList.remove(index);
+    }
+
+    /**
+     * Returns the index of the first occurrence of the specified element in this list,
+     * or -1 if this list does not contain the element.
+     * More formally,
+     * returns the lowest index i such that
+     * (o==null ? get(i)==null: o.equals(get(i))), or -1 if there is no such index.
+     *
+     * @param o element to search for
+     *
+     * @return the index of the first occurrence of the specified element in this list,
+     * or -1 if this list does not contain the element
+     */
+    @Override
+    public int indexOf(Object o) {
+        return this.wineList.indexOf(o);
+    }
+
+    /**
+     * Returns the index of the last occurrence of the specified element in this list,
+     * or -1 if this list does not contain the element.
+     * More formally,
+     * returns the highest index i such that
+     * (o==null ? get(i)==null: o.equals(get(i))), or -1 if there is no such index.
+     *
+     * @param o element to search for
+     *
+     * @return the index of the last occurrence of the specified element in this list, or -1 if this list does not contain the element
+     */
+    @Override
+    public int lastIndexOf(Object o) {
+        return this.wineList.lastIndexOf(o);
+    }
+
+    /**
+     * Returns a list iterator over the elements in this list (in a proper sequence).
+     * The returned list iterator is backed by this list,
+     * so non-structural changes in the returned list iterator are reflected in this list, and vice-versa.
+     * The list iterator has no current element;
+     * its cursor position always lies between the element that would be returned by a call to previous()
+     * and the element that would be returned by a call to next().
+     * An initial call to next would return the first element in the list;
+     * an initial call to previous would return the last element in the list.
+     *
+     * @return a list iterator over the elements in this list (in a proper sequence)
+     */
+    @NotNull
+    @Override
+    public ListIterator<W> listIterator() {
+        return this.wineList.listIterator();
+    }
+
+    /**
+     * Returns a list iterator over the elements in this list (in a proper sequence),
+     * starting at the specified position in the list.
+     * The specified index indicates the first element that would be returned by an initial call to next.
+     * An initial call to previous would return the element with the specified index minus one.
+     * The returned list iterator is backed by this list,
+     * so non-structural changes in the returned list iterator are reflected in this list, and vice-versa.
+     *
+     * @param index index of the first element to be returned from the list iterator (by a call to next)
+     *
+     * @return a list iterator over the elements in this list (in a proper sequence), starting at the specified position in the list
+     */
+    @NotNull
+    @Override
+    public ListIterator<W> listIterator(int index) {
+        return this.wineList.listIterator(index);
+    }
+
+    /**
+     * Returns a view of the portion of this list between the specified fromIndex, inclusive, and toIndex, exclusive.
+     * The returned list is backed by this list,
+     * so non-structural changes in the returned list are reflected in this list, and vice-versa.
+     * This method eliminates the need for explicit range operations (of the sort that commonly exist for arrays).
+     * Any operation that expects a list can be used as a range operation
+     * by passing a subList view instead of a whole list.
+     *
+     * @param fromIndex low endpoint (inclusive) of the subList
+     * @param toIndex   high endpoint (exclusive) of the subList
+     *
+     * @return a view of the specified range within this list
+     */
+    @NotNull
+    @Override
+    public List<W> subList(int fromIndex, int toIndex) {
+        return this.wineList.subList(fromIndex, toIndex);
     }
 }
