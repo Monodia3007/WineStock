@@ -18,7 +18,6 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.VBox;
-import javafx.util.StringConverter;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.jetbrains.annotations.Nullable;
@@ -26,10 +25,8 @@ import org.jetbrains.annotations.Nullable;
 import java.io.PrintWriter;
 import java.io.StringWriter;
 import java.sql.SQLException;
-import java.time.LocalDate;
 import java.time.Year;
 import java.time.chrono.IsoChronology;
-import java.time.format.DateTimeFormatter;
 import java.util.Objects;
 import java.util.Optional;
 
@@ -43,6 +40,7 @@ public class WineStockController {
     public static final String NO_WINE_SELECTED = "No wine selected.";
     public static final String FAILED_TO_ADD_ASSORTMENT_TO_THE_DATABASE = "Failed to add assortment to the database.";
     public static final String FAILED_TO_ADD_WINE_TO_THE_DATABASE = "Failed to add wine to the database.";
+    public static final String ERROR_ADDING_ASSORTMENT = "Error adding assortment";
     // Manager for PostgreSQL Database
 
     private TabPane rootPane;
@@ -464,13 +462,13 @@ public class WineStockController {
             String yearText = assortmentYearTextField.getText();
             if (yearText.isEmpty() || !yearText.matches("\\d{4}")) {
                 LOGGER.error("Year field is empty.");
-                Platform.runLater(() -> showErrorDialog("Error adding assortment", "Year field is empty.", null));
+                Platform.runLater(() -> showErrorDialog(ERROR_ADDING_ASSORTMENT, "Year field is empty.", null));
                 return;
             }
             Optional<Long> id = postgreSQLManager.insertAssortment(new Assortment<>(Year.parse(yearText)));
             if (id.isEmpty()) {
                 LOGGER.error(FAILED_TO_ADD_ASSORTMENT_TO_THE_DATABASE);
-                Platform.runLater(() -> showErrorDialog("Error adding assortment", FAILED_TO_ADD_ASSORTMENT_TO_THE_DATABASE, null));
+                Platform.runLater(() -> showErrorDialog(ERROR_ADDING_ASSORTMENT, FAILED_TO_ADD_ASSORTMENT_TO_THE_DATABASE, null));
                 return;
             }
             Optional<Assortment<Wine>> assortmentSelected = assortmentsTable.getItems().stream()
@@ -483,7 +481,7 @@ public class WineStockController {
             loadSelectedAssortment();
         } catch (Exception e) {
             LOGGER.error(FAILED_TO_ADD_ASSORTMENT_TO_THE_DATABASE, e);
-            Platform.runLater(() -> showErrorDialog("Error adding assortment", FAILED_TO_ADD_ASSORTMENT_TO_THE_DATABASE, e));
+            Platform.runLater(() -> showErrorDialog(ERROR_ADDING_ASSORTMENT, FAILED_TO_ADD_ASSORTMENT_TO_THE_DATABASE, e));
         }
     }
 
