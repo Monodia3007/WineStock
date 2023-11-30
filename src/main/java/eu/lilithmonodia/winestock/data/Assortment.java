@@ -74,7 +74,7 @@ public class Assortment<W extends Wine> implements List<W> {
      *
      * @return List of Wine objects in the Assortment
      */
-    public List<W> getWineList() {
+    private List<W> getWineList() {
         return wineList;
     }
 

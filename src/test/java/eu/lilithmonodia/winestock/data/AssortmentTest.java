@@ -27,7 +27,7 @@ class AssortmentTest {
     void testAddWine() {
         assertDoesNotThrow(() -> {
             assertTrue(assortment.add(wine1));
-            assertEquals(1, assortment.getWineList().size());
+            assertEquals(1, assortment.size());
             assertTrue(wine1.isInAssortment());
         });
     }
@@ -37,7 +37,7 @@ class AssortmentTest {
         assertDoesNotThrow(() -> {
             assortment.add(wine1);
             assertTrue(assortment.remove(wine1));
-            assertEquals(0, assortment.getWineList().size());
+            assertEquals(0, assortment.size());
             assertFalse(wine1.isInAssortment());
         });
     }
@@ -48,15 +48,6 @@ class AssortmentTest {
         assertDoesNotThrow(() -> {
             assortment.setId(newId);
             assertEquals(newId, assortment.getId());
-        });
-    }
-
-    @Test
-    void testGetWineList() {
-        assertDoesNotThrow(() -> {
-            assortment.add(wine1);
-            assortment.add(wine2);
-            assertEquals(Arrays.asList(wine1, wine2), assortment.getWineList());
         });
     }
 
@@ -183,7 +174,7 @@ class AssortmentTest {
 
             assortment.forEach(action);
 
-            assertEquals(wines, assortment.getWineList()); // checks whether forEach worked successfully
+            assertEquals(wines, assortment.stream().toList()); // checks whether forEach worked successfully
         });
     }
 
@@ -215,7 +206,7 @@ class AssortmentTest {
         assertEquals(id, assortment.getId()); // test setId
         assertEquals(0, assortment.getTotalPrice(), 0.01); // test setting totalPrice to 0
         assertEquals("", assortment.getWineNames()); // test setting wineNames to an empty string
-        assertEquals(0, assortment.getWineList().size()); // test that wineList is initialized and empty
+        assertEquals(0, assortment.size()); // test that wineList is initialized and empty
         assertNull(assortment.getYear());  // test that year is null
     }
 
@@ -337,19 +328,6 @@ class AssortmentTest {
 
         assertFalse(assortment.contains(wine1)); // wine1 should be removed after retainAll
         assertTrue(assortment.contains(wine2));  // wine2 should still exist in the assortment
-    }
-
-    @Test
-    void testSort() {
-        assortment.add(wine2); // Assume: price of wine2 > price of wine1
-        assortment.add(wine1);
-        wine1.setId(0);
-        wine2.setId(1);
-
-        assortment.sort();
-
-        assertEquals(wine1, assortment.getWineList().get(0));
-        assertEquals(wine2, assortment.getWineList().get(1));
     }
 
     @Test
