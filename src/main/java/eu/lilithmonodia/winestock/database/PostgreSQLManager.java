@@ -1,13 +1,11 @@
 package eu.lilithmonodia.winestock.database;
 
-import eu.lilithmonodia.winestock.configuration.Configuration;
 import eu.lilithmonodia.winestock.data.Assortment;
 import eu.lilithmonodia.winestock.data.Wine;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.jetbrains.annotations.NotNull;
 
-import java.io.IOException;
 import java.sql.*;
 import java.time.Year;
 import java.util.ArrayList;
@@ -37,31 +35,14 @@ public class PostgreSQLManager {
     private Connection connection;
 
     /**
-     * Constructs a new PostgreSQLManager instance.
-     *
-     * @throws IOException  if there is an error reading the configuration file
-     * @throws SQLException if there is an error establishing the database connection
-     */
-    public PostgreSQLManager() throws IOException, SQLException {
-        this(
-                Configuration.fromConfig().databaseHost(),
-                Configuration.fromConfig().databaseUser(),
-                Configuration.fromConfig().userPassword());
-    }
-
-    /**
      * Constructs a new PostgreSQLManager instance with the given credentials.
      *
+     * @param url      the URL for the database connection
      * @param user     the username for the database connection
      * @param password the password for the database connection
      *
-     * @throws IOException  if there is an error reading the configuration file
      * @throws SQLException if there is an error establishing the database connection
      */
-    public PostgreSQLManager(String user, String password) throws IOException, SQLException {
-        this(Configuration.fromConfig().databaseHost(), user, password);
-    }
-
     public PostgreSQLManager(String url, String user, String password) throws SQLException {
         this.url = url;
         this.user = user;
