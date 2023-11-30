@@ -22,7 +22,6 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.jetbrains.annotations.Nullable;
 
-import java.io.IOException;
 import java.io.PrintWriter;
 import java.io.StringWriter;
 import java.sql.SQLException;
@@ -71,6 +70,8 @@ public class WineStockController {
     private TableColumn<Wine, String> wineTableComment;
 
     // FXML variables for the UI.
+    @FXML
+    private TextField hostField;
     @FXML
     private TextField usernameField;
     @FXML
@@ -173,6 +174,9 @@ public class WineStockController {
      * On successful login, the importButton is enabled; otherwise, it gets disabled.
      */
     public void login() {
+        String url = "jdbc:postgresql://" +
+                hostField.getText() +
+                ":5432/winestock?sslmode=disable";
         String username = usernameField.getText();
         String password = passwordField.getText();
 
@@ -182,7 +186,7 @@ public class WineStockController {
         Task<Void> task = new Task<>() {
             @Override
             public @Nullable Void call() {
-                attemptLogin(username, password);
+                attemptLogin(url, username, password);
                 return null;
             }
         };
@@ -202,13 +206,13 @@ public class WineStockController {
      * @param username the username for logging in to the database
      * @param password the password for logging in to the database
      */
-    private void attemptLogin(String username, String password) {
+    private void attemptLogin(String url, String username, String password) {
         try {
-            postgreSQLManager = new PostgreSQLManager(username, password);
+            postgreSQLManager = new PostgreSQLManager(url ,username, password);
             postgreSQLManager.connect();
             importButton.setDisable(false);
             LOGGER.info("Successful login. Connection established.");
-        } catch (IOException | SQLException e) {
+        } catch (SQLException e) {
             importButton.setDisable(true);
             LOGGER.error("Failed to login and establish database connection.", e);
             Platform.runLater(() -> showErrorDialog("Error logging in", "Failed to login and establish database connection.", e));

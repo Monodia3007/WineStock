@@ -55,7 +55,11 @@ public class PostgreSQLManager {
      * @throws SQLException if there is an error establishing the database connection
      */
     public PostgreSQLManager(String user, String password) throws IOException, SQLException {
-        this.url = Configuration.fromConfig().databaseHost();
+        this(Configuration.fromConfig().databaseHost(), user, password);
+    }
+
+    public PostgreSQLManager(String url, String user, String password) throws SQLException {
+        this.url = url;
         this.user = user;
         this.password = password;
         this.connection = DriverManager.getConnection(url, user, password);
