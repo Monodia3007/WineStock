@@ -3,6 +3,7 @@ package eu.lilithmonodia.winestock.data;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import java.time.Year;
 import java.util.*;
 import java.util.function.Consumer;
 
@@ -414,5 +415,30 @@ class AssortmentTest {
         assortment.addAll(0, Collections.singletonList(wine1));
 
         assertEquals(wine1, assortment.get(0));
+    }
+
+    @Test
+    void testConstructorWithIdAndYear() {
+        int id = 12345;
+        Year year = Year.of(2024);
+        Assortment<Wine> assortment = new Assortment<>(id, year);
+
+        assertEquals(id, assortment.getId()); // test setId
+        assertEquals(year, assortment.getYear()); // test setYear
+        assertEquals(0, assortment.getTotalPrice(), 0.01); // test setting totalPrice to 0
+        assertEquals("", assortment.getWineNames()); // test setting wineNames to an empty string
+        assertEquals(0, assortment.size()); // test that wineList is initialized and empty
+    }
+
+    @Test
+    void testConstructorWithYear() {
+        Year year = Year.of(2024);
+        Assortment<Wine> assortment = new Assortment<>(year);
+
+        assertEquals(-1, assortment.getId()); // test default setId
+        assertEquals(year, assortment.getYear()); // test setYear
+        assertEquals(0, assortment.getTotalPrice(), 0.01); // test setting totalPrice to 0
+        assertEquals("", assortment.getWineNames()); // test setting wineNames to an empty string
+        assertEquals(0, assortment.size()); // test that wineList is initialized and empty
     }
 }
