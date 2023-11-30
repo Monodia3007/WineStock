@@ -118,6 +118,20 @@ public class WineStockController {
     private Button assortmentAddButton;
     @FXML
     private Button assortmentDeleteButton;
+    @FXML
+    private TableColumn<Wine, Integer> assortmentWinesTableID;
+    @FXML
+    private TableColumn<Wine, String> assortmentWinesTableName;
+    @FXML
+    private TableColumn<Wine, Year> assortmentWinesTableYear;
+    @FXML
+    private TableColumn<Wine, BottleSize> assortmentWinesTableVolume;
+    @FXML
+    private TableColumn<Wine, Color> assortmentWinesTableColor;
+    @FXML
+    private TableColumn<Wine, Double> assortmentWinesTablePrice;
+    @FXML
+    private TableColumn<Wine, String> assortmentWinesTableComment;
 
     /**
      * Sets the root pane of the application.
@@ -182,19 +196,14 @@ public class WineStockController {
     private void setCellValueFactories() {
         setWineTableCellValueFactories();
         setAssortmentTableCellValueFactories();
+        setAssortmentWinesTableCellValueFactories();
     }
 
     /**
      * Sets cell value factories for each TableColumn in Wine TableView.
      */
     private void setWineTableCellValueFactories() {
-        wineTableID.setCellValueFactory(new PropertyValueFactory<>("id"));
-        wineTableName.setCellValueFactory(new PropertyValueFactory<>("name"));
-        wineTableYear.setCellValueFactory(new PropertyValueFactory<>("year"));
-        wineTableVolume.setCellValueFactory(new PropertyValueFactory<>("volume"));
-        wineTableColor.setCellValueFactory(new PropertyValueFactory<>("color"));
-        wineTablePrice.setCellValueFactory(new PropertyValueFactory<>("price"));
-        wineTableComment.setCellValueFactory(new PropertyValueFactory<>("comment"));
+        setCellValueFactories(wineTableID, wineTableName, wineTableYear, wineTableVolume, wineTableColor, wineTablePrice, wineTableComment);
     }
 
     /**
@@ -205,6 +214,29 @@ public class WineStockController {
         assortmentWines.setCellValueFactory(new PropertyValueFactory<>("wineNames"));
         assortmentYear.setCellValueFactory(new PropertyValueFactory<>("year"));
         assortmentTotalPrice.setCellValueFactory(new PropertyValueFactory<>("totalPrice"));
+    }
+
+    /**
+     * Sets cell value factories for each TableColumn in Assortment Wines TableView.
+     */
+    private void setAssortmentWinesTableCellValueFactories() {
+        setCellValueFactories(assortmentWinesTableID, assortmentWinesTableName, assortmentWinesTableYear, assortmentWinesTableVolume, assortmentWinesTableColor, assortmentWinesTablePrice, assortmentWinesTableComment);
+    }
+
+    private <T> void setCellValueFactories(TableColumn<T, ?> tableID,
+                                           TableColumn<T, ?> tableName,
+                                           TableColumn<T, ?> tableYear,
+                                           TableColumn<T, ?> tableVolume,
+                                           TableColumn<T, ?> tableColor,
+                                           TableColumn<T, ?> tablePrice,
+                                           TableColumn<T, ?> tableComment) {
+        tableID.setCellValueFactory(new PropertyValueFactory<>("id"));
+        tableName.setCellValueFactory(new PropertyValueFactory<>("name"));
+        tableYear.setCellValueFactory(new PropertyValueFactory<>("year"));
+        tableVolume.setCellValueFactory(new PropertyValueFactory<>("volume"));
+        tableColor.setCellValueFactory(new PropertyValueFactory<>("color"));
+        tablePrice.setCellValueFactory(new PropertyValueFactory<>("price"));
+        tableComment.setCellValueFactory(new PropertyValueFactory<>("comment"));
     }
 
     /**
@@ -420,6 +452,18 @@ public class WineStockController {
         } catch (Exception e) {
             LOGGER.error("Failed to delete wine from assortment in the database.", e);
             Platform.runLater(() -> showErrorDialog("Error deleting wine from assortment", "Failed to delete wine from assortment in the database.", e));
+        }
+    }
+
+    @FXML
+    public void loadSelectedAssortment() {
+        Assortment<Wine> selectedAssortment = assortmentsTable.getSelectionModel().getSelectedItem();
+        if (selectedAssortment != null) {
+            this.currentlySelectedAssortment = selectedAssortment;
+            assortmentWinesTable.setItems(FXCollections.observableArrayList(selectedAssortment));
+        } else {
+            LOGGER.error("No assortment selected.");
+            Platform.runLater(() -> showErrorDialog("Error loading assortment", "No assortment selected.", null));
         }
     }
 }
