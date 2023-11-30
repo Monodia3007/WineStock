@@ -428,9 +428,17 @@ public class Assortment<W extends Wine> implements List<W> {
      */
     @Override
     public String toString() {
-        return "Assortment{" +
-                "wineList=" + wineList +
-                '}';
+        StringBuilder sb = new StringBuilder();
+
+        sb.append("Assortment{").append("\n\tid=").append(id).append("\n\tWines {\n");
+
+        for (W wine : wineList) {
+            sb.append("\t\t").append(wine).append("\n");
+        }
+
+        sb.append("\t}\n\ttotalPrice=").append(totalPrice).append("\n}");
+
+        return sb.toString();
     }
 
     /**
