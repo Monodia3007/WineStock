@@ -14,7 +14,7 @@ plugins {
 
 // Basic Metadata - This section contains basic metadata for your project.
 group = 'eu.lilithmonodia'
-version = '0.7'
+version = '1.0.0'
 
 // Indicate where Gradle should look for dependencies
 repositories {
@@ -87,7 +87,7 @@ jlink {
             imageOptions = ['--icon', 'src/main/resources/icon.ico']
             installerOptions = ['--win-shortcut', '--win-shortcut-prompt', '--win-menu', '--win-dir-chooser']
         } else if (org.gradle.internal.os.OperatingSystem.current().macOsX) {
-            imageOptions = ['--icon', 'src/main/resources/eu/lilithmonodia/winestock/icon.icns']
+            imageOptions = ['--icon', 'src/main/resources/icon.icns']
             installerOptions = ['--mac-package-name', 'WineStock', '--mac-package-identifier', 'eu.lilithmonodia.winestock']
         } else {
             imageOptions = ['--icon', 'src/main/resources/eu/lilithmonodia/winestock/icon.png']
