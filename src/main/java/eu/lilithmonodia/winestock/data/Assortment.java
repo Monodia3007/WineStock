@@ -432,7 +432,7 @@ public class Assortment<W extends Wine> implements List<W> {
 
         sb.append("Assortment{").append("\n\tid=").append(id).append("\n\tWines {\n");
 
-        for (W wine : wineList) {
+        for (W wine : this) {
             sb.append("\t\t").append(wine).append("\n");
         }
 
