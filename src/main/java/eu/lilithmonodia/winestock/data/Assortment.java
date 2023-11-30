@@ -51,6 +51,15 @@ public class Assortment<W extends Wine> implements List<W> {
         wineNames = "";
     }
 
+    /**
+     * Overloaded constructor for the Assortment class.
+     * <p>
+     * Initializes an Assortment with the given ID, an empty Wine list,
+     * the specified year, total price of zero, and an empty wine names string.
+     *
+     * @param id   The ID for the Assortment
+     * @param year The year for the Assortment
+     */
     public Assortment(int id, Year year) {
         this.id = id;
         wineList = new ArrayList<>();
@@ -59,6 +68,15 @@ public class Assortment<W extends Wine> implements List<W> {
         wineNames = "";
     }
 
+    /**
+     * Overloaded constructor for the Assortment class.
+     * <p>
+     * Initializes an Assortment with a default ID of -1 and the given year.
+     * The constructor also initializes an empty Wine list, total price of zero,
+     * and an empty wine names string.
+     *
+     * @param year The Year for the Assortment
+     */
     public Assortment(Year year) {
         this(-1, year);
     }

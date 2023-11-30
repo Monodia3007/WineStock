@@ -334,7 +334,12 @@ public class PostgreSQLManager {
         return Optional.empty();
     }
 
-
+    /**
+     * Deletes a wine from the assortment in the database.
+     *
+     * @param wine the Wine object representing the wine to be deleted
+     * @throws SQLException if an SQL exception occurs while deleting the wine
+     */
     public void deleteWineInAssortment (Wine wine) throws SQLException {
         try (PreparedStatement pstmt = connect().prepareStatement(UPDATE_WINE_IN_ASSORTMENT_SQL)) {
             pstmt.setNull(1, Types.INTEGER);

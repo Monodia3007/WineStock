@@ -37,12 +37,12 @@ import java.util.Optional;
  */
 public class WineStockController {
     private static final Logger LOGGER = LogManager.getLogger(WineStockController.class);
-    public static final String NO_WINE_SELECTED = "No wine selected.";
-    public static final String FAILED_TO_ADD_ASSORTMENT_TO_THE_DATABASE = "Failed to add assortment to the database.";
-    public static final String FAILED_TO_ADD_WINE_TO_THE_DATABASE = "Failed to add wine to the database.";
-    public static final String ERROR_ADDING_ASSORTMENT = "Error adding assortment";
-    public static final String ERROR_ADDING_WINE_TO_ASSORTMENT = "Error adding wine to assortment";
-    public static final String NO_ASSORTMENT_SELECTED = "No assortment selected.";
+    private static final String NO_WINE_SELECTED = "No wine selected.";
+    private static final String FAILED_TO_ADD_ASSORTMENT_TO_THE_DATABASE = "Failed to add assortment to the database.";
+    private static final String FAILED_TO_ADD_WINE_TO_THE_DATABASE = "Failed to add wine to the database.";
+    private static final String ERROR_ADDING_ASSORTMENT = "Error adding assortment";
+    private static final String ERROR_ADDING_WINE_TO_ASSORTMENT = "Error adding wine to assortment";
+    private static final String NO_ASSORTMENT_SELECTED = "No assortment selected.";
     // Manager for PostgreSQL Database
 
     private TabPane rootPane;
