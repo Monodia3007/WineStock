@@ -1,9 +1,7 @@
 package eu.lilithmonodia.winestock.data;
 
-import eu.lilithmonodia.winestock.exceptions.WineAlreadyInAssortmentException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.function.Executable;
 
 import java.util.*;
 import java.util.function.Consumer;
@@ -18,7 +16,7 @@ class AssortmentTest {
 
     @BeforeEach
     void setUp() {
-        assortment = new Assortment();
+        assortment = new Assortment<>();
         wine1 = new Wine.Builder("Wine1", 2020, 75, "ROUGE", 50.0).build();
         wine2 = new Wine.Builder("Wine2", 2020, 75, "BLANC", 100.0).build();
     }
