@@ -37,6 +37,8 @@ import java.util.Optional;
 public class WineStockController {
     private static final Logger LOGGER = LogManager.getLogger(WineStockController.class);
     public static final String NO_WINE_SELECTED = "No wine selected.";
+    public static final String FAILED_TO_ADD_ASSORTMENT_TO_THE_DATABASE = "Failed to add assortment to the database.";
+    public static final String FAILED_TO_ADD_WINE_TO_THE_DATABASE = "Failed to add wine to the database.";
     // Manager for PostgreSQL Database
 
     private TabPane rootPane;
@@ -373,8 +375,8 @@ public class WineStockController {
                     Double.parseDouble(winePriceField.getText())
             ).comment(wineCommentField.getText()).build());
             if (id.isEmpty()) {
-                LOGGER.error("Failed to add wine to the database.");
-                Platform.runLater(() -> showErrorDialog("Error adding wine", "Failed to add wine to the database.", null));
+                LOGGER.error(FAILED_TO_ADD_WINE_TO_THE_DATABASE);
+                Platform.runLater(() -> showErrorDialog("Error adding wine", FAILED_TO_ADD_WINE_TO_THE_DATABASE, null));
                 return;
             }
 
@@ -386,8 +388,8 @@ public class WineStockController {
             refresh();
             loadSelectedWine();
         } catch (Exception e) {
-            LOGGER.error("Failed to add wine to the database.", e);
-            Platform.runLater(() -> showErrorDialog("Error adding wine", "Failed to add wine to the database.", e));
+            LOGGER.error(FAILED_TO_ADD_WINE_TO_THE_DATABASE, e);
+            Platform.runLater(() -> showErrorDialog("Error adding wine", FAILED_TO_ADD_WINE_TO_THE_DATABASE, e));
         }
     }
 
@@ -396,6 +398,7 @@ public class WineStockController {
         try {
             postgreSQLManager.deleteWine(this.currentlySelectedWine);
             refresh();
+            currentlySelectedWine = null;
         } catch (Exception e) {
             LOGGER.error("Failed to delete wine from the database.", e);
             Platform.runLater(() -> showErrorDialog("Error deleting wine", "Failed to delete wine from the database.", e));
@@ -448,8 +451,8 @@ public class WineStockController {
         try {
             Optional<Long> id = postgreSQLManager.insertAssortment(new Assortment<>());
             if (id.isEmpty()) {
-                LOGGER.error("Failed to add assortment to the database.");
-                Platform.runLater(() -> showErrorDialog("Error adding assortment", "Failed to add assortment to the database.", null));
+                LOGGER.error(FAILED_TO_ADD_ASSORTMENT_TO_THE_DATABASE);
+                Platform.runLater(() -> showErrorDialog("Error adding assortment", FAILED_TO_ADD_ASSORTMENT_TO_THE_DATABASE, null));
                 return;
             }
             Optional<Assortment<Wine>> assortmentSelected = assortmentsTable.getItems().stream()
@@ -461,8 +464,8 @@ public class WineStockController {
             refresh();
             loadSelectedAssortment();
         } catch (Exception e) {
-            LOGGER.error("Failed to add assortment to the database.", e);
-            Platform.runLater(() -> showErrorDialog("Error adding assortment", "Failed to add assortment to the database.", e));
+            LOGGER.error(FAILED_TO_ADD_ASSORTMENT_TO_THE_DATABASE, e);
+            Platform.runLater(() -> showErrorDialog("Error adding assortment", FAILED_TO_ADD_ASSORTMENT_TO_THE_DATABASE, e));
         }
     }
 
@@ -471,6 +474,7 @@ public class WineStockController {
         try {
             postgreSQLManager.deleteAssortment(this.currentlySelectedAssortment);
             refresh();
+            currentlySelectedAssortment = null;
         } catch (Exception e) {
             LOGGER.error("Failed to delete assortment from the database.", e);
             Platform.runLater(() -> showErrorDialog("Error deleting assortment", "Failed to delete assortment from the database.", e));
