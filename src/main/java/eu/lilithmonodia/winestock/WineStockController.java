@@ -111,8 +111,6 @@ public class WineStockController {
 
     // FXML variables for the Assortment modifying/adding/deleting UI.
     @FXML
-    private TextField assortmentNameField;
-    @FXML
     private TableView<Wine> assortmentWinesTable;
     @FXML
     private Button assortmentAddButton;
@@ -161,6 +159,7 @@ public class WineStockController {
      * If an exception is thrown during the import process, the method logs an error
      * message and sets the cursor back to its default state.
      */
+    @FXML
     public void importDatabase() {
         LOGGER.info("Database import initiated.");
 
@@ -243,6 +242,7 @@ public class WineStockController {
      * Attempts to log in the user by establishing a PostgreSQL database connection.
      * On successful login, the importButton is enabled; otherwise, it gets disabled.
      */
+    @FXML
     public void login() {
         if (portField.getText().isEmpty()) {
             portField.setText("5432");
@@ -343,6 +343,7 @@ public class WineStockController {
         alert.showAndWait();
     }
 
+    @FXML
     public void addWine() {
         try {
             postgreSQLManager.insertWine(new Wine.Builder(
@@ -359,6 +360,7 @@ public class WineStockController {
         }
     }
 
+    @FXML
     public void deleteWine() {
         try {
             postgreSQLManager.deleteWine(this.currentlySelectedWine);
@@ -369,6 +371,7 @@ public class WineStockController {
         }
     }
 
+    @FXML
     public void modifyWine() {
         if (this.currentlySelectedWine != null) {
             try {
@@ -409,6 +412,7 @@ public class WineStockController {
         }
     }
 
+    @FXML
     public void addAssortment() {
         try {
             postgreSQLManager.insertAssortment(new Assortment<>());
@@ -419,6 +423,7 @@ public class WineStockController {
         }
     }
 
+    @FXML
     public void deleteAssortment() {
         try {
             postgreSQLManager.deleteAssortment(this.currentlySelectedAssortment);
@@ -429,6 +434,7 @@ public class WineStockController {
         }
     }
 
+    @FXML
     public void addWineToAssortment() {
         try {
             postgreSQLManager.insertWineInAssortment(
@@ -442,6 +448,7 @@ public class WineStockController {
         }
     }
 
+    @FXML
     public void deleteWineFromAssortment() {
         try {
             postgreSQLManager.deleteWineInAssortment(
