@@ -113,6 +113,8 @@ public class WineStockController {
     @FXML
     private TableView<Wine> assortmentWinesTable;
     @FXML
+    private TableView<Wine> notAssortmentWinesTable;
+    @FXML
     private Button assortmentAddButton;
     @FXML
     private Button assortmentDeleteButton;
@@ -130,6 +132,20 @@ public class WineStockController {
     private TableColumn<Wine, Double> assortmentWinesTablePrice;
     @FXML
     private TableColumn<Wine, String> assortmentWinesTableComment;
+    @FXML
+    private TableColumn<Wine, Integer> notAssortmentWinesTableID;
+    @FXML
+    private TableColumn<Wine, String> notAssortmentWinesTableName;
+    @FXML
+    private TableColumn<Wine, Year> notAssortmentWinesTableYear;
+    @FXML
+    private TableColumn<Wine, BottleSize> notAssortmentWinesTableVolume;
+    @FXML
+    private TableColumn<Wine, Color> notAssortmentWinesTableColor;
+    @FXML
+    private TableColumn<Wine, Double> notAssortmentWinesTablePrice;
+    @FXML
+    private TableColumn<Wine, String> notAssortmentWinesTableComment;
 
     /**
      * Sets the root pane of the application.
@@ -300,6 +316,8 @@ public class WineStockController {
         try {
             wineTable.setItems(FXCollections.observableArrayList(postgreSQLManager.getAllWine()));
             assortmentsTable.setItems(FXCollections.observableArrayList(postgreSQLManager.getAllAssortments()));
+            notAssortmentWinesTable.setItems(FXCollections.observableArrayList(postgreSQLManager.getAllWine()));
+
         } catch (Exception e) {
             LOGGER.error("Failed to refresh data from the database.", e);
             Platform.runLater(() -> showErrorDialog("Error refreshing data", "Failed to refresh data from the database.", e));
@@ -438,7 +456,7 @@ public class WineStockController {
     public void addWineToAssortment() {
         try {
             postgreSQLManager.insertWineInAssortment(
-                    assortmentWinesTable.getSelectionModel().getSelectedItem(),
+                    notAssortmentWinesTable.getSelectionModel().getSelectedItem(),
                     (long)this.currentlySelectedAssortment.getId()
             );
             refresh();
