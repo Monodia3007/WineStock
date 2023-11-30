@@ -59,9 +59,7 @@ class WineTest {
 
     @Test
     void testSetYearInvalid() {
-        assertThrows(InvalidYearException.class, () -> {
-            wine.setYear(Year.now().plusYears(1));
-        });
+        assertThrows(InvalidYearException.class, () -> wine.setYear(Year.now().plusYears(1)));
     }
 
     @Test
@@ -161,23 +159,17 @@ class WineTest {
 
     @Test
     void testInvalidColor() {
-        assertThrows(IllegalArgumentException.class, () -> {
-            new Wine.Builder("Cabernet", 2018, 75.0, "INVALID_COLOR", 150.0).build();
-        });
+        assertThrows(IllegalArgumentException.class, () -> new Wine.Builder("Cabernet", 2018, 75.0, "INVALID_COLOR", 150.0).build());
     }
 
     @Test
     void testInvalidBottleSize() {
-        assertThrows(IllegalArgumentException.class, () -> {
-            new Wine.Builder("Cabernet", 2018, 999, "ROUGE", 150.0).build();
-        });
+        assertThrows(IllegalArgumentException.class, () -> new Wine.Builder("Cabernet", 2018, 999, "ROUGE", 150.0).build());
     }
 
     @Test
     void testInvalidYearInFutureInBuilder() {
-        assertThrows(IllegalArgumentException.class, () -> {
-            new Wine.Builder("Cabernet", Year.now().getValue() + 1, 75.0, "ROUGE", 150.0).build();
-        });
+        assertThrows(IllegalArgumentException.class, () -> new Wine.Builder("Cabernet", Year.now().getValue() + 1, 75.0, "ROUGE", 150.0).build());
     }
 
     @Test
