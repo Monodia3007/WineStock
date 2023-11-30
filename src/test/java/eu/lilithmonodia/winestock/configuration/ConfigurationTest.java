@@ -20,7 +20,7 @@ class ConfigurationTest {
 
     @Test
     void testDatabaseHost() {
-        String expected = "jdbc:postgresql://lilith-monodia.eu:5432/winestock"; // Please adjust this
+        String expected = "jdbc:postgresql://lilith-monodia.eu:5432/winestock?sslmode=disable"; // Please adjust this
         String actual = configuration.databaseHost();
         Assertions.assertEquals(expected, actual);
     }
