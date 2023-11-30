@@ -17,11 +17,14 @@ import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.layout.VBox;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.jetbrains.annotations.Nullable;
 
 import java.io.IOException;
+import java.io.PrintWriter;
+import java.io.StringWriter;
 import java.sql.SQLException;
 import java.time.Year;
 import java.util.Objects;
@@ -123,6 +126,7 @@ public class WineStockController {
                     LOGGER.error("Failed to import database.", e);
                     // Set cursor to normal
                     Platform.runLater(() -> scene.setCursor(Cursor.DEFAULT));
+                    Platform.runLater(() -> showErrorDialog("Error importing database", "Failed to import database.", e));
                 }
                 return null;
             }
@@ -207,6 +211,7 @@ public class WineStockController {
         } catch (IOException | SQLException e) {
             importButton.setDisable(true);
             LOGGER.error("Failed to login and establish database connection.", e);
+            Platform.runLater(() -> showErrorDialog("Error logging in", "Failed to login and establish database connection.", e));
         }
     }
 
@@ -220,6 +225,7 @@ public class WineStockController {
             assortmentsTable.setItems(FXCollections.observableArrayList(postgreSQLManager.getAllAssortments()));
         } catch (Exception e) {
             LOGGER.error("Failed to refresh data from the database.", e);
+            Platform.runLater(() -> showErrorDialog("Error refreshing data", "Failed to refresh data from the database.", e));
         }
     }
 
@@ -234,9 +240,30 @@ public class WineStockController {
                 this.postgreSQLManager.close();
             } catch (SQLException e) {
                 LOGGER.error("Failed to close PostgreSQLManager", e); // Handle exception appropriately
+                Platform.runLater(() -> showErrorDialog("Error closing application", "Failed to close PostgreSQLManager", e));
             }
         }
     }
+
+    private void showErrorDialog(String title, String message, Exception ex) {
+        Alert alert = new Alert(Alert.AlertType.ERROR);
+        alert.setTitle(title);
+        alert.setHeaderText(message);
+        StringWriter sw = new StringWriter();
+        PrintWriter pw = new PrintWriter(sw);
+        ex.printStackTrace(pw);
+        String exceptionText = sw.toString();
+        Label label = new Label("The following exception occurred:");
+
+        TextArea textArea = new TextArea(exceptionText);
+        textArea.setEditable(false);
+        textArea.setWrapText(false);
+
+        VBox expContent = new VBox(label, textArea);
+        alert.getDialogPane().setExpandableContent(expContent);
+        alert.showAndWait();
+    }
+
     //TODO add an interface for the user to add/modify/delete wines and assortments and an interface
     // to search for wines and assortments
 }

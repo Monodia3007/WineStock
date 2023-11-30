@@ -1,5 +1,5 @@
 {
-  "databaseHost": "jdbc:postgresql://lilith-monodia.eu:5432/winestock",
+  "databaseHost": "jdbc:postgresql://lilith-monodia.eu:5432/winestock?sslmode=disable",
   "databaseUser": "",
   "userPassword": ""
 }
