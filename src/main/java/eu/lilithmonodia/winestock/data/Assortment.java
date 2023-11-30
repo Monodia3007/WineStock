@@ -51,6 +51,18 @@ public class Assortment<W extends Wine> implements List<W> {
         wineNames = "";
     }
 
+    public Assortment(int id, Year year) {
+        this.id = id;
+        wineList = new ArrayList<>();
+        this.year = year;
+        totalPrice = 0;
+        wineNames = "";
+    }
+
+    public Assortment(Year year) {
+        this(-1, year);
+    }
+
     /**
      * Returns the ID of the Assortment.
      *

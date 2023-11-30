@@ -9,6 +9,7 @@ import org.jetbrains.annotations.NotNull;
 
 import java.io.IOException;
 import java.sql.*;
+import java.time.Year;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -193,7 +194,7 @@ public class PostgreSQLManager {
      * @throws SQLException if an error occurs while accessing the ResultSet
      */
     private @NotNull Assortment<Wine> fetchAssortmentByResultSet(@NotNull ResultSet resultSet) throws SQLException {
-        Assortment<Wine> assortment = new Assortment<>(resultSet.getInt("ano"));
+        Assortment<Wine> assortment = new Assortment<>(resultSet.getInt("ano"), Year.of(resultSet.getInt("year")));
         try (PreparedStatement pstmtWines = connect().prepareStatement(WINE_SELECT_ASSORTMENT_SQL)) {
             pstmtWines.setInt(1, resultSet.getInt("ano"));
             try (ResultSet resultSetWines = pstmtWines.executeQuery()) {
@@ -233,6 +234,7 @@ public class PostgreSQLManager {
      */
     public Optional<Long> insertAssortment(Assortment<Wine> assortment) {
         try {
+            connect();
             connection.setAutoCommit(false);
             Optional<Long> assortmentId = insertAssortmentInternal(assortment);
 

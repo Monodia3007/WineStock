@@ -18,6 +18,7 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.VBox;
+import javafx.util.StringConverter;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.jetbrains.annotations.Nullable;
@@ -25,7 +26,10 @@ import org.jetbrains.annotations.Nullable;
 import java.io.PrintWriter;
 import java.io.StringWriter;
 import java.sql.SQLException;
+import java.time.LocalDate;
 import java.time.Year;
+import java.time.chrono.IsoChronology;
+import java.time.format.DateTimeFormatter;
 import java.util.Objects;
 import java.util.Optional;
 
@@ -96,8 +100,6 @@ public class WineStockController {
     @FXML
     private TextField wineYearField;
     @FXML
-    private TextField wineVolumeField;
-    @FXML
     private TextField winePriceField;
     @FXML
     private TextField wineCommentField;
@@ -113,6 +115,8 @@ public class WineStockController {
     private Button wineModifyButton;
 
     // FXML variables for the Assortment modifying/adding/deleting UI.
+    @FXML
+    private TextField assortmentYearTextField;
     @FXML
     private TableView<Wine> assortmentWinesTable;
     @FXML
@@ -166,6 +170,9 @@ public class WineStockController {
     public void initialize() {
         icon.setImage(new Image(Objects.requireNonNull(getClass().getResourceAsStream("icon.png"))));
         importButton.setDisable(true);
+        wineVolumeComboBox.setItems(FXCollections.observableArrayList(BottleSize.values()));
+        wineColorComboBox.setItems(FXCollections.observableArrayList(Color.values()));
+        assortmentYearTextField.setText(String.valueOf(IsoChronology.INSTANCE.dateNow().getYear()));
     }
 
     /**
@@ -215,6 +222,7 @@ public class WineStockController {
         setWineTableCellValueFactories();
         setAssortmentTableCellValueFactories();
         setAssortmentWinesTableCellValueFactories();
+        setNotAssortmentWinesTableCellValueFactories();
     }
 
     /**
@@ -239,6 +247,10 @@ public class WineStockController {
      */
     private void setAssortmentWinesTableCellValueFactories() {
         setCellValueFactories(assortmentWinesTableID, assortmentWinesTableName, assortmentWinesTableYear, assortmentWinesTableVolume, assortmentWinesTableColor, assortmentWinesTablePrice, assortmentWinesTableComment);
+    }
+
+    private void setNotAssortmentWinesTableCellValueFactories() {
+        setCellValueFactories(notAssortmentWinesTableID, notAssortmentWinesTableName, notAssortmentWinesTableYear, notAssortmentWinesTableVolume, notAssortmentWinesTableColor, notAssortmentWinesTablePrice, notAssortmentWinesTableComment);
     }
 
     private <T> void setCellValueFactories(TableColumn<T, ?> tableID,
@@ -449,7 +461,13 @@ public class WineStockController {
     @FXML
     public void addAssortment() {
         try {
-            Optional<Long> id = postgreSQLManager.insertAssortment(new Assortment<>());
+            String yearText = assortmentYearTextField.getText();
+            if (yearText.isEmpty() || !yearText.matches("\\d{4}")) {
+                LOGGER.error("Year field is empty.");
+                Platform.runLater(() -> showErrorDialog("Error adding assortment", "Year field is empty.", null));
+                return;
+            }
+            Optional<Long> id = postgreSQLManager.insertAssortment(new Assortment<>(Year.parse(yearText)));
             if (id.isEmpty()) {
                 LOGGER.error(FAILED_TO_ADD_ASSORTMENT_TO_THE_DATABASE);
                 Platform.runLater(() -> showErrorDialog("Error adding assortment", FAILED_TO_ADD_ASSORTMENT_TO_THE_DATABASE, null));
