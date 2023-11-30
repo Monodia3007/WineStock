@@ -38,11 +38,10 @@ public class PostgreSQLManager {
      * @throws SQLException if there is an error establishing the database connection
      */
     public PostgreSQLManager() throws IOException, SQLException {
-        Configuration cfg = Configuration.fromConfig();
-        this.url = cfg.databaseHost();
-        this.user = cfg.databaseUser();
-        this.password = cfg.userPassword();
-        this.connection = DriverManager.getConnection(url, user, password);
+        this(
+                Configuration.fromConfig().databaseHost(),
+                Configuration.fromConfig().databaseUser(),
+                Configuration.fromConfig().userPassword());
     }
 
     /**
