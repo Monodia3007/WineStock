@@ -105,52 +105,7 @@ public class Assortment<W extends Wine> implements List<W> {
         return year;
     }
 
-    /**
-     * Resets the `wineNames` attribute according to the current `wineList`.
-     */
-    private void resetWineNames() {
-        StringBuilder wineNamesBuilder = new StringBuilder();
-        for (W wine : wineList) {
-            if (!wineNamesBuilder.isEmpty()) {
-                wineNamesBuilder.append(", ");
-            }
-            wineNamesBuilder.append(wine.getName());
-        }
-        this.wineNames = wineNamesBuilder.toString();
-    }
-
-    private void resetTotalPrice() {
-        this.totalPrice = 0;
-        for (W wine : wineList) {
-            this.totalPrice += wine.getPrice();
-        }
-    }
-
-    /**
-     * Adds a Wine object to the Assortment.
-     *
-     * @param wine The Wine object to be added to the Assortment.
-     *
-     * @return {@code true} if the Wine object is successfully added to the Assortment, {@code false} otherwise.
-     */
-    public boolean add(W wine) {
-        try {
-            if ((year != null && !wine.getYear().equals(year)) || wine.isInAssortment()) {
-                throw new WineAlreadyInAssortmentException("Wine is already in the assortment or the year of the wine is not matching with the assortment's year");
-            }
-            this.year = wine.getYear();
-            wine.setInAssortment(true);
-            // Update totalPrice and wineNames
-            wineList.add(wine);
-            this.resetTotalPrice();
-            this.resetWineNames();
-            return true;
-        } catch (WineAlreadyInAssortmentException e) {
-            LOGGER.error(new StringBuilder().append(e.getMessage()).append("{}"), e);
-            return false;
-        }
-    }
-
+    // Public class-specific methods
     /**
      * Removes a Wine object from the Assortment.
      *
@@ -172,34 +127,35 @@ public class Assortment<W extends Wine> implements List<W> {
     }
 
     /**
-     * Removes an Object from the Assortment.
-     *
-     * @param o The Object to be removed from the Assortment.
-     *
-     * @return true if the Wine object is successfully removed from the Assortment, false otherwise.
+     * Sorts the Wine list according to the ID of the Wines.
      */
-    @Override
-    public boolean remove(Object o) {
-        try {
-            if (!(o instanceof Wine)) {
-                return false;
+    public void sort() {
+        Collections.sort(wineList);
+        this.resetWineNames();
+    }
+
+    // Private class-specific methods
+    /**
+     * Resets the `wineNames` attribute according to the current `wineList`.
+     */
+    private void resetWineNames() {
+        StringBuilder wineNamesBuilder = new StringBuilder();
+        for (W wine : wineList) {
+            if (!wineNamesBuilder.isEmpty()) {
+                wineNamesBuilder.append(", ");
             }
+            wineNamesBuilder.append(wine.getName());
+        }
+        this.wineNames = wineNamesBuilder.toString();
+    }
 
-            boolean isRemoved = wineList.removeIf(w -> w.equals(o));
-
-            if (!isRemoved) {
-                throw new WineNotInAssortmentException(WINE_IS_NOT_IN_THE_ASSORTMENT);
-            }
-
-            // The unchecked warning here cannot be removed because of type erasure in Java generics.
-            // It is safe as we have already verified that o instanceof Wine.
-            @SuppressWarnings("unchecked")
-            W wine = (W) o;
-
-            return wineListRemoveActions(wine);
-        } catch (WineNotInAssortmentException e) {
-            LOGGER.error(new StringBuilder().append(e.getMessage()).append("{}"), e);
-            return false;
+    /**
+     * Resets the `totalPrice` attribute according to the current `wineList`.
+     */
+    private void resetTotalPrice() {
+        this.totalPrice = 0;
+        for (W wine : wineList) {
+            this.totalPrice += wine.getPrice();
         }
     }
 
@@ -218,262 +174,7 @@ public class Assortment<W extends Wine> implements List<W> {
         return wasRemoved;
     }
 
-    /**
-     * Checks the size of the Wine list.
-     *
-     * @return the number of wines in the `wineList`
-     */
-    @Override
-    public int size() {
-        return wineList.size();
-    }
-
-    /**
-     * Checks if wineList is empty.
-     *
-     * @return `true` if wineList is empty, `false` otherwise
-     */
-    @Override
-    public boolean isEmpty() {
-        return wineList.isEmpty();
-    }
-
-    /**
-     * Checks if the specified element is in the wineList.
-     *
-     * @param o the element to be checked
-     *
-     * @return `true` if the specified element is in wineList, `false` otherwise
-     */
-    @Override
-    public boolean contains(Object o) {
-        return wineList.contains(o);
-    }
-
-    /**
-     * Converts the Wine list into an array.
-     *
-     * @return an array containing all the elements in the `wineList` in a proper sequence
-     */
-    @NotNull
-    @Override
-    public Object @NotNull [] toArray() {
-        return wineList.toArray();
-    }
-
-    /**
-     * Converts the Wine list into an array.
-     *
-     * @param a Array into which the elements of the `wineList` are to be stored
-     *
-     * @return an array containing all the Wines in `wineList` in a proper sequence
-     */
-    @NotNull
-    @Override
-    public <T> T @NotNull [] toArray(@NotNull T @NotNull [] a) {
-        return wineList.toArray(a);
-    }
-
-    /**
-     * Checks if the collection is contained in the Wine list.
-     *
-     * @param c Collection to be checked
-     *
-     * @return `true` if the collection is in the Wine list, `false` otherwise
-     */
-    @Override
-    public boolean containsAll(@NotNull Collection<?> c) {
-        return new HashSet<>(wineList).containsAll(c);
-    }
-
-    /**
-     * Adds all elements in specified collection to the Wine list.
-     *
-     * @param c Collection whose elements are to be added to the Wine list
-     *
-     * @return `true` if the Wine list is modified as a result, `false` otherwise
-     */
-    @Override
-    public boolean addAll(@NotNull Collection<? extends W> c) {
-        for (W wine : c) {
-            add(wine);
-        }
-        return true;
-    }
-
-    /**
-     * Inserts all the elements in the specified collection into this list at the specified position.
-     * Existing elements are shifted to the right.
-     * The operation is undefined if the collection is modified while the operation is in progress.
-     *
-     * @param index Index at which to insert the first element from the collection
-     * @param c Collection containing elements to be added to this list
-     *
-     * @return `true` if this list changed as a result of the call, `false` otherwise
-     */
-    @Override
-    public boolean addAll(int index, @NotNull Collection<? extends W> c) {
-        boolean result = true;
-        for (W wine : c) {
-            if (wineList.contains(wine)) {
-                LOGGER.error("Wine is already in the assortment or the year of the wine is not matching with the assortment's year");
-                result = false;
-                continue;
-            }
-            this.add(index++, wine);
-        }
-        return result;
-    }
-
-    /**
-     * Removes from the Wine list all its elements that are also present in the specified collection.
-     *
-     * @param c Collection containing elements to be removed from the Wine list
-     *
-     * @return `true` if the Wine list is modified as a result, `false` otherwise
-     */
-    @Override
-    public boolean removeAll(@NotNull Collection<?> c) {
-        boolean result = true;
-        for (Object obj: c) {
-            result &= remove(obj);
-        }
-        return result;
-    }
-
-    /**
-     * Retains only the elements in the `wineList` that are contained in the specified collection.
-     *
-     * @param c the collection containing elements to be retained in the `wineList`
-     *
-     * @return `true` if `wineList` is modified as a result, `false` otherwise
-     */
-    @Override
-    public boolean retainAll(@NotNull Collection<?> c) {
-        boolean isChanged = false;
-        Iterator<W> iterator = wineList.iterator();
-
-        while (iterator.hasNext()) {
-            Wine wine = iterator.next();
-            if (!c.contains(wine)) {
-                wine.setInAssortment(false);
-                iterator.remove();
-                isChanged = true;
-            }
-        }
-
-        // assign the updated wine names and total price
-        this.resetTotalPrice();
-        this.resetWineNames();
-
-        return isChanged;
-    }
-
-    /**
-     * Removes all elements from the Wine list.
-     */
-    @Override
-    public void clear() {
-        for (Wine wine : wineList) {
-            wine.setInAssortment(false);
-        }
-        wineList.clear();
-        this.resetTotalPrice();
-        this.resetWineNames();
-    }
-
-    /**
-     * Sorts the Wine list according to the ID of the Wines.
-     */
-    public void sort() {
-        Collections.sort(wineList);
-        this.resetWineNames();
-    }
-
-    /**
-     * Creates an Iterator for the Wine list.
-     *
-     * @return an Iterator for the Wine list
-     */
-    @NotNull
-    @Override
-    public Iterator<W> iterator() {
-        return wineList.iterator();
-    }
-
-    /**
-     * Performs the provided action for each Wine in the list.
-     *
-     * @param action The action to be performed for each Wine
-     */
-    @Override
-    public void forEach(Consumer<? super W> action) {
-        wineList.forEach(action);
-    }
-
-    /**
-     * Creates a Spliterator over the Wines in the list.
-     *
-     * @return a Spliterator over the Wine list
-     */
-    @Override
-    public Spliterator<W> spliterator() {
-        return wineList.spliterator();
-    }
-
-    /**
-     * Provides a string version of the Assortment.
-     *
-     * @return a string representation of the Assortment
-     */
-    @Override
-    public String toString() {
-        StringBuilder sb = new StringBuilder();
-
-        sb.append("Assortment{").append("\n\tid=").append(id).append("\n\tWines {\n");
-
-        for (W wine : this) {
-            sb.append("\t\t").append(wine).append("\n");
-        }
-
-        sb.append("\t}\n\ttotalPrice=").append(totalPrice).append("\n}");
-
-        return sb.toString();
-    }
-
-    /**
-     * Compares this Assortment to the specified object.
-     *
-     * @param o Object to be compared
-     *
-     * @return `true` if this Assortment is equal to the object, `false` otherwise
-     */
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (!(o instanceof Assortment<?> that)) return false;
-        return getId() == that.getId() &&
-                Double.compare(getTotalPrice(), that.getTotalPrice()) == 0 &&
-                Objects.equals(getWineList(), that.getWineList()) &&
-                Objects.equals(getYear(), that.getYear()) &&
-                Objects.equals(getWineNames(), that.getWineNames());
-    }
-
-    /**
-     * Returns the hash code for this Assortment.
-     *
-     * @return the hash code for this Assortment
-     */
-    @Override
-    public int hashCode() {
-        return Objects.hash(
-                getWineList(),
-                getId(),
-                getYear(),
-                getTotalPrice(),
-                getWineNames());
-    }
-
+    // Methods overridden from interface List
     /**
      * Returns the element at the specified position in this list.
      *
@@ -595,5 +296,313 @@ public class Assortment<W extends Wine> implements List<W> {
     @Override
     public List<W> subList(int fromIndex, int toIndex) {
         return this.wineList.subList(fromIndex, toIndex);
+    }
+
+    // Methods overridden from interface Collection
+    /**
+     * Checks the size of the Wine list.
+     *
+     * @return the number of wines in the `wineList`
+     */
+    @Override
+    public int size() {
+        return wineList.size();
+    }
+
+    /**
+     * Checks if wineList is empty.
+     *
+     * @return `true` if wineList is empty, `false` otherwise
+     */
+    @Override
+    public boolean isEmpty() {
+        return wineList.isEmpty();
+    }
+
+    /**
+     * Checks if the specified element is in the wineList.
+     *
+     * @param o the element to be checked
+     *
+     * @return `true` if the specified element is in wineList, `false` otherwise
+     */
+    @Override
+    public boolean contains(Object o) {
+        return wineList.contains(o);
+    }
+
+    /**
+     * Converts the Wine list into an array.
+     *
+     * @return an array containing all the elements in the `wineList` in a proper sequence
+     */
+    @NotNull
+    @Override
+    public Object @NotNull [] toArray() {
+        return wineList.toArray();
+    }
+
+    /**
+     * Converts the Wine list into an array.
+     *
+     * @param a Array into which the elements of the `wineList` are to be stored
+     *
+     * @return an array containing all the Wines in `wineList` in a proper sequence
+     */
+    @NotNull
+    @Override
+    public <T> T @NotNull [] toArray(@NotNull T @NotNull [] a) {
+        return wineList.toArray(a);
+    }
+
+    /**
+     * Adds a Wine object to the Assortment.
+     *
+     * @param wine The Wine object to be added to the Assortment.
+     *
+     * @return {@code true} if the Wine object is successfully added to the Assortment, {@code false} otherwise.
+     */
+    public boolean add(W wine) {
+        try {
+            if ((year != null && !wine.getYear().equals(year)) || wine.isInAssortment()) {
+                throw new WineAlreadyInAssortmentException("Wine is already in the assortment or the year of the wine is not matching with the assortment's year");
+            }
+            this.year = wine.getYear();
+            wine.setInAssortment(true);
+            // Update totalPrice and wineNames
+            wineList.add(wine);
+            this.resetTotalPrice();
+            this.resetWineNames();
+            return true;
+        } catch (WineAlreadyInAssortmentException e) {
+            LOGGER.error(new StringBuilder().append(e.getMessage()).append("{}"), e);
+            return false;
+        }
+    }
+
+    /**
+     * Removes an Object from the Assortment.
+     *
+     * @param o The Object to be removed from the Assortment.
+     *
+     * @return true if the Wine object is successfully removed from the Assortment, false otherwise.
+     */
+    @Override
+    public boolean remove(Object o) {
+        try {
+            if (!(o instanceof Wine)) {
+                return false;
+            }
+
+            boolean isRemoved = wineList.removeIf(w -> w.equals(o));
+
+            if (!isRemoved) {
+                throw new WineNotInAssortmentException(WINE_IS_NOT_IN_THE_ASSORTMENT);
+            }
+
+            // The unchecked warning here cannot be removed because of type erasure in Java generics.
+            // It is safe as we have already verified that o instanceof Wine.
+            @SuppressWarnings("unchecked")
+            W wine = (W) o;
+
+            return wineListRemoveActions(wine);
+        } catch (WineNotInAssortmentException e) {
+            LOGGER.error(new StringBuilder().append(e.getMessage()).append("{}"), e);
+            return false;
+        }
+    }
+
+    /**
+     * Checks if the collection is contained in the Wine list.
+     *
+     * @param c Collection to be checked
+     *
+     * @return `true` if the collection is in the Wine list, `false` otherwise
+     */
+    @Override
+    public boolean containsAll(@NotNull Collection<?> c) {
+        return new HashSet<>(wineList).containsAll(c);
+    }
+
+    /**
+     * Adds all elements in specified collection to the Wine list.
+     *
+     * @param c Collection whose elements are to be added to the Wine list
+     *
+     * @return `true` if the Wine list is modified as a result, `false` otherwise
+     */
+    @Override
+    public boolean addAll(@NotNull Collection<? extends W> c) {
+        for (W wine : c) {
+            add(wine);
+        }
+        return true;
+    }
+
+    /**
+     * Inserts all the elements in the specified collection into this list at the specified position.
+     * Existing elements are shifted to the right.
+     * The operation is undefined if the collection is modified while the operation is in progress.
+     *
+     * @param index Index at which to insert the first element from the collection
+     * @param c Collection containing elements to be added to this list
+     *
+     * @return `true` if this list changed as a result of the call, `false` otherwise
+     */
+    @Override
+    public boolean addAll(int index, @NotNull Collection<? extends W> c) {
+        boolean result = true;
+        for (W wine : c) {
+            if (wineList.contains(wine)) {
+                LOGGER.error("Wine is already in the assortment or the year of the wine is not matching with the assortment's year");
+                result = false;
+                continue;
+            }
+            this.add(index++, wine);
+        }
+        return result;
+    }
+
+    /**
+     * Removes from the Wine list all its elements that are also present in the specified collection.
+     *
+     * @param c Collection containing elements to be removed from the Wine list
+     *
+     * @return `true` if the Wine list is modified as a result, `false` otherwise
+     */
+    @Override
+    public boolean removeAll(@NotNull Collection<?> c) {
+        boolean result = true;
+        for (Object obj: c) {
+            result &= remove(obj);
+        }
+        return result;
+    }
+
+    /**
+     * Retains only the elements in the `wineList` that are contained in the specified collection.
+     *
+     * @param c the collection containing elements to be retained in the `wineList`
+     *
+     * @return `true` if `wineList` is modified as a result, `false` otherwise
+     */
+    @Override
+    public boolean retainAll(@NotNull Collection<?> c) {
+        boolean isChanged = false;
+        Iterator<W> iterator = wineList.iterator();
+
+        while (iterator.hasNext()) {
+            Wine wine = iterator.next();
+            if (!c.contains(wine)) {
+                wine.setInAssortment(false);
+                iterator.remove();
+                isChanged = true;
+            }
+        }
+
+        // assign the updated wine names and total price
+        this.resetTotalPrice();
+        this.resetWineNames();
+
+        return isChanged;
+    }
+
+    /**
+     * Removes all elements from the Wine list.
+     */
+    @Override
+    public void clear() {
+        for (Wine wine : wineList) {
+            wine.setInAssortment(false);
+        }
+        wineList.clear();
+        this.resetTotalPrice();
+        this.resetWineNames();
+    }
+
+    // Methods overridden from interface Iterable
+    /**
+     * Creates an Iterator for the Wine list.
+     *
+     * @return an Iterator for the Wine list
+     */
+    @NotNull
+    @Override
+    public Iterator<W> iterator() {
+        return wineList.iterator();
+    }
+
+    /**
+     * Performs the provided action for each Wine in the list.
+     *
+     * @param action The action to be performed for each Wine
+     */
+    @Override
+    public void forEach(Consumer<? super W> action) {
+        wineList.forEach(action);
+    }
+
+    /**
+     * Creates a Spliterator over the Wines in the list.
+     *
+     * @return a Spliterator over the Wine list
+     */
+    @Override
+    public Spliterator<W> spliterator() {
+        return wineList.spliterator();
+    }
+
+    // Methods overridden from class Object
+    /**
+     * Provides a string version of the Assortment.
+     *
+     * @return a string representation of the Assortment
+     */
+    @Override
+    public String toString() {
+        StringBuilder sb = new StringBuilder();
+
+        sb.append("Assortment{").append("\n\tid=").append(id).append("\n\tWines {\n");
+
+        for (W wine : this) {
+            sb.append("\t\t").append(wine).append("\n");
+        }
+
+        sb.append("\t}\n\ttotalPrice=").append(totalPrice).append("\n}");
+
+        return sb.toString();
+    }
+
+    /**
+     * Compares this Assortment to the specified object.
+     *
+     * @param o Object to be compared
+     *
+     * @return `true` if this Assortment is equal to the object, `false` otherwise
+     */
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Assortment<?> that)) return false;
+        return getId() == that.getId() &&
+                Double.compare(getTotalPrice(), that.getTotalPrice()) == 0 &&
+                Objects.equals(getWineList(), that.getWineList()) &&
+                Objects.equals(getYear(), that.getYear()) &&
+                Objects.equals(getWineNames(), that.getWineNames());
+    }
+
+    /**
+     * Returns the hash code for this Assortment.
+     *
+     * @return the hash code for this Assortment
+     */
+    @Override
+    public int hashCode() {
+        return Objects.hash(
+                getWineList(),
+                getId(),
+                getYear(),
+                getTotalPrice(),
+                getWineNames());
     }
 }
