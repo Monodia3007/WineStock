@@ -25,6 +25,11 @@ public class PostgreSQLManager {
     private static final String WINE_SELECT_ASSORTMENT_SQL = "SELECT * FROM public.wine WHERE wno IN (SELECT wno FROM contains WHERE ano = ?)";
     private static final String INSERT_ASSORTMENT_SQL = "INSERT INTO public.assortment(year) VALUES(?)";
     private static final String INSERT_CONTAINS_SQL = "INSERT INTO public.contains(wno, ano) VALUES(?, ?)";
+    private static final String UPDATE_WINE_SQL = "UPDATE public.wine SET name = ?, year = ?, volume = ?, color = ?, price = ?, comment = ?, in_assortment = ? WHERE wno = ?";
+    private static final String DELETE_WINE_SQL = "DELETE FROM public.wine WHERE wno = ?";
+    private static final String DELETE_ASSORTMENT_SQL = "DELETE FROM public.assortment WHERE ano = ?";
+    private static final String UPDATE_WINE_IN_ASSORTMENT_SQL = "UPDATE public.wine SET in_assortment = false WHERE wno IN (SELECT wno FROM contains WHERE ano = ?)";
+    private static final String DELETE_WINE_IN_ASSORTMENT_SQL = "DELETE FROM public.contains WHERE wno = ? AND ano = ?";
 
     private final String url;
     private final String user;
@@ -296,6 +301,116 @@ public class PostgreSQLManager {
             } catch (SQLException e) {
                 LOGGER.error("Error executing insert: {}", e.getMessage(), e);
             }
+        }
+    }
+
+    /**
+     * Updates a wine record in the database.
+     *
+     * @param wine the Wine object representing the wine to be updated
+     *
+     * @return an Optional Long representing the ID of the updated wine record,
+     * or an empty Optional if the update failed
+     *
+     * @throws SQLException if an error occurs while updating the wine record
+     */
+    public Optional<Long> updateWine(Wine wine) throws SQLException {
+        try (PreparedStatement pstmt = connect().prepareStatement(UPDATE_WINE_SQL, Statement.RETURN_GENERATED_KEYS)) {
+            setParametersInStatement(pstmt, wine);
+            pstmt.setInt(8, wine.getId());
+            return handleResponse(pstmt, id -> wine.setId((int) id));
+        }
+    }
+
+    /**
+     * Deletes a wine record from the database.
+     *
+     * @param wine the Wine object representing the wine to be deleted
+     *
+     * @return an Optional Long representing the ID of the deleted wine record,
+     * or an empty Optional if the deletion failed
+     *
+     * @throws SQLException if an error occurs while deleting the wine record
+     */
+    public Optional<Long> deleteWine(Wine wine) throws SQLException {
+        try (PreparedStatement pstmt = connect().prepareStatement(DELETE_WINE_SQL, Statement.RETURN_GENERATED_KEYS)) {
+            pstmt.setInt(1, wine.getId());
+            return handleResponse(pstmt, id -> wine.setId((int) id));
+        }
+    }
+
+    /**
+     * Deletes an assortment from the database.
+     *
+     * @param assortment the Assortment object representing the assortment to be deleted
+     *
+     * @return an Optional Long representing the ID of the deleted assortment,
+     * or an empty Optional if the deletion failed
+     *
+     * @throws SQLException if an error occurs while deleting the assortment
+     */
+    private Optional<Long> deleteAssortmentInternal(Assortment<Wine> assortment) throws SQLException {
+        try (PreparedStatement pstmt = connect().prepareStatement(DELETE_ASSORTMENT_SQL, Statement.RETURN_GENERATED_KEYS)) {
+            pstmt.setInt(1, assortment.getId());
+            return handleResponse(pstmt, id -> assortment.setId((int) id));
+        }
+    }
+
+    /**
+     * Deletes an assortment from the database.
+     *
+     * @param assortment the Assortment object representing the assortment to be deleted
+     *
+     * @return an Optional Long representing the ID of the deleted assortment,
+     * or an empty Optional if the deletion failed
+     */
+    public Optional<Long> deleteAssortment(Assortment<Wine> assortment) {
+        try {
+            connection.setAutoCommit(false);
+            Optional<Long> assortmentId = deleteAssortmentInternal(assortment);
+
+            if (assortmentId.isPresent()) {
+                deleteWinesInAssortment(assortmentId.get());
+            }
+
+            connection.commit();
+            return assortmentId;
+        } catch (SQLException e) {
+            LOGGER.error("Error executing delete: {}", e.getMessage(), e);
+            try {
+                connection.rollback();
+            } catch (SQLException ex) {
+                LOGGER.error("Error rolling back transaction: {}", ex.getMessage(), ex);
+            }
+        }
+        return Optional.empty();
+    }
+
+    /**
+     * Sets the in_assortment field of all wines associated with the given assortment to false.
+     *
+     * @param assortmentId the ID of the assortment to remove the wines from
+     *
+     * @throws SQLException if an error occurs while updating the wines
+     */
+    public void deleteWinesInAssortment(Long assortmentId) throws SQLException {
+        try (PreparedStatement pstmt = connect().prepareStatement(UPDATE_WINE_IN_ASSORTMENT_SQL)) {
+            pstmt.setLong(1, assortmentId);
+            pstmt.executeUpdate();
+        } catch (SQLException e) {
+            LOGGER.error("Error executing update: {}", e.getMessage(), e);
+            throw e;
+        }
+    }
+
+    public void deleteWineInAssortment (Wine wine, Long assortmentId) throws SQLException {
+        try (PreparedStatement pstmt = connect().prepareStatement(DELETE_WINE_IN_ASSORTMENT_SQL)) {
+            pstmt.setLong(1, wine.getId());
+            pstmt.setLong(2, assortmentId);
+            pstmt.executeUpdate();
+        } catch (SQLException e) {
+            LOGGER.error("Error executing update: {}", e.getMessage(), e);
+            throw e;
         }
     }
 

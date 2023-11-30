@@ -35,10 +35,14 @@ import java.util.Objects;
  */
 public class WineStockController {
     private static final Logger LOGGER = LogManager.getLogger(WineStockController.class);
+    public static final String NO_WINE_SELECTED = "No wine selected.";
     // Manager for PostgreSQL Database
 
     private TabPane rootPane;
     private PostgreSQLManager postgreSQLManager;
+    private Wine currentlySelectedWine;
+    private Assortment<Wine> currentlySelectedAssortment;
+
     //FXML Table and Column variables for assortment and wine.
     @FXML
     private TableView<Assortment<Wine>> assortmentsTable;
@@ -82,6 +86,38 @@ public class WineStockController {
     private Button importButton;
     @FXML
     private ImageView icon;
+
+    // FXML variables for the Wine modifying/adding/deleting UI.
+    @FXML
+    private TextField wineNameField;
+    @FXML
+    private TextField wineYearField;
+    @FXML
+    private TextField wineVolumeField;
+    @FXML
+    private TextField winePriceField;
+    @FXML
+    private TextField wineCommentField;
+    @FXML
+    private ComboBox<BottleSize> wineVolumeComboBox;
+    @FXML
+    private ComboBox<Color> wineColorComboBox;
+    @FXML
+    private Button wineAddButton;
+    @FXML
+    private Button wineDeleteButton;
+    @FXML
+    private Button wineModifyButton;
+
+    // FXML variables for the Assortment modifying/adding/deleting UI.
+    @FXML
+    private TextField assortmentNameField;
+    @FXML
+    private TableView<Wine> assortmentWinesTable;
+    @FXML
+    private Button assortmentAddButton;
+    @FXML
+    private Button assortmentDeleteButton;
 
     /**
      * Sets the root pane of the application.
@@ -254,13 +290,15 @@ public class WineStockController {
         }
     }
 
-    private void showErrorDialog(String title, String message, Exception ex) {
+    private void showErrorDialog(String title, String message,@Nullable Exception ex) {
         Alert alert = new Alert(Alert.AlertType.ERROR);
         alert.setTitle(title);
         alert.setHeaderText(message);
         StringWriter sw = new StringWriter();
         PrintWriter pw = new PrintWriter(sw);
-        ex.printStackTrace(pw);
+        if (ex != null) {
+            ex.printStackTrace(pw);
+        }
         String exceptionText = sw.toString();
         Label label = new Label("The following exception occurred:");
 
@@ -273,6 +311,115 @@ public class WineStockController {
         alert.showAndWait();
     }
 
-    //TODO add an interface for the user to add/modify/delete wines and assortments and an interface
-    // to search for wines and assortments
+    public void addWine() {
+        try {
+            postgreSQLManager.insertWine(new Wine.Builder(
+                    wineNameField.getText(),
+                    Integer.parseInt(wineYearField.getText()),
+                    wineVolumeComboBox.getValue().getVolume(),
+                    wineColorComboBox.getValue().name(),
+                    Double.parseDouble(winePriceField.getText())
+            ).comment(wineCommentField.getText()).build());
+            refresh();
+        } catch (Exception e) {
+            LOGGER.error("Failed to add wine to the database.", e);
+            Platform.runLater(() -> showErrorDialog("Error adding wine", "Failed to add wine to the database.", e));
+        }
+    }
+
+    public void deleteWine() {
+        try {
+            postgreSQLManager.deleteWine(this.currentlySelectedWine);
+            refresh();
+        } catch (Exception e) {
+            LOGGER.error("Failed to delete wine from the database.", e);
+            Platform.runLater(() -> showErrorDialog("Error deleting wine", "Failed to delete wine from the database.", e));
+        }
+    }
+
+    public void modifyWine() {
+        if (this.currentlySelectedWine != null) {
+            try {
+                this.currentlySelectedWine.setName(wineNameField.getText());
+                this.currentlySelectedWine.setYear(Year.of(Integer.parseInt(wineYearField.getText())));
+                this.currentlySelectedWine.setVolume(wineVolumeComboBox.getValue().getVolume());
+                this.currentlySelectedWine.setColor(Color.valueOf(wineColorComboBox.getValue().name()));
+                this.currentlySelectedWine.setPrice(Double.parseDouble(winePriceField.getText()));
+                this.currentlySelectedWine.setComment(wineCommentField.getText());
+
+                postgreSQLManager.updateWine(this.currentlySelectedWine);
+
+                refresh();
+            } catch (Exception e) {
+                LOGGER.error("Failed to modify wine in the database.", e);
+                Platform.runLater(() -> showErrorDialog("Error modifying wine", "Failed to modify wine in the database.", e));
+            }
+        } else {
+            LOGGER.error(NO_WINE_SELECTED);
+            Platform.runLater(() -> showErrorDialog("Error modifying wine", NO_WINE_SELECTED, null));
+        }
+    }
+
+    @FXML
+    public void loadSelectedWine() {
+        Wine selectedWine = wineTable.getSelectionModel().getSelectedItem();
+        if (selectedWine != null) {
+            this.currentlySelectedWine = selectedWine;
+            wineNameField.setText(selectedWine.getName());
+            wineYearField.setText(String.valueOf(selectedWine.getYear().getValue()));
+            wineVolumeComboBox.setValue(selectedWine.getVolume());
+            wineColorComboBox.setValue(Color.valueOf(selectedWine.getColor().name()));
+            winePriceField.setText(String.valueOf(selectedWine.getPrice()));
+            wineCommentField.setText(selectedWine.getComment());
+        } else {
+            LOGGER.error(NO_WINE_SELECTED);
+            Platform.runLater(() -> showErrorDialog("Error loading wine", NO_WINE_SELECTED, null));
+        }
+    }
+
+    public void addAssortment() {
+        try {
+            postgreSQLManager.insertAssortment(new Assortment<>());
+            refresh();
+        } catch (Exception e) {
+            LOGGER.error("Failed to add assortment to the database.", e);
+            Platform.runLater(() -> showErrorDialog("Error adding assortment", "Failed to add assortment to the database.", e));
+        }
+    }
+
+    public void deleteAssortment() {
+        try {
+            postgreSQLManager.deleteAssortment(this.currentlySelectedAssortment);
+            refresh();
+        } catch (Exception e) {
+            LOGGER.error("Failed to delete assortment from the database.", e);
+            Platform.runLater(() -> showErrorDialog("Error deleting assortment", "Failed to delete assortment from the database.", e));
+        }
+    }
+
+    public void addWineToAssortment() {
+        try {
+            postgreSQLManager.insertWineInAssortment(
+                    assortmentWinesTable.getSelectionModel().getSelectedItem(),
+                    (long)this.currentlySelectedAssortment.getId()
+            );
+            refresh();
+        } catch (Exception e) {
+            LOGGER.error("Failed to add wine to assortment in the database.", e);
+            Platform.runLater(() -> showErrorDialog("Error adding wine to assortment", "Failed to add wine to assortment in the database.", e));
+        }
+    }
+
+    public void deleteWineFromAssortment() {
+        try {
+            postgreSQLManager.deleteWineInAssortment(
+                    assortmentWinesTable.getSelectionModel().getSelectedItem(),
+                    (long)this.currentlySelectedAssortment.getId()
+            );
+            refresh();
+        } catch (Exception e) {
+            LOGGER.error("Failed to delete wine from assortment in the database.", e);
+            Platform.runLater(() -> showErrorDialog("Error deleting wine from assortment", "Failed to delete wine from assortment in the database.", e));
+        }
+    }
 }
