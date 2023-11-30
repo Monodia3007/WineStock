@@ -121,12 +121,6 @@ public class WineStockController {
     private ComboBox<BottleSize> wineVolumeComboBox;
     @FXML
     private ComboBox<Color> wineColorComboBox;
-    @FXML
-    private Button wineAddButton;
-    @FXML
-    private Button wineDeleteButton;
-    @FXML
-    private Button wineModifyButton;
 
     // FXML variables for the Assortment modifying/adding/deleting UI.
     @FXML
@@ -135,10 +129,6 @@ public class WineStockController {
     private TableView<Wine> assortmentWinesTable;
     @FXML
     private TableView<Wine> notAssortmentWinesTable;
-    @FXML
-    private Button assortmentAddButton;
-    @FXML
-    private Button assortmentDeleteButton;
     @FXML
     private TableColumn<Wine, Integer> assortmentWinesTableID;
     @FXML
