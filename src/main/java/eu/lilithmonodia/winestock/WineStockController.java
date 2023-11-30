@@ -73,6 +73,8 @@ public class WineStockController {
     @FXML
     private TextField hostField;
     @FXML
+    private TextField portField;
+    @FXML
     private TextField usernameField;
     @FXML
     private PasswordField passwordField;
@@ -174,6 +176,9 @@ public class WineStockController {
      * On successful login, the importButton is enabled; otherwise, it gets disabled.
      */
     public void login() {
+        if (portField.getText().isEmpty()) {
+            portField.setText("5432");
+        }
         String url = "jdbc:postgresql://" +
                 hostField.getText() +
                 ":5432/winestock?sslmode=disable";

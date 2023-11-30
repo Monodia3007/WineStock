@@ -24,11 +24,13 @@
                         <Font name="System Bold" size="48.0" />
                     </font>
                 </Text>
-            <TextField fx:id="hostField" promptText="Database Host">
-               <VBox.margin>
-                  <Insets bottom="5.0" top="5.0" />
-               </VBox.margin>
-            </TextField>
+            <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
+               <children>
+                  <TextField fx:id="hostField" prefHeight="25.0" prefWidth="185.0" promptText="Database Host" />
+                  <Text strokeType="OUTSIDE" strokeWidth="0.0" text=":" textAlignment="CENTER" />
+                  <TextField fx:id="portField" prefHeight="25.0" prefWidth="88.0" promptText="Port(5432)" />
+               </children>
+            </HBox>
                 <TextField fx:id="usernameField" promptText="Username">
                     <VBox.margin>
                         <Insets bottom="5.0" top="5.0" />
