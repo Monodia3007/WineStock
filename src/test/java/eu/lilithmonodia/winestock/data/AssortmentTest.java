@@ -383,6 +383,19 @@ class AssortmentTest {
     }
 
     @Test
+    void testSort() {
+        assortment.add(wine2); // Assume: price of wine2 > price of wine1
+        assortment.add(wine1);
+        wine1.setId(0);
+        wine2.setId(1);
+
+        assortment.sort();
+
+        assertEquals(wine1, assortment.get(0));
+        assertEquals(wine2, assortment.get(1));
+    }
+
+    @Test
     void testListIteratorAtIndex() {
         assortment.add(wine1);
         assortment.add(wine2);
