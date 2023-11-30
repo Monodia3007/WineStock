@@ -342,22 +342,6 @@ public class PostgreSQLManager {
      *
      * @return an Optional Long representing the ID of the deleted assortment,
      * or an empty Optional if the deletion failed
-     *
-     * @throws SQLException if an error occurs while deleting the assortment
-     */
-    private Optional<Long> deleteAssortmentInternal(Assortment<Wine> assortment) throws SQLException {
-        PreparedStatement pstmt = connect().prepareStatement(DELETE_ASSORTMENT_SQL, Statement.RETURN_GENERATED_KEYS);
-        pstmt.setInt(1, assortment.getId());
-        return handleResponse(pstmt, id -> assortment.setId((int) id));
-    }
-
-    /**
-     * Deletes an assortment from the database.
-     *
-     * @param assortment the Assortment object representing the assortment to be deleted
-     *
-     * @return an Optional Long representing the ID of the deleted assortment,
-     * or an empty Optional if the deletion failed
      */
     public Optional<Long> deleteAssortment(Assortment<Wine> assortment) {
         try(PreparedStatement pstmt = connect().prepareStatement(DELETE_ASSORTMENT_SQL, Statement.RETURN_GENERATED_KEYS)) {
