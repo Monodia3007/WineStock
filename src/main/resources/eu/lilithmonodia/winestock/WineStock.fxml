@@ -10,7 +10,7 @@
 <TabPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="480.0" prefWidth="640.0" tabClosingPolicy="UNAVAILABLE" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="eu.lilithmonodia.winestock.WineStockController">
     <Tab text="Connexion">
         <AnchorPane minHeight="0.0" minWidth="0.0">
-            <VBox alignment="CENTER" layoutX="199.0" layoutY="50.0" prefHeight="200.0" prefWidth="223.0">
+            <VBox alignment="CENTER" layoutX="182.0" layoutY="37.0" prefHeight="377.0" prefWidth="277.0">
                 <ImageView fx:id="icon" fitHeight="128.0" fitWidth="128.0" pickOnBounds="true" preserveRatio="true">
                     <VBox.margin>
                         <Insets bottom="5.0" top="5.0" />
@@ -26,7 +26,7 @@
                 </Text>
             <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
                <children>
-                  <TextField fx:id="hostField" prefHeight="25.0" prefWidth="185.0" promptText="Database Host" />
+                  <TextField fx:id="hostField" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="25.0" prefWidth="224.0" promptText="Database Host" />
                   <Text strokeType="OUTSIDE" strokeWidth="0.0" text=":" textAlignment="CENTER" />
                   <TextField fx:id="portField" prefHeight="25.0" prefWidth="88.0" promptText="Port(5432)" />
                </children>
@@ -54,39 +54,79 @@
             </VBox>
         </AnchorPane>
     </Tab>
-    <Tab text="Vins">
+    <Tab fx:id="winesTab" text="Vins">
         <AnchorPane minHeight="0.0" minWidth="0.0">
-            <TabPane tabClosingPolicy="UNAVAILABLE">
+            <TabPane fx:id="wineTabPane" tabClosingPolicy="UNAVAILABLE">
                 <Tab text="Visualiser">
-                    <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="417.0" prefWidth="640.0">
-                        <TableView fx:id="wineTable" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="417.0" prefWidth="641.0">
-                            <columns>
-                                <TableColumn fx:id="wineTableID" prefWidth="32.0" text="ID" />
-                                <TableColumn fx:id="wineTableName" prefWidth="158.0" text="Nom" />
-                                <TableColumn fx:id="wineTableYear" minWidth="0.0" prefWidth="76.0" text="Millésime" />
-                                <TableColumn fx:id="wineTableVolume" prefWidth="99.0" text="Contenance" />
-                                <TableColumn fx:id="wineTableColor" prefWidth="69.0" text="Couleur" />
-                                <TableColumn fx:id="wineTablePrice" prefWidth="50.0" text="Prix" />
-                                <TableColumn fx:id="wineTableComment" prefWidth="156.0" text="Commentaire" />
-                            </columns>
-                        </TableView>
+                    <AnchorPane minHeight="-Infinity" minWidth="-Infinity">
+                  <VBox alignment="CENTER">
+                     <children>
+                              <TableView fx:id="wineTable" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308">
+                                  <columns>
+                                      <TableColumn fx:id="wineTableID" prefWidth="32.0" text="ID" />
+                                      <TableColumn fx:id="wineTableName" prefWidth="158.0" text="Nom" />
+                                      <TableColumn fx:id="wineTableYear" minWidth="0.0" prefWidth="76.0" text="Millésime" />
+                                      <TableColumn fx:id="wineTableVolume" prefWidth="99.0" text="Contenance" />
+                                      <TableColumn fx:id="wineTableColor" prefWidth="69.0" text="Couleur" />
+                                      <TableColumn fx:id="wineTablePrice" prefWidth="50.0" text="Prix" />
+                                      <TableColumn fx:id="wineTableComment" prefWidth="156.0" text="Commentaire" />
+                                  </columns>
+                              </TableView>
+                        <Button mnemonicParsing="false" onAction="#loadSelectedWine" prefHeight="25.0" prefWidth="100.0" text="Modifier" />
+                     </children>
+                  </VBox>
                     </AnchorPane>
                 </Tab>
-                <Tab text="Chercher">
-                    <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
-                </Tab>
-                <Tab text="Modifier">
-                    <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
+                <Tab fx:id="wineModifyTab" text="Modifier">
+                    <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                        <VBox alignment="CENTER" prefHeight="417.0" prefWidth="640.0">
+                     <GridPane alignment="CENTER" prefHeight="226.0" prefWidth="640.0">
+                       <columnConstraints>
+                         <ColumnConstraints fillWidth="false" halignment="CENTER" hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                         <ColumnConstraints fillWidth="false" halignment="CENTER" hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                       </columnConstraints>
+                       <rowConstraints>
+                         <RowConstraints fillHeight="false" minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                         <RowConstraints fillHeight="false" minHeight="10.0" prefHeight="30.0" valignment="CENTER" vgrow="SOMETIMES" />
+                         <RowConstraints fillHeight="false" minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                       </rowConstraints>
+                        <children>
+                                  <TextField fx:id="wineNameField" prefHeight="25.0" prefWidth="266.0" promptText="Wine Name" />
+                                  <TextField fx:id="wineYearField" prefHeight="25.0" prefWidth="266.0" promptText="Year" GridPane.columnIndex="1" />
+                                  <TextField fx:id="winePriceField" prefHeight="25.0" prefWidth="266.0" promptText="Price" GridPane.rowIndex="1" />
+                                  <TextField fx:id="wineCommentField" prefWidth="266.0" promptText="Comment" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                                  <ComboBox fx:id="wineVolumeComboBox" prefWidth="100.0" promptText="Bottle Size" GridPane.rowIndex="2" />
+                                  <ComboBox fx:id="wineColorComboBox" prefHeight="25.0" prefWidth="100.0" promptText="Color" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+                        </children>
+                     </GridPane>
+                     <HBox alignment="CENTER" prefHeight="0.0" prefWidth="493.0">
+                        <children>
+                                  <Button fx:id="wineAddButton" onAction="#addWine" prefWidth="84.0" text="Add Wine">
+                              <HBox.margin>
+                                 <Insets left="10.0" right="10.0" />
+                              </HBox.margin></Button>
+                                  <Button fx:id="wineDeleteButton" onAction="#deleteWine" prefWidth="84.0" text="Delete Wine">
+                              <HBox.margin>
+                                 <Insets left="10.0" right="10.0" />
+                              </HBox.margin></Button>
+                                  <Button fx:id="wineModifyButton" onAction="#modifyWine" prefWidth="84.0" text="Modify Wine">
+                              <HBox.margin>
+                                 <Insets left="10.0" right="10.0" />
+                              </HBox.margin></Button>
+                        </children>
+                     </HBox>
+                        </VBox>
+                    </AnchorPane>
                 </Tab>
             </TabPane>
         </AnchorPane>
     </Tab>
-    <Tab text="Assortiments">
+    <Tab fx:id="assortmentsTab" text="Assortiments">
         <AnchorPane>
-            <TabPane prefHeight="449.0" prefWidth="640.0" tabClosingPolicy="UNAVAILABLE">
+            <TabPane fx:id="assortmentTabPane" prefHeight="449.0" prefWidth="640.0" tabClosingPolicy="UNAVAILABLE">
                 <Tab text="Visualiser">
-                    <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
-                        <TableView fx:id="assortmentsTable" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                    <AnchorPane minHeight="-Infinity" minWidth="-Infinity" prefHeight="423.0" prefWidth="640.0">
+                        <TableView fx:id="assortmentsTable" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="398.0" prefWidth="640.0" AnchorPane.bottomAnchor="25.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                             <columns>
                                 <TableColumn fx:id="assortmentID" prefWidth="47.0" text="ID" />
                                 <TableColumn fx:id="assortmentWines" prefWidth="413.0" text="Vins" />
@@ -94,13 +134,79 @@
                                 <TableColumn fx:id="assortmentTotalPrice" prefWidth="113.0" text="Prix Total" />
                             </columns>
                         </TableView>
+                  <Button layoutX="270.0" layoutY="397.0" mnemonicParsing="false" onAction="#loadSelectedAssortment" prefHeight="25.0" prefWidth="100.0" text="Modifier" />
                     </AnchorPane>
                 </Tab>
-                <Tab text="Chercher">
-                    <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
-                </Tab>
-                <Tab text="Modifier">
-                    <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
+                <Tab fx:id="assortmentModifyTab" text="Modifier">
+                    <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                        <VBox alignment="CENTER" prefHeight="422.0" prefWidth="640.0">
+                     <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Vins dans l'assortiment" />
+                            <TableView fx:id="assortmentWinesTable" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="113.0" prefWidth="633.0">
+                                <columns>
+                                    <TableColumn fx:id="assortmentWinesTableID" prefWidth="25.0" text="ID" />
+                                    <TableColumn fx:id="assortmentWinesTableName" prefWidth="140.0" text="Name" />
+                                    <TableColumn fx:id="assortmentWinesTableYear" prefWidth="60.0" text="Year" />
+                                    <TableColumn fx:id="assortmentWinesTableVolume" prefWidth="162.0" text="Volume" />
+                                    <TableColumn fx:id="assortmentWinesTableColor" prefWidth="79.0" text="Color" />
+                                    <TableColumn fx:id="assortmentWinesTablePrice" prefWidth="59.0" text="Price" />
+                                    <TableColumn fx:id="assortmentWinesTableComment" prefWidth="114.0" text="Comment" />
+                                </columns>
+                        <VBox.margin>
+                           <Insets bottom="10.0" />
+                        </VBox.margin>
+                            </TableView>
+                     <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Vins sans Assortiment">
+                        <VBox.margin>
+                           <Insets top="10.0" />
+                        </VBox.margin>
+                     </Text>
+                            <TableView fx:id="notAssortmentWinesTable" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="127.0" prefWidth="633.0">
+                                <columns>
+                                    <TableColumn fx:id="notAssortmentWinesTableID" prefWidth="25.0" text="ID" />
+                                    <TableColumn fx:id="notAssortmentWinesTableName" prefWidth="140.0" text="Name" />
+                                    <TableColumn fx:id="notAssortmentWinesTableYear" prefWidth="60.0" text="Year" />
+                                    <TableColumn fx:id="notAssortmentWinesTableVolume" prefWidth="160.0" text="Volume" />
+                                    <TableColumn fx:id="notAssortmentWinesTableColor" prefWidth="81.0" text="Color" />
+                                    <TableColumn fx:id="notAssortmentWinesTablePrice" prefWidth="59.0" text="Price" />
+                                    <TableColumn fx:id="notAssortmentWinesTableComment" prefWidth="114.0" text="Comment" />
+                                </columns>
+                            </TableView>
+                     <HBox alignment="CENTER">
+                        <children>
+                           <Button mnemonicParsing="false" onAction="#deleteWineFromAssortment" prefHeight="25.0" prefWidth="25.0" text="-">
+                              <HBox.margin>
+                                 <Insets right="100.0" />
+                              </HBox.margin>
+                           </Button>
+                           <Button alignment="CENTER_RIGHT" mnemonicParsing="false" onAction="#addWineToAssortment" prefHeight="25.0" prefWidth="25.0" text="+">
+                              <HBox.margin>
+                                 <Insets left="100.0" />
+                              </HBox.margin>
+                           </Button>
+                        </children>
+                        <VBox.margin>
+                           <Insets bottom="10.0" top="10.0" />
+                        </VBox.margin>
+                     </HBox>
+                     <HBox alignment="CENTER">
+                        <children>
+                                  <Button fx:id="assortmentAddButton" onAction="#addAssortment" prefWidth="150.0" text="Créer Assortiment" />
+                           <TextField fx:id="assortmentYearTextField" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="25.0" prefWidth="75.0" promptText="Année">
+                              <opaqueInsets>
+                                 <Insets left="50.0" />
+                              </opaqueInsets>
+                              <HBox.margin>
+                                 <Insets left="50.0" right="50.0" />
+                              </HBox.margin>
+                           </TextField>
+                                  <Button fx:id="assortmentDeleteButton" onAction="#deleteAssortment" prefWidth="150.0" text="Supprimer assortiment" />
+                        </children>
+                        <VBox.margin>
+                           <Insets top="10.0" />
+                        </VBox.margin>
+                     </HBox>
+                        </VBox>
+                    </AnchorPane>
                 </Tab>
             </TabPane>
         </AnchorPane>

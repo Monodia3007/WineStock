@@ -20,17 +20,16 @@ import java.util.function.LongConsumer;
  */
 public class PostgreSQLManager {
     private static final Logger LOGGER = LogManager.getLogger(PostgreSQLManager.class);
-    private static final String WINE_SELECT_SQL = "SELECT * FROM public.wine WHERE in_assortment = false";
-    private static final String INSERT_WINE_SQL = "INSERT INTO public.wine(name, year, volume, color, price, comment, in_assortment) VALUES(?, ?, ?, ?, ?, ?, ?)";
-    private static final String ASSORTMENT_SELECT_SQL = "SELECT * FROM public.assortment";
-    private static final String WINE_SELECT_ASSORTMENT_SQL = "SELECT * FROM public.wine WHERE wno IN (SELECT wno FROM contains WHERE ano = ?)";
-    private static final String INSERT_ASSORTMENT_SQL = "INSERT INTO public.assortment(year) VALUES(?)";
-    private static final String INSERT_CONTAINS_SQL = "INSERT INTO public.contains(wno, ano) VALUES(?, ?)";
-    private static final String UPDATE_WINE_SQL = "UPDATE public.wine SET name = ?, year = ?, volume = ?, color = ?, price = ?, comment = ?, in_assortment = ? WHERE wno = ?";
+    private static final String WINE_SELECT_SQL = "SELECT wno, name, year, volume, color, price, color, comment FROM public.wine WHERE ano IS NULL";
+    private static final String INSERT_WINE_SQL = "INSERT INTO public.wine(name, year, volume, color, price, comment) VALUES(?, ?, ?, ?, ?, ?)";
+    private static final String UPDATE_WINE_SQL = "UPDATE public.wine SET name = ?, year = ?, volume = ?, color = ?, price = ?, comment = ? WHERE wno = ?";
     private static final String DELETE_WINE_SQL = "DELETE FROM public.wine WHERE wno = ?";
+    private static final String ASSORTMENT_SELECT_SQL = "SELECT * FROM public.assortment";
+    private static final String WINE_SELECT_ASSORTMENT_SQL = "SELECT * FROM public.wine WHERE wine.ano IN (SELECT ano FROM public.assortment WHERE ano = ?)";
+    private static final String INSERT_ASSORTMENT_SQL = "INSERT INTO public.assortment(year) VALUES(?)";
     private static final String DELETE_ASSORTMENT_SQL = "DELETE FROM public.assortment WHERE ano = ?";
-    private static final String UPDATE_WINE_IN_ASSORTMENT_SQL = "UPDATE public.wine SET in_assortment = false WHERE wno IN (SELECT wno FROM contains WHERE ano = ?)";
-    private static final String DELETE_WINE_IN_ASSORTMENT_SQL = "DELETE FROM public.contains WHERE wno = ? AND ano = ?";
+    private static final String UPDATE_WINE_IN_ASSORTMENT_SQL = "UPDATE public.wine SET ano = ? WHERE wno = ?";
+
 
     private final String url;
     private final String user;
@@ -156,7 +155,6 @@ public class PostgreSQLManager {
         pstmt.setString(4, wine.getColor().name());
         pstmt.setDouble(5, wine.getPrice());
         pstmt.setString(6, wine.getComment());
-        pstmt.setBoolean(7, wine.isInAssortment());
     }
 
     /**
@@ -217,6 +215,7 @@ public class PostgreSQLManager {
      */
     private Wine getWineFromResultSet(@NotNull ResultSet resultSetWines) throws SQLException {
         return new Wine.Builder(
+                resultSetWines.getInt("wno"),
                 resultSetWines.getString("name"),
                 resultSetWines.getInt("year"),
                 resultSetWines.getDouble("volume"),
@@ -290,19 +289,14 @@ public class PostgreSQLManager {
      *
      * @param wine         the wine to insert
      * @param assortmentId the ID of the assortment to insert the wine into
-     *
-     * @throws SQLException if an error occurs while accessing the database
      */
-    public void insertWineInAssortment(Wine wine, Long assortmentId) throws SQLException {
-        Optional<Long> wineId = insertWineInternal(wine);
-        if (wineId.isPresent()) {
-            try (PreparedStatement pstmtContains = connection.prepareStatement(INSERT_CONTAINS_SQL)) {
-                pstmtContains.setLong(1, assortmentId);
-                pstmtContains.setLong(2, wineId.get());
-                pstmtContains.executeUpdate();
-            } catch (SQLException e) {
-                LOGGER.error("Error executing insert: {}", e.getMessage(), e);
-            }
+    public void insertWineInAssortment(Wine wine, Long assortmentId) {
+        try (PreparedStatement pstmtContains = connect().prepareStatement(UPDATE_WINE_IN_ASSORTMENT_SQL)) {
+            pstmtContains.setLong(1, assortmentId);
+            pstmtContains.setLong(2, wine.getId());
+            pstmtContains.executeUpdate();
+        } catch (SQLException e) {
+            LOGGER.error("Error executing insert: {}", e.getMessage(), e);
         }
     }
 
@@ -319,7 +313,7 @@ public class PostgreSQLManager {
     public Optional<Long> updateWine(Wine wine) throws SQLException {
         try (PreparedStatement pstmt = connect().prepareStatement(UPDATE_WINE_SQL, Statement.RETURN_GENERATED_KEYS)) {
             setParametersInStatement(pstmt, wine);
-            pstmt.setInt(8, wine.getId());
+            pstmt.setInt(7, wine.getId());
             return handleResponse(pstmt, id -> wine.setId((int) id));
         }
     }
@@ -352,10 +346,9 @@ public class PostgreSQLManager {
      * @throws SQLException if an error occurs while deleting the assortment
      */
     private Optional<Long> deleteAssortmentInternal(Assortment<Wine> assortment) throws SQLException {
-        try (PreparedStatement pstmt = connect().prepareStatement(DELETE_ASSORTMENT_SQL, Statement.RETURN_GENERATED_KEYS)) {
-            pstmt.setInt(1, assortment.getId());
-            return handleResponse(pstmt, id -> assortment.setId((int) id));
-        }
+        PreparedStatement pstmt = connect().prepareStatement(DELETE_ASSORTMENT_SQL, Statement.RETURN_GENERATED_KEYS);
+        pstmt.setInt(1, assortment.getId());
+        return handleResponse(pstmt, id -> assortment.setId((int) id));
     }
 
     /**
@@ -367,48 +360,20 @@ public class PostgreSQLManager {
      * or an empty Optional if the deletion failed
      */
     public Optional<Long> deleteAssortment(Assortment<Wine> assortment) {
-        try {
-            connection.setAutoCommit(false);
-            Optional<Long> assortmentId = deleteAssortmentInternal(assortment);
-
-            if (assortmentId.isPresent()) {
-                deleteWinesInAssortment(assortmentId.get());
-            }
-
-            connection.commit();
-            return assortmentId;
+        try(PreparedStatement pstmt = connect().prepareStatement(DELETE_ASSORTMENT_SQL, Statement.RETURN_GENERATED_KEYS)) {
+            pstmt.setInt(1, assortment.getId());
+            return handleResponse(pstmt, id -> assortment.setId((int) id));
         } catch (SQLException e) {
             LOGGER.error("Error executing delete: {}", e.getMessage(), e);
-            try {
-                connection.rollback();
-            } catch (SQLException ex) {
-                LOGGER.error("Error rolling back transaction: {}", ex.getMessage(), ex);
-            }
         }
         return Optional.empty();
     }
 
-    /**
-     * Sets the in_assortment field of all wines associated with the given assortment to false.
-     *
-     * @param assortmentId the ID of the assortment to remove the wines from
-     *
-     * @throws SQLException if an error occurs while updating the wines
-     */
-    public void deleteWinesInAssortment(Long assortmentId) throws SQLException {
-        try (PreparedStatement pstmt = connect().prepareStatement(UPDATE_WINE_IN_ASSORTMENT_SQL)) {
-            pstmt.setLong(1, assortmentId);
-            pstmt.executeUpdate();
-        } catch (SQLException e) {
-            LOGGER.error("Error executing update: {}", e.getMessage(), e);
-            throw e;
-        }
-    }
 
-    public void deleteWineInAssortment (Wine wine, Long assortmentId) throws SQLException {
-        try (PreparedStatement pstmt = connect().prepareStatement(DELETE_WINE_IN_ASSORTMENT_SQL)) {
-            pstmt.setLong(1, wine.getId());
-            pstmt.setLong(2, assortmentId);
+    public void deleteWineInAssortment (Wine wine) throws SQLException {
+        try (PreparedStatement pstmt = connect().prepareStatement(UPDATE_WINE_IN_ASSORTMENT_SQL)) {
+            pstmt.setNull(1, Types.INTEGER);
+            pstmt.setLong(2, wine.getId());
             pstmt.executeUpdate();
         } catch (SQLException e) {
             LOGGER.error("Error executing update: {}", e.getMessage(), e);
