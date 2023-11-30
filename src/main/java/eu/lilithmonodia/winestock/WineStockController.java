@@ -27,6 +27,7 @@ import java.io.StringWriter;
 import java.sql.SQLException;
 import java.time.Year;
 import java.util.Objects;
+import java.util.Optional;
 
 /**
  * WineStockController class controls the Wine Stock application's UI.
@@ -364,14 +365,26 @@ public class WineStockController {
     @FXML
     public void addWine() {
         try {
-            postgreSQLManager.insertWine(new Wine.Builder(
+            Optional<Long> id = postgreSQLManager.insertWine(new Wine.Builder(
                     wineNameField.getText(),
                     Integer.parseInt(wineYearField.getText()),
                     wineVolumeComboBox.getValue().getVolume(),
                     wineColorComboBox.getValue().name(),
                     Double.parseDouble(winePriceField.getText())
             ).comment(wineCommentField.getText()).build());
+            if (id.isEmpty()) {
+                LOGGER.error("Failed to add wine to the database.");
+                Platform.runLater(() -> showErrorDialog("Error adding wine", "Failed to add wine to the database.", null));
+                return;
+            }
+
+            Optional<Wine> wineSelected = wineTable.getItems().stream()
+                        .filter(wine -> wine.getId() == id.get())
+                        .findFirst();
+            wineSelected.ifPresent(wine -> this.currentlySelectedWine = wine);
+
             refresh();
+            loadSelectedWine();
         } catch (Exception e) {
             LOGGER.error("Failed to add wine to the database.", e);
             Platform.runLater(() -> showErrorDialog("Error adding wine", "Failed to add wine to the database.", e));
@@ -433,8 +446,20 @@ public class WineStockController {
     @FXML
     public void addAssortment() {
         try {
-            postgreSQLManager.insertAssortment(new Assortment<>());
+            Optional<Long> id = postgreSQLManager.insertAssortment(new Assortment<>());
+            if (id.isEmpty()) {
+                LOGGER.error("Failed to add assortment to the database.");
+                Platform.runLater(() -> showErrorDialog("Error adding assortment", "Failed to add assortment to the database.", null));
+                return;
+            }
+            Optional<Assortment<Wine>> assortmentSelected = assortmentsTable.getItems().stream()
+                    .filter(assortment -> assortment.getId() == id.get())
+                    .findFirst();
+
+            assortmentSelected.ifPresent(assortment -> this.currentlySelectedAssortment = assortment);
+
             refresh();
+            loadSelectedAssortment();
         } catch (Exception e) {
             LOGGER.error("Failed to add assortment to the database.", e);
             Platform.runLater(() -> showErrorDialog("Error adding assortment", "Failed to add assortment to the database.", e));
