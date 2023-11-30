@@ -69,7 +69,7 @@ public class PostgreSQLManager {
      *
      * @return a List of Wine objects representing the wine records
      */
-    public List<Wine> getAllWine() {
+    public List<Wine> getAllWine() throws SQLException{
         List<Wine> wines = new ArrayList<>();
         try (Connection conn = connect();
              PreparedStatement pstmt = conn.prepareStatement(WINE_SELECT_SQL);
@@ -84,8 +84,6 @@ public class PostgreSQLManager {
                         resultSet.getDouble("price")
                 ).comment(resultSet.getString("comment")).build());
             }
-        } catch (SQLException e) {
-            LOGGER.error("Error executing select: {}", e.getMessage(), e);
         }
         return wines;
     }
@@ -143,7 +141,7 @@ public class PostgreSQLManager {
      *
      * @return a List of Assortment objects representing all the assortments in the database
      */
-    public List<Assortment<Wine>> getAllAssortments() {
+    public List<Assortment<Wine>> getAllAssortments() throws SQLException{
         List<Assortment<Wine>> assortments = new ArrayList<>();
 
         try (Connection conn = connect();
@@ -155,11 +153,7 @@ public class PostgreSQLManager {
                 Assortment<Wine> assortment = fetchAssortmentByResultSet(resultSet);
                 assortments.add(assortment);
             }
-
-        } catch (SQLException e) {
-            LOGGER.error("Error executing select: {}", e.getMessage(), e);
         }
-
         return assortments;
     }
 
@@ -271,13 +265,11 @@ public class PostgreSQLManager {
      * @param wine         the wine to insert
      * @param assortmentId the ID of the assortment to insert the wine into
      */
-    public void insertWineInAssortment(Wine wine, Long assortmentId) {
+    public void insertWineInAssortment(Wine wine, Long assortmentId) throws SQLException{
         try (PreparedStatement pstmtContains = connect().prepareStatement(UPDATE_WINE_IN_ASSORTMENT_SQL)) {
             pstmtContains.setLong(1, assortmentId);
             pstmtContains.setLong(2, wine.getId());
             pstmtContains.executeUpdate();
-        } catch (SQLException e) {
-            LOGGER.error("Error executing insert: {}", e.getMessage(), e);
         }
     }
 
@@ -324,14 +316,11 @@ public class PostgreSQLManager {
      * @return an Optional Long representing the ID of the deleted assortment,
      * or an empty Optional if the deletion failed
      */
-    public Optional<Long> deleteAssortment(Assortment<Wine> assortment) {
+    public Optional<Long> deleteAssortment(Assortment<Wine> assortment) throws SQLException{
         try(PreparedStatement pstmt = connect().prepareStatement(DELETE_ASSORTMENT_SQL, Statement.RETURN_GENERATED_KEYS)) {
             pstmt.setInt(1, assortment.getId());
             return handleResponse(pstmt, id -> assortment.setId((int) id));
-        } catch (SQLException e) {
-            LOGGER.error("Error executing delete: {}", e.getMessage(), e);
         }
-        return Optional.empty();
     }
 
     /**
@@ -345,9 +334,6 @@ public class PostgreSQLManager {
             pstmt.setNull(1, Types.INTEGER);
             pstmt.setLong(2, wine.getId());
             pstmt.executeUpdate();
-        } catch (SQLException e) {
-            LOGGER.error("Error executing update: {}", e.getMessage(), e);
-            throw e;
         }
     }
 

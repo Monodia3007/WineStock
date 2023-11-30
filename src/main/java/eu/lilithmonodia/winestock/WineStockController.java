@@ -7,6 +7,7 @@ import eu.lilithmonodia.winestock.data.BottleSize;
 import eu.lilithmonodia.winestock.data.Color;
 import eu.lilithmonodia.winestock.data.Wine;
 import eu.lilithmonodia.winestock.database.PostgreSQLManager;
+import eu.lilithmonodia.winestock.exceptions.InvalidYearException;
 import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.concurrent.Task;
@@ -296,7 +297,14 @@ public class WineStockController {
         Task<Void> task = new Task<>() {
             @Override
             public @Nullable Void call() {
-                attemptLogin(url, username, password);
+                try {
+                    attemptLogin(url, username, password);
+                } catch (SQLException e) {
+                    LOGGER.error("Failed to login and establish database connection.", e);
+                    Platform.runLater(() -> scene.setCursor(Cursor.DEFAULT));
+                    Platform.runLater(() -> showErrorDialog("Error logging in", "Failed to login and establish database connection.", e));
+                    return null;
+                }
                 return null;
             }
         };
@@ -316,21 +324,13 @@ public class WineStockController {
      * @param username the username for logging in to the database
      * @param password the password for logging in to the database
      */
-    private void attemptLogin(String url, String username, String password) {
-        try {
-            postgreSQLManager = new PostgreSQLManager(url ,username, password);
-            postgreSQLManager.connect();
-            importButton.setDisable(false);
-            winesTab.setDisable(false);
-            assortmentsTab.setDisable(false);
-            LOGGER.info("Successful login. Connection established.");
-        } catch (SQLException e) {
-            importButton.setDisable(true);
-            winesTab.setDisable(true);
-            assortmentsTab.setDisable(true);
-            LOGGER.error("Failed to login and establish database connection.", e);
-            Platform.runLater(() -> showErrorDialog("Error logging in", "Failed to login and establish database connection.", e));
-        }
+    private void attemptLogin(String url, String username, String password) throws SQLException {
+        postgreSQLManager = new PostgreSQLManager(url ,username, password);
+        postgreSQLManager.connect();
+        importButton.setDisable(false);
+        winesTab.setDisable(false);
+        assortmentsTab.setDisable(false);
+        LOGGER.info("Successful login. Connection established.");
     }
 
     /**
@@ -343,7 +343,7 @@ public class WineStockController {
             assortmentsTable.setItems(FXCollections.observableArrayList(postgreSQLManager.getAllAssortments()));
             notAssortmentWinesTable.setItems(FXCollections.observableArrayList(postgreSQLManager.getAllWine()));
 
-        } catch (Exception e) {
+        } catch (SQLException e) {
             LOGGER.error("Failed to refresh data from the database.", e);
             Platform.runLater(() -> showErrorDialog("Error refreshing data", "Failed to refresh data from the database.", e));
         }
@@ -427,7 +427,7 @@ public class WineStockController {
 
             refresh();
             loadSelectedWine();
-        } catch (Exception e) {
+        } catch (SQLException e) {
             LOGGER.error(FAILED_TO_ADD_WINE_TO_THE_DATABASE, e);
             Platform.runLater(() -> showErrorDialog("Error adding wine", FAILED_TO_ADD_WINE_TO_THE_DATABASE, e));
         }
@@ -451,7 +451,7 @@ public class WineStockController {
             refresh();
             currentlySelectedWine = null;
             resetWineFields();
-        } catch (Exception e) {
+        } catch (SQLException e) {
             LOGGER.error("Failed to delete wine from the database.", e);
             Platform.runLater(() -> showErrorDialog("Error deleting wine", "Failed to delete wine from the database.", e));
         }
@@ -486,7 +486,7 @@ public class WineStockController {
                 postgreSQLManager.updateWine(this.currentlySelectedWine);
 
                 refresh();
-            } catch (Exception e) {
+            } catch (SQLException | InvalidYearException e) {
                 LOGGER.error("Failed to modify wine in the database.", e);
                 Platform.runLater(() -> showErrorDialog("Error modifying wine", "Failed to modify wine in the database.", e));
             }
@@ -633,7 +633,7 @@ public class WineStockController {
             currentlySelectedAssortment.add(notAssortmentWinesTable.getSelectionModel().getSelectedItem());
             assortmentWinesTable.setItems(FXCollections.observableArrayList(this.currentlySelectedAssortment));
             refresh();
-        } catch (Exception e) {
+        } catch (SQLException e) {
             LOGGER.error("Failed to add wine to assortment in the database.", e);
             Platform.runLater(() -> showErrorDialog(ERROR_ADDING_ASSORTMENT, "Failed to add wine to assortment in the database.", e));
         }
@@ -660,7 +660,7 @@ public class WineStockController {
             refresh();
             currentlySelectedAssortment.remove(assortmentWinesTable.getSelectionModel().getSelectedItem());
             assortmentWinesTable.setItems(FXCollections.observableArrayList(this.currentlySelectedAssortment));
-        } catch (Exception e) {
+        } catch (SQLException e) {
             LOGGER.error("Failed to delete wine from assortment in the database.", e);
             Platform.runLater(() -> showErrorDialog("Error deleting wine from assortment", "Failed to delete wine from assortment in the database.", e));
         }
