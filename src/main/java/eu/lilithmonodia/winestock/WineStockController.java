@@ -237,6 +237,18 @@ public class WineStockController {
         assortmentTotalPrice.setCellValueFactory(new PropertyValueFactory<>("totalPrice"));
     }
 
+    /**
+     * Sets cell value factories for each TableColumn in a TableView.
+     *
+     * @param tableID      The TableColumn representing the ID column.
+     * @param tableName    The TableColumn representing the name column.
+     * @param tableYear    The TableColumn representing the year column.
+     * @param tableVolume  The TableColumn representing the volume column.
+     * @param tableColor   The TableColumn representing the color column.
+     * @param tablePrice   The TableColumn representing the price column.
+     * @param tableComment The TableColumn representing the comment column.
+     * @param <T>          The type of objects contained in the TableView.
+     */
     private <T> void setCellValueFactories(TableColumn<T, ?> tableID,
                                            TableColumn<T, ?> tableName,
                                            TableColumn<T, ?> tableYear,
