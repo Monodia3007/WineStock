@@ -203,9 +203,27 @@ public class WineStockController {
      * Sets cell value factories for each TableColumn in TableView.
      */
     private void setCellValueFactories() {
-        setCellValueFactories(assortmentWinesTableID, assortmentWinesTableName, assortmentWinesTableYear, assortmentWinesTableVolume, assortmentWinesTableColor, assortmentWinesTablePrice, assortmentWinesTableComment);
-        setCellValueFactories(wineTableID, wineTableName, wineTableYear, wineTableVolume, wineTableColor, wineTablePrice, wineTableComment);
-        setCellValueFactories(notAssortmentWinesTableID, notAssortmentWinesTableName, notAssortmentWinesTableYear, notAssortmentWinesTableVolume, notAssortmentWinesTableColor, notAssortmentWinesTablePrice, notAssortmentWinesTableComment);
+        setCellValueFactories(assortmentWinesTableID,
+                assortmentWinesTableName,
+                assortmentWinesTableYear,
+                assortmentWinesTableVolume,
+                assortmentWinesTableColor,
+                assortmentWinesTablePrice,
+                assortmentWinesTableComment);
+        setCellValueFactories(wineTableID,
+                wineTableName,
+                wineTableYear,
+                wineTableVolume,
+                wineTableColor,
+                wineTablePrice,
+                wineTableComment);
+        setCellValueFactories(notAssortmentWinesTableID,
+                notAssortmentWinesTableName,
+                notAssortmentWinesTableYear,
+                notAssortmentWinesTableVolume,
+                notAssortmentWinesTableColor,
+                notAssortmentWinesTablePrice,
+                notAssortmentWinesTableComment);
         setAssortmentTableCellValueFactories();
     }
 
