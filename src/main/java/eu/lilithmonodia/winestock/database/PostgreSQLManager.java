@@ -70,6 +70,8 @@ public class PostgreSQLManager {
      * Retrieves all wine records from the database.
      *
      * @return a List of Wine objects representing the wine records
+     *
+     * @throws SQLException if an error occurs while retrieving the wine records
      */
     public List<Wine> getAllWine() throws SQLException{
         List<Wine> wines = new ArrayList<>();
@@ -150,6 +152,8 @@ public class PostgreSQLManager {
      * Retrieves all Assortments from the database.
      *
      * @return a List of Assortment objects representing all the assortments in the database
+     *
+     * @throws SQLException if an error occurs while retrieving the assortments
      */
     public List<Assortment<Wine>> getAllAssortments() throws SQLException{
         List<Assortment<Wine>> assortments = new ArrayList<>();
@@ -272,6 +276,8 @@ public class PostgreSQLManager {
      *
      * @param wine         the wine to insert
      * @param assortmentId the ID of the assortment to insert the wine into
+     *
+     * @throws SQLException if an error occurs while accessing the database
      */
     public void insertWineInAssortment(@NotNull Wine wine, Long assortmentId) throws SQLException{
         try (PreparedStatement pstmtContains = connect().prepareStatement(UPDATE_WINE_IN_ASSORTMENT_SQL)) {
@@ -346,6 +352,8 @@ public class PostgreSQLManager {
      *
      * @return an Optional Long representing the ID of the deleted assortment,
      * or an empty Optional if the deletion failed
+     *
+     * @throws SQLException if an error occurs while deleting the assortment
      */
     public Optional<Long> deleteAssortment(Assortment<Wine> assortment) throws SQLException{
         try(PreparedStatement pstmt = connect().prepareStatement(DELETE_ASSORTMENT_SQL, Statement.RETURN_GENERATED_KEYS)) {
