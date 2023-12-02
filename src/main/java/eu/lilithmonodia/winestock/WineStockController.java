@@ -194,9 +194,8 @@ public class WineStockController {
             refresh();
             LOGGER.info("Database successfully imported.");
         } catch (Exception e) {
-            LOGGER.error("Failed to import database.", e);
+            handleError("Error importing database", "Failed to import database.", e);
             scene.setCursor(Cursor.DEFAULT);
-            showErrorDialog("Error importing database", "Failed to import database.", e);
         }
         scene.setCursor(Cursor.DEFAULT);
     }
@@ -282,8 +281,7 @@ public class WineStockController {
             importButton.setDisable(false);
             LOGGER.info("Successful login. Connection established.");
         } catch (SQLException e) {
-            LOGGER.error("Failed to login and establish database connection.", e);
-            showErrorDialog("Error logging in", "Failed to login and establish database connection.", e);
+            handleError("Error logging in", "Failed to login and establish database connection.", e);
         } finally {
             scene.setCursor(Cursor.DEFAULT);
         }
@@ -311,8 +309,7 @@ public class WineStockController {
             assortmentsTable.setItems(FXCollections.observableArrayList(postgreSQLManager.getAllAssortments()));
             notAssortmentWinesTable.setItems(FXCollections.observableArrayList(postgreSQLManager.getAllWine()));
         } catch (SQLException e) {
-            LOGGER.error("Failed to refresh data from the database.", e);
-            showErrorDialog("Error refreshing data", "Failed to refresh data from the database.", e);
+            handleError("Error refreshing data", "Failed to refresh data from the database.", e);
         }
     }
 
@@ -325,8 +322,7 @@ public class WineStockController {
             try {
                 this.postgreSQLManager.close();
             } catch (SQLException e) {
-                LOGGER.error("Failed to close PostgreSQLManager", e);
-                showErrorDialog("Error closing application", "Failed to close PostgreSQLManager", e);
+                handleError("Error closing application", "Failed to close PostgreSQLManager", e);
             }
         }
     }
@@ -366,12 +362,12 @@ public class WineStockController {
         try {
             Wine wine = createWineFromFields();
             if (postgreSQLManager.insertWine(wine).isEmpty()) {
-                handleWineInsertionError(FAILED_TO_ADD_WINE_TO_THE_DATABASE, null);
+                handleError(ERROR_ADDING_WINE, FAILED_TO_ADD_WINE_TO_THE_DATABASE, null);
                 return;
             }
             this.currentlySelectedWine = wine;
         } catch (SQLException | IllegalArgumentException e) {
-            handleWineInsertionError(FAILED_TO_ADD_WINE_TO_THE_DATABASE, e);
+            handleError(ERROR_ADDING_WINE, FAILED_TO_ADD_WINE_TO_THE_DATABASE, e);
             return;
         }
         refresh();
@@ -397,15 +393,6 @@ public class WineStockController {
     }
 
     /**
-     * Handles an error that occurs during wine insertion.
-     * Logs an error message and displays an error dialog to the user.
-     */
-    private void handleWineInsertionError(String message, Exception e) {
-        LOGGER.error(message, e);
-        Platform.runLater(() -> showErrorDialog(ERROR_ADDING_WINE, message, e));
-    }
-
-    /**
      * Deletes the currently selected wine from the database.
      * <p>
      * It calls the deleteWine method of the PostgreSQLManager class,
@@ -420,35 +407,18 @@ public class WineStockController {
     public void deleteWine() {
         try {
             if (this.currentlySelectedWine == null) {
-                handleWineDeletionError(NO_WINE_SELECTED, null);
+                handleError("Error deleting wine","Failed to delete wine from the database.", null);
                 return;
             }
             postgreSQLManager.deleteWine(this.currentlySelectedWine);
         } catch (SQLException e) {
-            handleWineDeletionError("Failed to delete wine from the database.", e);
+            handleError("Error deleting wine","Failed to delete wine from the database.", e);
             return;
         }
 
         refresh();
         currentlySelectedWine = null;
         resetWineFields();
-    }
-
-    /**
-     * Handles an error that occurs during the deletion of a wine from the database.
-     * <p>
-     * This method logs an error message with the exception stack trace using the LOGGER class.
-     * It also displays an error dialog showing the error message and the exception stack trace
-     * using the Platform class and the showErrorDialog method.
-     * The error message includes a generic message about the failure to delete the wine,
-     * and the exception stack trace provides additional information about the error.
-     *
-     * @param message the error message to display in the error dialog
-     * @param e the SQLException that occurred during the wine deletion process
-     */
-    private void handleWineDeletionError(String message,Exception e) {
-        LOGGER.error(message, e);
-        Platform.runLater(() -> showErrorDialog("Error deleting wine", message, e));
     }
 
     /**
@@ -469,8 +439,7 @@ public class WineStockController {
     @FXML
     public void modifyWine() {
         if (this.currentlySelectedWine == null) {
-            LOGGER.error(NO_WINE_SELECTED);
-            Platform.runLater(() -> showErrorDialog("Error modifying wine", NO_WINE_SELECTED, null));
+            handleError(NO_WINE_SELECTED, "Error modifying wine", null);
             return;
         }
 
@@ -478,12 +447,16 @@ public class WineStockController {
             updateSelectedWine();
             postgreSQLManager.updateWine(this.currentlySelectedWine);
         } catch (SQLException | InvalidYearException e) {
-            LOGGER.error("Failed to modify wine in the database.", e);
-            Platform.runLater(() -> showErrorDialog("Error modifying wine", "Failed to modify wine in the database.", e));
+            handleError("Error modifying wine", "Failed to modify wine in the database.", e);
             return;
         }
 
         refresh();
+    }
+
+    private void handleError(String title, String message, Exception e) {
+        LOGGER.error(message);
+        Platform.runLater(() -> showErrorDialog(title, message, e));
     }
 
     /**
@@ -522,8 +495,7 @@ public class WineStockController {
             wineCommentField.setText(selectedWine.getComment());
             this.wineTabPane.getSelectionModel().select(wineModifyTab);
         } else {
-            LOGGER.error(NO_WINE_SELECTED);
-            Platform.runLater(() -> showErrorDialog("Error loading wine", NO_WINE_SELECTED, null));
+            handleError("Error loading wine", NO_WINE_SELECTED, null);
         }
     }
 
@@ -549,22 +521,19 @@ public class WineStockController {
         try {
             String yearText = assortmentYearTextField.getText();
             if (yearText.isEmpty() || !yearText.matches("\\d{4}")) {
-                LOGGER.error("Year field is empty.");
-                Platform.runLater(() -> showErrorDialog(ERROR_ADDING_ASSORTMENT, "Year field is empty.", null));
+                handleError("Year field is empty.", ERROR_ADDING_ASSORTMENT, null);
                 return;
             }
             Assortment<Wine> assortment = new Assortment<>(Year.parse(yearText));
             Optional<Long> id = postgreSQLManager.insertAssortment(assortment);
             if (id.isEmpty()) {
-                LOGGER.error(FAILED_TO_ADD_ASSORTMENT_TO_THE_DATABASE);
-                Platform.runLater(() -> showErrorDialog(ERROR_ADDING_ASSORTMENT, FAILED_TO_ADD_ASSORTMENT_TO_THE_DATABASE, null));
+                handleError(ERROR_ADDING_ASSORTMENT,FAILED_TO_ADD_ASSORTMENT_TO_THE_DATABASE, null);
                 return;
             }
 
             this.currentlySelectedAssortment = assortment;
         } catch (Exception e) {
-            LOGGER.error(FAILED_TO_ADD_ASSORTMENT_TO_THE_DATABASE, e);
-            Platform.runLater(() -> showErrorDialog(ERROR_ADDING_ASSORTMENT, FAILED_TO_ADD_ASSORTMENT_TO_THE_DATABASE, e));
+            handleError(ERROR_ADDING_ASSORTMENT, FAILED_TO_ADD_ASSORTMENT_TO_THE_DATABASE, e);
         }
 
         refresh();
@@ -589,8 +558,7 @@ public class WineStockController {
             postgreSQLManager.deleteAssortment(this.currentlySelectedAssortment);
 
         } catch (Exception e) {
-            LOGGER.error("Failed to delete assortment from the database.", e);
-            Platform.runLater(() -> showErrorDialog("Error deleting assortment", "Failed to delete assortment from the database.", e));
+            handleError("Error deleting assortment", "Failed to delete assortment from the database.", e);
             return;
         }
 
@@ -617,22 +585,19 @@ public class WineStockController {
     public void addWineToAssortment() {
         Wine selectedWine = notAssortmentWinesTable.getSelectionModel().getSelectedItem();
         if (selectedWine == null || this.currentlySelectedAssortment == null) {
-            LOGGER.error("No wine or assortment selected.");
-            Platform.runLater(() -> showErrorDialog(ERROR_ADDING_WINE_TO_ASSORTMENT, "No wine or assortment selected.", null));
+            handleError(ERROR_ADDING_WINE_TO_ASSORTMENT, "No wine or assortment selected.", null);
             return;
         }
 
         if (!this.currentlySelectedAssortment.getYear().equals(selectedWine.getYear())) {
-            LOGGER.error("Wine year does not match assortment year.");
-            Platform.runLater(() -> showErrorDialog(ERROR_ADDING_WINE_TO_ASSORTMENT, "Wine year does not match assortment year.", null));
+            handleError(ERROR_ADDING_WINE_TO_ASSORTMENT, "Wine year does not match assortment year.", null);
             return;
         }
 
         try {
             postgreSQLManager.insertWineInAssortment(selectedWine, (long) this.currentlySelectedAssortment.getId());
         } catch (SQLException e) {
-            LOGGER.error("Failed to add wine to assortment in the database.", e);
-            Platform.runLater(() -> showErrorDialog(ERROR_ADDING_WINE_TO_ASSORTMENT, "Failed to add wine to assortment in the database.", e));
+            handleError(ERROR_ADDING_WINE_TO_ASSORTMENT, "Failed to add wine to assortment in the database.", e);
             return;
         }
 
@@ -661,8 +626,7 @@ public class WineStockController {
             postgreSQLManager.deleteWineInAssortment(assortmentWinesTable.getSelectionModel().getSelectedItem());
 
         } catch (SQLException e) {
-            LOGGER.error("Failed to delete wine from assortment in the database.", e);
-            Platform.runLater(() -> showErrorDialog("Error deleting wine from assortment", "Failed to delete wine from assortment in the database.", e));
+            handleError("Error deleting wine from assortment", "Failed to delete wine from assortment in the database.", e);
             return;
         }
 
@@ -691,8 +655,7 @@ public class WineStockController {
             this.assortmentYearTextField.setText(String.valueOf(selectedAssortment.getYear()));
             this.assortmentTabPane.getSelectionModel().select(assortmentModifyTab);
         } else {
-            LOGGER.error(NO_ASSORTMENT_SELECTED);
-            Platform.runLater(() -> showErrorDialog("Error loading assortment", NO_ASSORTMENT_SELECTED, null));
+            handleError("Error loading assortment", NO_ASSORTMENT_SELECTED, null);
         }
     }
 
