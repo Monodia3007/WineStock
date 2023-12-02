@@ -7,7 +7,7 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
 <TabPane xmlns:fx="http://javafx.com/fxml/1" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity"
-         minWidth="-Infinity" tabClosingPolicy="UNAVAILABLE" xmlns="http://javafx.com/javafx/20.0.1"
+         minWidth="-Infinity" tabClosingPolicy="UNAVAILABLE" xmlns="http://javafx.com/javafx/17.0.0"
          fx:controller="eu.lilithmonodia.winestock.WineStockController">
     <Tab text="Connexion">
         <VBox alignment="CENTER" layoutX="183.0" layoutY="36.0">
@@ -65,25 +65,25 @@
                             <columns>
                                 <TableColumn fx:id="wineTableID" maxWidth="32.0" minWidth="32.0" prefWidth="32.0"
                                              resizable="false" text="ID"/>
-                                <TableColumn fx:id="wineTableName" maxWidth="1.7976931348623157E308"
-                                             minWidth="158.0" prefWidth="-1.0" text="Nom"/>
+                                <TableColumn fx:id="wineTableName" maxWidth="1.7976931348623157E308" minWidth="158.0"
+                                             prefWidth="-1.0" text="Nom"/>
                                 <TableColumn fx:id="wineTableYear" maxWidth="1.7976931348623157E308" minWidth="76.0"
                                              prefWidth="-1.0" text="Millésime"/>
-                                <TableColumn fx:id="wineTableVolume" maxWidth="1.7976931348623157E308"
-                                             minWidth="99.0" prefWidth="-1.0" text="Contenance"/>
-                                <TableColumn fx:id="wineTableColor" maxWidth="1.7976931348623157E308"
-                                             minWidth="69.0" prefWidth="-1.0" text="Couleur"/>
-                                <TableColumn fx:id="wineTablePrice" maxWidth="1.7976931348623157E308"
-                                             minWidth="73.0" prefWidth="-1.0" text="Prix"/>
-                                <TableColumn fx:id="wineTableComment" maxWidth="1.7976931348623157E308"
-                                             minWidth="114.0" prefWidth="-1.0" text="Commentaire"/>
+                                <TableColumn fx:id="wineTableVolume" maxWidth="1.7976931348623157E308" minWidth="99.0"
+                                             prefWidth="-1.0" text="Contenance"/>
+                                <TableColumn fx:id="wineTableColor" maxWidth="1.7976931348623157E308" minWidth="69.0"
+                                             prefWidth="-1.0" text="Couleur"/>
+                                <TableColumn fx:id="wineTablePrice" maxWidth="1.7976931348623157E308" minWidth="73.0"
+                                             prefWidth="-1.0" text="Prix"/>
+                                <TableColumn fx:id="wineTableComment" maxWidth="1.7976931348623157E308" minWidth="114.0"
+                                             prefWidth="-1.0" text="Commentaire"/>
                             </columns>
                             <VBox.margin>
                                 <Insets bottom="10.0" left="10.0" right="10.0" top="10.0"/>
                             </VBox.margin>
                         </TableView>
-                        <Button mnemonicParsing="false" onAction="#loadSelectedWine" prefHeight="25.0"
-                                prefWidth="100.0" text="Modifier">
+                        <Button mnemonicParsing="false" onAction="#loadSelectedWine" prefHeight="25.0" prefWidth="100.0"
+                                text="Modifier">
                             <VBox.margin>
                                 <Insets bottom="10.0" left="10.0" right="10.0" top="10.0"/>
                             </VBox.margin>
@@ -145,16 +145,16 @@
             <Tab text="Visualiser">
 
                 <FlowPane>
-                    <VBox alignment="CENTER" prefHeight="444.0" prefWidth="641.0">
+                    <VBox alignment="CENTER">
                         <TableView fx:id="assortmentsTable" maxHeight="1.7976931348623157E308"
                                    maxWidth="1.7976931348623157E308">
                             <columns>
-                                <TableColumn fx:id="assortmentID" maxWidth="47.0" minWidth="47.0"
-                                             prefWidth="47.0" resizable="false" text="ID"/>
-                                <TableColumn fx:id="assortmentWines" maxWidth="1.7976931348623157E308"
-                                             minWidth="413.0" prefWidth="-1.0" text="Vins"/>
-                                <TableColumn fx:id="assortmentYear" maxWidth="1.7976931348623157E308"
-                                             minWidth="66.0" prefWidth="-1.0" text="Millésime"/>
+                                <TableColumn fx:id="assortmentID" maxWidth="47.0" minWidth="47.0" prefWidth="47.0"
+                                             resizable="false" text="ID"/>
+                                <TableColumn fx:id="assortmentWines" maxWidth="1.7976931348623157E308" minWidth="413.0"
+                                             prefWidth="-1.0" text="Vins"/>
+                                <TableColumn fx:id="assortmentYear" maxWidth="1.7976931348623157E308" minWidth="66.0"
+                                             prefWidth="-1.0" text="Millésime"/>
                                 <TableColumn fx:id="assortmentTotalPrice" maxWidth="1.7976931348623157E308"
                                              minWidth="94.0" prefWidth="-1.0" text="Prix Total"/>
                             </columns>
@@ -223,9 +223,8 @@
                                              minWidth="79.0" prefWidth="-1.0" text="Color"/>
                                 <TableColumn fx:id="notAssortmentWinesTablePrice" maxWidth="1.7976931348623157E308"
                                              minWidth="59.0" prefWidth="-1.0" text="Price"/>
-                                <TableColumn fx:id="notAssortmentWinesTableComment"
-                                             maxWidth="1.7976931348623157E308" minWidth="94.0" prefWidth="-1.0"
-                                             text="Comment"/>
+                                <TableColumn fx:id="notAssortmentWinesTableComment" maxWidth="1.7976931348623157E308"
+                                             minWidth="94.0" prefWidth="-1.0" text="Comment"/>
                             </columns>
                             <VBox.margin>
                                 <Insets bottom="10.0" left="10.0" right="10.0" top="10.0"/>
