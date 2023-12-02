@@ -272,7 +272,7 @@
     <Tab text="À Propos">
 
         <VBox>
-            <Text strokeType="OUTSIDE" strokeWidth="0.0" text="WineStock Version 1.1.1" textAlignment="CENTER"
+            <Text strokeType="OUTSIDE" strokeWidth="0.0" text="WineStock Version 1.1.2" textAlignment="CENTER"
                   textOrigin="TOP" wrappingWidth="639.4577484130859">
                 <VBox.margin>
                     <Insets top="10.0"/>
