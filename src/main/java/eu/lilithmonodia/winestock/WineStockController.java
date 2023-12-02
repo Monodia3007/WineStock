@@ -366,12 +366,12 @@ public class WineStockController {
         try {
             Wine wine = createWineFromFields();
             if (postgreSQLManager.insertWine(wine).isEmpty()) {
-                handleWineInsertionError();
+                handleWineInsertionError(FAILED_TO_ADD_WINE_TO_THE_DATABASE, null);
                 return;
             }
             this.currentlySelectedWine = wine;
         } catch (SQLException | IllegalArgumentException e) {
-            handleWineInsertionError(e);
+            handleWineInsertionError(FAILED_TO_ADD_WINE_TO_THE_DATABASE, e);
             return;
         }
         refresh();
@@ -400,20 +400,9 @@ public class WineStockController {
      * Handles an error that occurs during wine insertion.
      * Logs an error message and displays an error dialog to the user.
      */
-    private void handleWineInsertionError() {
-        LOGGER.error(FAILED_TO_ADD_WINE_TO_THE_DATABASE);
-        Platform.runLater(() -> showErrorDialog(ERROR_ADDING_WINE, FAILED_TO_ADD_WINE_TO_THE_DATABASE, null));
-    }
-
-    /**
-     * Handles an error that occurs during wine insertion.
-     * Logs an error message and displays an error dialog to the user.
-     *
-     * @param e the Exception that occurred during wine insertion
-     */
-    private void handleWineInsertionError(Exception e) {
-        LOGGER.error(FAILED_TO_ADD_WINE_TO_THE_DATABASE, e);
-        Platform.runLater(() -> showErrorDialog(ERROR_ADDING_WINE, FAILED_TO_ADD_WINE_TO_THE_DATABASE, e));
+    private void handleWineInsertionError(String message, Exception e) {
+        LOGGER.error(message, e);
+        Platform.runLater(() -> showErrorDialog(ERROR_ADDING_WINE, message, e));
     }
 
     /**
@@ -431,12 +420,12 @@ public class WineStockController {
     public void deleteWine() {
         try {
             if (this.currentlySelectedWine == null) {
-                handleWineDeletionError();
+                handleWineDeletionError(NO_WINE_SELECTED, null);
                 return;
             }
             postgreSQLManager.deleteWine(this.currentlySelectedWine);
         } catch (SQLException e) {
-            handleWineDeletionError(e);
+            handleWineDeletionError("Failed to delete wine from the database.", e);
             return;
         }
 
@@ -454,24 +443,12 @@ public class WineStockController {
      * The error message includes a generic message about the failure to delete the wine,
      * and the exception stack trace provides additional information about the error.
      *
+     * @param message the error message to display in the error dialog
      * @param e the SQLException that occurred during the wine deletion process
      */
-    private void handleWineDeletionError(SQLException e) {
-        LOGGER.error("Failed to delete wine from the database.", e);
-        Platform.runLater(() -> showErrorDialog("Error deleting wine", "Failed to delete wine from the database.", e));
-    }
-
-    /**
-     * Handles an error when no wine is selected for deletion.
-     * <p>
-     * This method logs an error message using the LOGGER class
-     * and displays an error dialog using the Platform class and the showErrorDialog method.
-     * The error message includes a generic message about the failure to delete a wine
-     * due to no wine being selected.
-     */
-    private void handleWineDeletionError() {
-        LOGGER.error(NO_WINE_SELECTED);
-        Platform.runLater(() -> showErrorDialog("Error deleting wine", NO_WINE_SELECTED, null));
+    private void handleWineDeletionError(String message,Exception e) {
+        LOGGER.error(message, e);
+        Platform.runLater(() -> showErrorDialog("Error deleting wine", message, e));
     }
 
     /**
