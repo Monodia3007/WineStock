@@ -40,6 +40,7 @@ public class WineStockController {
     private static final String ERROR_ADDING_WINE_TO_ASSORTMENT = "Error adding wine to assortment";
     private static final String NO_ASSORTMENT_SELECTED = "No assortment selected.";
     private static final String ERROR_ADDING_WINE = "Error adding wine";
+    private static final String ERROR_DELETING_WINE_FROM_ASSORTMENT = "Error deleting wine from assortment";
     // Manager for PostgreSQL Database
 
     private TabPane rootPane;
@@ -623,10 +624,17 @@ public class WineStockController {
     @FXML
     public void deleteWineFromAssortment() {
         try {
+            if (this.currentlySelectedAssortment == null) {
+                handleError(ERROR_DELETING_WINE_FROM_ASSORTMENT, "Failed to delete wine from assortment in the database.", null);
+                return;
+            } else if (assortmentWinesTable.getSelectionModel().getSelectedItem() == null) {
+                handleError(ERROR_DELETING_WINE_FROM_ASSORTMENT, NO_WINE_SELECTED, null);
+                return;
+            }
             postgreSQLManager.deleteWineInAssortment(assortmentWinesTable.getSelectionModel().getSelectedItem());
 
         } catch (SQLException e) {
-            handleError("Error deleting wine from assortment", "Failed to delete wine from assortment in the database.", e);
+            handleError(ERROR_DELETING_WINE_FROM_ASSORTMENT, "Failed to delete wine from assortment in the database.", e);
             return;
         }
 
