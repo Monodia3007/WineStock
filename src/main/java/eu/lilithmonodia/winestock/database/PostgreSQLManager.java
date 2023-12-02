@@ -305,7 +305,7 @@ public class PostgreSQLManager {
         try (PreparedStatement pstmt = connect().prepareStatement(UPDATE_WINE_SQL)) {
             setParametersInStatement(pstmt, wine);
             pstmt.setInt(7, wine.getId());
-            Optional<Long> longOptional = handleResponse(pstmt, id -> wine.setId((int) id));
+            Optional<Long> longOptional = pstmt.executeUpdate() > 0 ? Optional.of((long) wine.getId()) : Optional.empty();
             if (longOptional.isPresent()) {
                 connection.commit();
             }
@@ -358,7 +358,7 @@ public class PostgreSQLManager {
     public Optional<Long> deleteAssortment(Assortment<Wine> assortment) throws SQLException{
         try(PreparedStatement pstmt = connect().prepareStatement(DELETE_ASSORTMENT_SQL, Statement.RETURN_GENERATED_KEYS)) {
             pstmt.setInt(1, assortment.getId());
-            Optional<Long> longOptional = handleResponse(pstmt, id -> assortment.setId((int) id));
+            Optional<Long> longOptional = pstmt.executeUpdate() > 0 ? Optional.of((long) assortment.getId()) : Optional.empty();
             connection.commit();
             return longOptional;
         } catch (SQLException e) {

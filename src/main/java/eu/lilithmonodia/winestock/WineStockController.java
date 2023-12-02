@@ -306,9 +306,18 @@ public class WineStockController {
      */
     public void refresh() {
         try {
+            if (postgreSQLManager == null) {
+                handleError("Error refreshing data", "Failed to refresh data from the database.", null);
+                return;
+            }
+
             wineTable.setItems(FXCollections.observableArrayList(postgreSQLManager.getAllWine()));
             assortmentsTable.setItems(FXCollections.observableArrayList(postgreSQLManager.getAllAssortments()));
             notAssortmentWinesTable.setItems(FXCollections.observableArrayList(postgreSQLManager.getAllWine()));
+
+            wineTable.refresh();
+            assortmentsTable.refresh();
+            notAssortmentWinesTable.refresh();
         } catch (SQLException e) {
             handleError("Error refreshing data", "Failed to refresh data from the database.", e);
         }
