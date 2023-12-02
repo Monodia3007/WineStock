@@ -24,16 +24,16 @@
                 </font>
             </Text>
             <HBox alignment="CENTER">
-                <TextField fx:id="hostField" maxHeight="-Infinity" maxWidth="-Infinity" promptText="Database Host" />
+                <TextField fx:id="hostField" maxHeight="-Infinity" maxWidth="-Infinity" promptText="URL" />
                 <Text strokeType="OUTSIDE" strokeWidth="0.0" text=":" textAlignment="CENTER" />
                 <TextField fx:id="portField" maxHeight="-Infinity" maxWidth="-Infinity" prefWidth="70.0" promptText="Port(5432)" />
             </HBox>
-            <TextField fx:id="usernameField" maxHeight="-Infinity" maxWidth="-Infinity" promptText="Username">
+            <TextField fx:id="usernameField" maxHeight="-Infinity" maxWidth="-Infinity" promptText="Nom d'utilisateur">
                 <VBox.margin>
                     <Insets bottom="5.0" top="5.0" />
                 </VBox.margin>
             </TextField>
-            <PasswordField fx:id="passwordField" maxHeight="-Infinity" maxWidth="-Infinity" onAction="#login" promptText="Password">
+            <PasswordField fx:id="passwordField" maxHeight="-Infinity" maxWidth="-Infinity" onAction="#login" promptText="Mot de passe">
                 <VBox.margin>
                     <Insets bottom="5.0" top="5.0" />
                 </VBox.margin>
@@ -156,12 +156,12 @@
                         <TableView fx:id="assortmentWinesTable" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="113.0" prefWidth="633.0">
                             <columns>
                                 <TableColumn fx:id="assortmentWinesTableID" maxWidth="25.0" minWidth="25.0" prefWidth="25.0" resizable="false" text="ID" />
-                                <TableColumn fx:id="assortmentWinesTableName" maxWidth="1.7976931348623157E308" minWidth="125.0" prefWidth="-1.0" text="Name" />
-                                <TableColumn fx:id="assortmentWinesTableYear" maxWidth="1.7976931348623157E308" minWidth="75.0" prefWidth="-1.0" text="Year" />
-                                <TableColumn fx:id="assortmentWinesTableVolume" maxWidth="1.7976931348623157E308" minWidth="162.0" prefWidth="-1.0" text="Volume" />
-                                <TableColumn fx:id="assortmentWinesTableColor" maxWidth="1.7976931348623157E308" minWidth="79.0" prefWidth="-1.0" text="Color" />
-                                <TableColumn fx:id="assortmentWinesTablePrice" maxWidth="1.7976931348623157E308" minWidth="59.0" prefWidth="-1.0" text="Price" />
-                                <TableColumn fx:id="assortmentWinesTableComment" maxWidth="1.7976931348623157E308" minWidth="94.0" prefWidth="-1.0" text="Comment" />
+                                <TableColumn fx:id="assortmentWinesTableName" maxWidth="1.7976931348623157E308" minWidth="125.0" prefWidth="-1.0" text="Nom" />
+                                <TableColumn fx:id="assortmentWinesTableYear" maxWidth="1.7976931348623157E308" minWidth="75.0" prefWidth="-1.0" text="Millésime" />
+                                <TableColumn fx:id="assortmentWinesTableVolume" maxWidth="1.7976931348623157E308" minWidth="162.0" prefWidth="-1.0" text="Contenance" />
+                                <TableColumn fx:id="assortmentWinesTableColor" maxWidth="1.7976931348623157E308" minWidth="79.0" prefWidth="-1.0" text="Couleur" />
+                                <TableColumn fx:id="assortmentWinesTablePrice" maxWidth="1.7976931348623157E308" minWidth="59.0" prefWidth="-1.0" text="Prix" />
+                                <TableColumn fx:id="assortmentWinesTableComment" maxWidth="1.7976931348623157E308" minWidth="94.0" prefWidth="-1.0" text="Commentaire" />
                             </columns>
                             <VBox.margin>
                                 <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
@@ -175,12 +175,12 @@
                         <TableView fx:id="notAssortmentWinesTable" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="127.0" prefWidth="633.0">
                             <columns>
                                 <TableColumn fx:id="notAssortmentWinesTableID" maxWidth="25.0" minWidth="25.0" prefWidth="25.0" resizable="false" text="ID" />
-                                <TableColumn fx:id="notAssortmentWinesTableName" maxWidth="1.7976931348623157E308" minWidth="125.0" prefWidth="-1.0" text="Name" />
-                                <TableColumn fx:id="notAssortmentWinesTableYear" maxWidth="1.7976931348623157E308" minWidth="75.0" prefWidth="-1.0" text="Year" />
+                                <TableColumn fx:id="notAssortmentWinesTableName" maxWidth="1.7976931348623157E308" minWidth="125.0" prefWidth="-1.0" text="Nom" />
+                                <TableColumn fx:id="notAssortmentWinesTableYear" maxWidth="1.7976931348623157E308" minWidth="75.0" prefWidth="-1.0" text="Millésime" />
                                 <TableColumn fx:id="notAssortmentWinesTableVolume" maxWidth="1.7976931348623157E308" minWidth="162.0" prefWidth="-1.0" text="Volume" />
-                                <TableColumn fx:id="notAssortmentWinesTableColor" maxWidth="1.7976931348623157E308" minWidth="79.0" prefWidth="-1.0" text="Color" />
-                                <TableColumn fx:id="notAssortmentWinesTablePrice" maxWidth="1.7976931348623157E308" minWidth="59.0" prefWidth="-1.0" text="Price" />
-                                <TableColumn fx:id="notAssortmentWinesTableComment" maxWidth="1.7976931348623157E308" minWidth="94.0" prefWidth="-1.0" text="Comment" />
+                                <TableColumn fx:id="notAssortmentWinesTableColor" maxWidth="1.7976931348623157E308" minWidth="79.0" prefWidth="-1.0" text="Couleur" />
+                                <TableColumn fx:id="notAssortmentWinesTablePrice" maxWidth="1.7976931348623157E308" minWidth="59.0" prefWidth="-1.0" text="Prix" />
+                                <TableColumn fx:id="notAssortmentWinesTableComment" maxWidth="1.7976931348623157E308" minWidth="94.0" prefWidth="-1.0" text="Commentaire" />
                             </columns>
                             <VBox.margin>
                                 <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
