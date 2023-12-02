@@ -168,7 +168,9 @@ public class WineStockController {
         icon.setImage(new Image(Objects.requireNonNull(getClass().getResourceAsStream("icon.png"))));
         importButton.setDisable(true);
         wineVolumeComboBox.setItems(FXCollections.observableArrayList(BottleSize.values()));
+        wineVolumeComboBox.setValue(BottleSize.BOUTEILLE);
         wineColorComboBox.setItems(FXCollections.observableArrayList(Color.values()));
+        wineColorComboBox.setValue(Color.ROUGE);
         assortmentYearTextField.setText(String.valueOf(Year.now().getValue()));
     }
 
@@ -382,9 +384,12 @@ public class WineStockController {
      * @return The constructed Wine object.
      */
     private Wine createWineFromFields() {
+        String yearFieldText = wineYearField.getText();
+        int year = yearFieldText.isEmpty() ? 0 : Integer.parseInt(yearFieldText);
+
         return new Wine.Builder(
                 wineNameField.getText(),
-                Integer.parseInt(wineYearField.getText()),
+                year,
                 wineVolumeComboBox.getValue().getVolume(),
                 wineColorComboBox.getValue().name(),
                 Double.parseDouble(winePriceField.getText())
@@ -425,6 +430,11 @@ public class WineStockController {
     @FXML
     public void deleteWine() {
         try {
+            if (this.currentlySelectedWine == null) {
+                LOGGER.error(NO_WINE_SELECTED);
+                Platform.runLater(() -> showErrorDialog("Error deleting wine", NO_WINE_SELECTED, null));
+                return;
+            }
             postgreSQLManager.deleteWine(this.currentlySelectedWine);
         } catch (SQLException e) {
             LOGGER.error("Failed to delete wine from the database.", e);
