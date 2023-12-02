@@ -431,20 +431,47 @@ public class WineStockController {
     public void deleteWine() {
         try {
             if (this.currentlySelectedWine == null) {
-                LOGGER.error(NO_WINE_SELECTED);
-                Platform.runLater(() -> showErrorDialog("Error deleting wine", NO_WINE_SELECTED, null));
+                handleWineDeletionError();
                 return;
             }
             postgreSQLManager.deleteWine(this.currentlySelectedWine);
         } catch (SQLException e) {
-            LOGGER.error("Failed to delete wine from the database.", e);
-            Platform.runLater(() -> showErrorDialog("Error deleting wine", "Failed to delete wine from the database.", e));
+            handleWineDeletionError(e);
             return;
         }
 
         refresh();
         currentlySelectedWine = null;
         resetWineFields();
+    }
+
+    /**
+     * Handles an error that occurs during the deletion of a wine from the database.
+     * <p>
+     * This method logs an error message with the exception stack trace using the LOGGER class.
+     * It also displays an error dialog showing the error message and the exception stack trace
+     * using the Platform class and the showErrorDialog method.
+     * The error message includes a generic message about the failure to delete the wine,
+     * and the exception stack trace provides additional information about the error.
+     *
+     * @param e the SQLException that occurred during the wine deletion process
+     */
+    private void handleWineDeletionError(SQLException e) {
+        LOGGER.error("Failed to delete wine from the database.", e);
+        Platform.runLater(() -> showErrorDialog("Error deleting wine", "Failed to delete wine from the database.", e));
+    }
+
+    /**
+     * Handles an error when no wine is selected for deletion.
+     * <p>
+     * This method logs an error message using the LOGGER class
+     * and displays an error dialog using the Platform class and the showErrorDialog method.
+     * The error message includes a generic message about the failure to delete a wine
+     * due to no wine being selected.
+     */
+    private void handleWineDeletionError() {
+        LOGGER.error(NO_WINE_SELECTED);
+        Platform.runLater(() -> showErrorDialog("Error deleting wine", NO_WINE_SELECTED, null));
     }
 
     /**
