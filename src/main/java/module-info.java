@@ -38,6 +38,7 @@ module eu.lilithmonodia.winestock {
     requires org.apache.commons.io;
     requires org.apache.logging.log4j;
     requires org.postgresql.jdbc;
+    requires atlantafx.base;
 
     opens eu.lilithmonodia.winestock to javafx.fxml;
     opens eu.lilithmonodia.winestock.data to java.base, javafx.base;

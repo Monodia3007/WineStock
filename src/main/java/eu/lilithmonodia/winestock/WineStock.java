@@ -1,5 +1,6 @@
 package eu.lilithmonodia.winestock;
 
+import atlantafx.base.theme.PrimerDark;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
@@ -90,6 +91,7 @@ public class WineStock extends Application {
      */
     @Override
     public void start(@NotNull Stage primaryStage) throws IOException {
+        Application.setUserAgentStylesheet(new PrimerDark().getUserAgentStylesheet());
         FXMLLoader fxmlLoader = new FXMLLoader(WineStock.class.getResource("WineStock.fxml"));
         TabPane rootPane = fxmlLoader.load();
         Scene scene = new Scene(rootPane);

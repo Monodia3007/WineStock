@@ -2,6 +2,7 @@ package eu.lilithmonodia.winestock;
 
 // Importing the necessary libraries
 
+import atlantafx.base.theme.Styles;
 import eu.lilithmonodia.winestock.data.Assortment;
 import eu.lilithmonodia.winestock.data.BottleSize;
 import eu.lilithmonodia.winestock.data.Color;
@@ -12,7 +13,6 @@ import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
 import javafx.scene.Cursor;
-import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.Image;
@@ -41,8 +41,10 @@ public class WineStockController {
     private static final String NO_ASSORTMENT_SELECTED = "No assortment selected.";
     private static final String ERROR_ADDING_WINE = "Error adding wine";
     private static final String ERROR_DELETING_WINE_FROM_ASSORTMENT = "Error deleting wine from assortment";
+    private static final String ERROR_LOGGING_IN = "Error logging in";
     // Manager for PostgreSQL Database
 
+    @FXML
     private TabPane rootPane;
     private PostgreSQLManager postgreSQLManager;
     private Wine currentlySelectedWine;
@@ -151,6 +153,8 @@ public class WineStockController {
     private TableColumn<Wine, Double> notAssortmentWinesTablePrice;
     @FXML
     private TableColumn<Wine, String> notAssortmentWinesTableComment;
+    @FXML
+    private Button loginButton;
 
     /**
      * Sets the root pane of the application.
@@ -188,17 +192,18 @@ public class WineStockController {
     @FXML
     public void importDatabase() {
         LOGGER.info("Database import initiated.");
-        Scene scene = rootPane.getScene();
-        scene.setCursor(Cursor.WAIT);
+        rootPane.getScene().setCursor(Cursor.WAIT);
         try {
             setCellValueFactories();
             refresh();
             LOGGER.info("Database successfully imported.");
+            importButton.getStyleClass().add(Styles.SUCCESS);
         } catch (Exception e) {
             handleError("Error importing database", "Failed to import database.", e);
-            scene.setCursor(Cursor.DEFAULT);
+            importButton.getStyleClass().add(Styles.DANGER);
+        } finally {
+            rootPane.getScene().setCursor(Cursor.DEFAULT);
         }
-        scene.setCursor(Cursor.DEFAULT);
     }
 
     /**
@@ -272,21 +277,32 @@ public class WineStockController {
      * On successful login, the importButton is enabled; otherwise, it gets disabled.
      */
     @FXML
-    public void login() {
-        String url = "jdbc:postgresql://" + hostField.getText() + ":" + getPort() + "/winestock?sslmode=disable";
-        Scene scene = rootPane.getScene();
-        scene.setCursor(Cursor.WAIT);
-        try {
-            postgreSQLManager = new PostgreSQLManager(url, usernameField.getText(), passwordField.getText());
-            postgreSQLManager.connect();
-            importButton.setDisable(false);
-            LOGGER.info("Successful login. Connection established.");
-        } catch (SQLException e) {
-            handleError("Error logging in", "Failed to login and establish database connection.", e);
-        } finally {
-            scene.setCursor(Cursor.DEFAULT);
-        }
+public void login() {
+    String host = hostField.getText();
+    String username = usernameField.getText();
+    String password = passwordField.getText();
+
+    if (host.isEmpty() || username.isEmpty() || password.isEmpty()) {
+        handleError(ERROR_LOGGING_IN, "Host, username or password field is empty.", null);
+        return;
     }
+
+    String url = "jdbc:postgresql://" + host + ":" + getPort() + "/winestock?sslmode=disable";
+    rootPane.getScene().setCursor(Cursor.WAIT);
+
+    try {
+        postgreSQLManager = new PostgreSQLManager(url, username, password);
+        postgreSQLManager.connect();
+        importButton.setDisable(false);
+        LOGGER.info("Successful login. Connection established.");
+        loginButton.getStyleClass().add(Styles.SUCCESS);
+    } catch (SQLException e) {
+        handleError(ERROR_LOGGING_IN, "Failed to login and establish database connection.", e);
+        loginButton.getStyleClass().add(Styles.DANGER);
+    } finally {
+        rootPane.getScene().setCursor(Cursor.DEFAULT);
+    }
+}
 
     /**
      * Retrieves the port number from the portField text field, which represents the desired
@@ -417,12 +433,12 @@ public class WineStockController {
     public void deleteWine() {
         try {
             if (this.currentlySelectedWine == null) {
-                handleError("Error deleting wine","Failed to delete wine from the database.", null);
+                handleError("Error deleting wine", "Failed to delete wine from the database.", null);
                 return;
             }
             postgreSQLManager.deleteWine(this.currentlySelectedWine);
         } catch (SQLException e) {
-            handleError("Error deleting wine","Failed to delete wine from the database.", e);
+            handleError("Error deleting wine", "Failed to delete wine from the database.", e);
             return;
         }
 
@@ -474,7 +490,7 @@ public class WineStockController {
      *
      * @throws InvalidYearException If the entered year is invalid.
      */
-    private void updateSelectedWine() throws InvalidYearException{
+    private void updateSelectedWine() throws InvalidYearException {
         this.currentlySelectedWine.setName(wineNameField.getText());
         this.currentlySelectedWine.setYear(Year.of(Integer.parseInt(wineYearField.getText())));
         this.currentlySelectedWine.setVolume(wineVolumeComboBox.getValue().getVolume());
@@ -537,7 +553,7 @@ public class WineStockController {
             Assortment<Wine> assortment = new Assortment<>(Year.parse(yearText));
             Optional<Long> id = postgreSQLManager.insertAssortment(assortment);
             if (id.isEmpty()) {
-                handleError(ERROR_ADDING_ASSORTMENT,FAILED_TO_ADD_ASSORTMENT_TO_THE_DATABASE, null);
+                handleError(ERROR_ADDING_ASSORTMENT, FAILED_TO_ADD_ASSORTMENT_TO_THE_DATABASE, null);
                 return;
             }
 
