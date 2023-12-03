@@ -23,7 +23,7 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<TabPane fx:id="rootPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="613.0" prefWidth="840.0" styleClass="classic" tabClosingPolicy="UNAVAILABLE" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="eu.lilithmonodia.winestock.WineStockController">
+<TabPane fx:id="rootPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="613.0" prefWidth="840.0" styleClass="classic" tabClosingPolicy="UNAVAILABLE" xmlns="http://javafx.com/javafx/17.0.7" xmlns:fx="http://javafx.com/fxml/1" fx:controller="eu.lilithmonodia.winestock.WineStockController">
     <Tab text="Connexion">
         <VBox alignment="CENTER" layoutX="183.0" layoutY="36.0">
             <ImageView fx:id="icon" fitHeight="128.0" fitWidth="128.0" nodeOrientation="INHERIT" pickOnBounds="true" preserveRatio="true">
@@ -324,7 +324,7 @@
     <Tab text="À Propos">
 
         <VBox alignment="CENTER">
-            <Text strokeType="OUTSIDE" strokeWidth="0.0" text="WineStock Version 1.1.3" textAlignment="CENTER" textOrigin="TOP" wrappingWidth="639.4577484130859">
+            <Text strokeType="OUTSIDE" strokeWidth="0.0" text="WineStock Version 1.2.0" textAlignment="CENTER" textOrigin="TOP" wrappingWidth="639.4577484130859">
                 <VBox.margin>
                     <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
                 </VBox.margin>
