@@ -193,6 +193,7 @@ public class WineStockController {
      */
     @FXML
     public void importDatabase() {
+        importButton.getStyleClass().removeAll(Styles.DANGER, Styles.SUCCESS);
         LOGGER.info("Database import initiated.");
         rootPane.getScene().setCursor(Cursor.WAIT);
         try {
