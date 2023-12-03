@@ -23,6 +23,8 @@ import org.apache.logging.log4j.Logger;
 import java.sql.SQLException;
 import java.time.Year;
 import java.time.chrono.IsoChronology;
+import java.util.Arrays;
+import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
 
@@ -277,32 +279,43 @@ public class WineStockController {
      * On successful login, the importButton is enabled; otherwise, it gets disabled.
      */
     @FXML
-public void login() {
-    String host = hostField.getText();
-    String username = usernameField.getText();
-    String password = passwordField.getText();
+    public void login() {
+        List<TextField> fields = Arrays.asList(hostField, usernameField, passwordField);
+        loginButton.getStyleClass().removeAll(Styles.DANGER, Styles.SUCCESS);
+        String host = hostField.getText();
+        String username = usernameField.getText();
+        String password = passwordField.getText();
 
-    if (host.isEmpty() || username.isEmpty() || password.isEmpty()) {
-        handleError(ERROR_LOGGING_IN, "Host, username or password field is empty.", null);
-        return;
+        if (host.isEmpty() || username.isEmpty() || password.isEmpty()) {
+            handleError(ERROR_LOGGING_IN, "Host, username or password field is empty.", null);
+            fields.forEach(field -> field.pseudoClassStateChanged(Styles.STATE_DANGER, true));
+            return;
+        }
+
+        String url = "jdbc:postgresql://" + host + ":" + getPort() + "/winestock?sslmode=disable";
+        rootPane.getScene().setCursor(Cursor.WAIT);
+
+        try {
+            postgreSQLManager = new PostgreSQLManager(url, username, password);
+            postgreSQLManager.connect();
+            importButton.setDisable(false);
+            LOGGER.info("Successful login. Connection established.");
+            loginButton.getStyleClass().add(Styles.SUCCESS);
+            fields.forEach(field -> {
+                field.pseudoClassStateChanged(Styles.STATE_DANGER, false);
+                field.pseudoClassStateChanged(Styles.STATE_SUCCESS, true);
+            });
+        } catch (SQLException e) {
+            handleError(ERROR_LOGGING_IN, "Failed to login and establish database connection.", e);
+            fields.forEach(field -> {
+                field.pseudoClassStateChanged(Styles.STATE_DANGER, true);
+                field.pseudoClassStateChanged(Styles.STATE_SUCCESS, false);
+            });
+            loginButton.getStyleClass().add(Styles.DANGER);
+        } finally {
+            rootPane.getScene().setCursor(Cursor.DEFAULT);
+        }
     }
-
-    String url = "jdbc:postgresql://" + host + ":" + getPort() + "/winestock?sslmode=disable";
-    rootPane.getScene().setCursor(Cursor.WAIT);
-
-    try {
-        postgreSQLManager = new PostgreSQLManager(url, username, password);
-        postgreSQLManager.connect();
-        importButton.setDisable(false);
-        LOGGER.info("Successful login. Connection established.");
-        loginButton.getStyleClass().add(Styles.SUCCESS);
-    } catch (SQLException e) {
-        handleError(ERROR_LOGGING_IN, "Failed to login and establish database connection.", e);
-        loginButton.getStyleClass().add(Styles.DANGER);
-    } finally {
-        rootPane.getScene().setCursor(Cursor.DEFAULT);
-    }
-}
 
     /**
      * Retrieves the port number from the portField text field, which represents the desired
