@@ -699,8 +699,8 @@ public class WineStockController {
     public void resetWineFields() {
         wineNameField.setText("");
         wineYearField.setText("");
-        wineVolumeComboBox.setValue(null);
-        wineColorComboBox.setValue(null);
+        wineVolumeComboBox.setValue(BottleSize.BOUTEILLE);
+        wineColorComboBox.setValue(Color.ROUGE);
         winePriceField.setText("");
         wineCommentField.setText("");
     }
