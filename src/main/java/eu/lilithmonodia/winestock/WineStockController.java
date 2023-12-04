@@ -568,7 +568,7 @@ public class WineStockController {
      * @param message the message to be displayed in the error dialog
      * @param ex      the exception object (nullable) to display its stack trace
      */
-    private void showErrorDialog(Errors title, Errors message, Exception ex) {
+    private void showErrorDialog(@NotNull Errors title, @NotNull Errors message, Exception ex) {
         Alert alert = new Alert(Alert.AlertType.ERROR);
         alert.setTitle(title.getValue());
         alert.setHeaderText(message.getValue());
@@ -687,7 +687,7 @@ public class WineStockController {
         refresh();
     }
 
-    private void handleError(Errors title, Errors message, Exception e) {
+    private void handleError(@NotNull Errors title, @NotNull Errors message, Exception e) {
         Platform.runLater(() -> showErrorDialog(title, message, e));
         LOGGER.error(title.getValue());
     }
