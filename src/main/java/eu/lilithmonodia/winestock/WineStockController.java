@@ -11,6 +11,7 @@ import eu.lilithmonodia.winestock.database.PostgreSQLManager;
 import eu.lilithmonodia.winestock.exceptions.InvalidYearException;
 import javafx.application.Platform;
 import javafx.collections.FXCollections;
+import javafx.concurrent.Task;
 import javafx.fxml.FXML;
 import javafx.scene.Cursor;
 import javafx.scene.control.*;
@@ -44,6 +45,8 @@ public class WineStockController {
     private static final String ERROR_ADDING_WINE = "Error adding wine";
     private static final String ERROR_DELETING_WINE_FROM_ASSORTMENT = "Error deleting wine from assortment";
     private static final String ERROR_LOGGING_IN = "Error logging in";
+    private static final String ERROR_REFRESHING_DATA = "Error refreshing data";
+    private static final String FAILED_TO_REFRESH_DATA_FROM_THE_DATABASE = "Failed to refresh data from the database.";
     // Manager for PostgreSQL Database
 
     @FXML
@@ -174,11 +177,15 @@ public class WineStockController {
     public void initialize() {
         icon.setImage(new Image(Objects.requireNonNull(getClass().getResourceAsStream("icon.png"))));
         importButton.setDisable(true);
+        initializeComboBoxes();
+        assortmentYearTextField.setText(String.valueOf(Year.now().getValue()));
+    }
+
+    private void initializeComboBoxes() {
         wineVolumeComboBox.setItems(FXCollections.observableArrayList(BottleSize.values()));
         wineVolumeComboBox.setValue(BottleSize.BOUTEILLE);
         wineColorComboBox.setItems(FXCollections.observableArrayList(Color.values()));
         wineColorComboBox.setValue(Color.ROUGE);
-        assortmentYearTextField.setText(String.valueOf(Year.now().getValue()));
     }
 
     /**
@@ -281,41 +288,93 @@ public class WineStockController {
      */
     @FXML
     public void login() {
-        List<TextField> fields = Arrays.asList(hostField, usernameField, passwordField);
-        loginButton.getStyleClass().removeAll(Styles.DANGER, Styles.SUCCESS);
-        String host = hostField.getText();
-        String username = usernameField.getText();
-        String password = passwordField.getText();
+        Task<Void> loginTask = new Task<>() {
+            @Override
+            protected Void call() {
+                Platform.runLater(() -> rootPane.getScene().setCursor(Cursor.WAIT)); // Start waiting cursor
 
+                List<TextField> fields = Arrays.asList(hostField, usernameField, passwordField);
+
+                Platform.runLater(() -> clearPreviousStyles(fields)); // UI update
+
+                String host = hostField.getText();
+                String username = usernameField.getText();
+                String password = passwordField.getText();
+
+                if (validateFields(fields, ERROR_LOGGING_IN, host, username, password))
+                    return null;
+
+                attemptToEstablishConnection(fields, host, username, password);
+
+                Platform.runLater(() -> rootPane.getScene().setCursor(Cursor.DEFAULT)); // Reset to default cursor
+                return null;
+            }
+        };
+
+        new Thread(loginTask).start();
+    }
+
+    private boolean validateFields(List<TextField> fields, String errorMessage, String host, String username, String password) {
         if (host.isEmpty() || username.isEmpty() || password.isEmpty()) {
-            handleError(ERROR_LOGGING_IN, "Host, username or password field is empty.", null);
-            fields.forEach(field -> field.pseudoClassStateChanged(Styles.STATE_DANGER, true));
-            return;
+            handleErrorAndShow(fields, errorMessage, null);
+            return true;
         }
+        return false;
+    }
 
+    private void attemptToEstablishConnection(List<TextField> fields, String host, String username, String password) {
         String url = "jdbc:postgresql://" + host + ":" + getPort() + "/winestock?sslmode=disable";
-        rootPane.getScene().setCursor(Cursor.WAIT);
+        setCursorToWait();
 
         try {
-            postgreSQLManager = new PostgreSQLManager(url, username, password);
-            postgreSQLManager.connect();
-            importButton.setDisable(false);
-            LOGGER.info("Successful login. Connection established.");
-            loginButton.getStyleClass().add(Styles.SUCCESS);
-            fields.forEach(field -> {
-                field.pseudoClassStateChanged(Styles.STATE_DANGER, false);
-                field.pseudoClassStateChanged(Styles.STATE_SUCCESS, true);
-            });
+            connectToDatabaseAndReflectSuccess(fields, url, username, password);
         } catch (SQLException e) {
-            handleError(ERROR_LOGGING_IN, "Failed to login and establish database connection.", e);
-            fields.forEach(field -> {
-                field.pseudoClassStateChanged(Styles.STATE_DANGER, true);
-                field.pseudoClassStateChanged(Styles.STATE_SUCCESS, false);
-            });
-            loginButton.getStyleClass().add(Styles.DANGER);
+            handleErrorAndShow(fields, ERROR_LOGGING_IN, e);
         } finally {
-            rootPane.getScene().setCursor(Cursor.DEFAULT);
+            setCursorToDefault();
         }
+    }
+
+    private void connectToDatabaseAndReflectSuccess(List<TextField> fields, String url, String username, String password) throws SQLException {
+        postgreSQLManager = new PostgreSQLManager(url, username, password);
+        postgreSQLManager.connect();
+        importButton.setDisable(false);
+        LOGGER.info("Successful login. Connection established.");
+        loginButton.getStyleClass().add(Styles.SUCCESS);
+        setSuccessfulStyles(fields);
+    }
+
+    private void handleErrorAndShow(List<TextField> fields, String errorMessage, SQLException e) {
+        handleErrorAndShowStyles(fields, errorMessage, e);
+        loginButton.getStyleClass().add(Styles.DANGER);
+    }
+
+    private void handleErrorAndShowStyles(List<TextField> fields, String title, SQLException e) {
+        handleError(title, title, e);
+        fields.forEach(field -> {
+            field.pseudoClassStateChanged(Styles.STATE_DANGER, true);
+            field.pseudoClassStateChanged(Styles.STATE_SUCCESS, false);
+        });
+    }
+
+    private void setSuccessfulStyles(List<TextField> fields) {
+        fields.forEach(field -> {
+            field.pseudoClassStateChanged(Styles.STATE_DANGER, false);
+            field.pseudoClassStateChanged(Styles.STATE_SUCCESS, true);
+        });
+    }
+
+    private void clearPreviousStyles(List<TextField> fields) {
+        loginButton.getStyleClass().removeAll(Styles.DANGER, Styles.SUCCESS);
+        fields.forEach(field -> field.pseudoClassStateChanged(Styles.STATE_DANGER, false));
+    }
+
+    private void setCursorToWait() {
+        rootPane.getScene().setCursor(Cursor.WAIT);
+    }
+
+    private void setCursorToDefault() {
+        rootPane.getScene().setCursor(Cursor.DEFAULT);
     }
 
     /**
@@ -335,22 +394,44 @@ public class WineStockController {
      * If an exception occurs, a suitable error handling approach may be applied.
      */
     public void refresh() {
-        try {
-            if (postgreSQLManager == null) {
-                handleError("Error refreshing data", "Failed to refresh data from the database.", null);
-                return;
+        // Creating a new Task for database refresh operation.
+        Task<Void> refreshTask = new Task<>() {
+            @Override
+            protected Void call() {
+                try {
+                    Platform.runLater(() -> rootPane.getScene().setCursor(Cursor.WAIT)); // Start waiting cursor
+                    if (postgreSQLManager == null) {
+                        Platform.runLater(() -> handleError(ERROR_REFRESHING_DATA, FAILED_TO_REFRESH_DATA_FROM_THE_DATABASE, null));
+                        return null;
+                    }
+
+                    Platform.runLater(() -> {
+                        try {
+                            wineTable.setItems(FXCollections.observableArrayList(postgreSQLManager.getAllWine()));
+                            assortmentsTable.setItems(FXCollections.observableArrayList(postgreSQLManager.getAllAssortments()));
+                            notAssortmentWinesTable.setItems(FXCollections.observableArrayList(postgreSQLManager.getAllWine()));
+                        } catch (SQLException e) {
+                            Platform.runLater(() -> handleError(ERROR_REFRESHING_DATA, FAILED_TO_REFRESH_DATA_FROM_THE_DATABASE, e));
+                        }
+                    });
+
+                    // Since refresh() is a UI related operation, it must be run on JavaFX thread.
+                    Platform.runLater(() -> {
+                        wineTable.refresh();
+                        assortmentsTable.refresh();
+                        notAssortmentWinesTable.refresh();
+                    });
+
+                } catch (Exception e) {
+                    Platform.runLater(() -> handleError(ERROR_REFRESHING_DATA, FAILED_TO_REFRESH_DATA_FROM_THE_DATABASE, e));
+                }
+                Platform.runLater(() -> rootPane.getScene().setCursor(Cursor.DEFAULT)); // Reset to default cursor
+                return null;
             }
+        };
 
-            wineTable.setItems(FXCollections.observableArrayList(postgreSQLManager.getAllWine()));
-            assortmentsTable.setItems(FXCollections.observableArrayList(postgreSQLManager.getAllAssortments()));
-            notAssortmentWinesTable.setItems(FXCollections.observableArrayList(postgreSQLManager.getAllWine()));
-
-            wineTable.refresh();
-            assortmentsTable.refresh();
-            notAssortmentWinesTable.refresh();
-        } catch (SQLException e) {
-            handleError("Error refreshing data", "Failed to refresh data from the database.", e);
-        }
+        // Starting the task on a new thread.
+        new Thread(refreshTask).start();
     }
 
     /**
@@ -495,8 +576,8 @@ public class WineStockController {
     }
 
     private void handleError(String title, String message, Exception e) {
-        LOGGER.error(message);
         Platform.runLater(() -> showErrorDialog(title, message, e));
+        LOGGER.error(title);
     }
 
     /**
