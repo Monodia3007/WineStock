@@ -508,6 +508,7 @@ public class WineStockController {
      * Refreshes the TableView by replacing the items with data from PostgreSQL database.
      * If an exception occurs, a suitable error handling approach may be applied.
      */
+    @FXML
     public void refresh() {
         // Creating a new Task for database refresh operation.
         Task<Void> refreshTask = new Task<>() {
