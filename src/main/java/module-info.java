@@ -12,8 +12,8 @@
  *     <li>org.postgresql.jdbc: PostgreSQL JDBC driver for database connectivity</li>
  *     <li>org.jetbrains.annotations: JetBrains annotations library</li>
  *     <li>java.desktop: Provides interfaces for interconnecting applications with the integrated desktop environment</li>
- *     <li>com.google.gson: Library for converting Java Objects into JSON and back </li>
- *     <li>org.apache.commons.io: Commons IO suite of utilities and component libraries </li>
+ *     <li>org.apache.logging.log4j: Apache Log4j 2 is an upgrade to Log4j that provides significant improvements over its predecessor, Log4j 1.x, and provides many of the improvements available in Logback while fixing some inherent problems in Logback's architecture</li>
+ *     <li>atlantafx.base: Base module for the Atlantafx library</li>
  * </ul>
  * <p>
  * The "opens" directive is used to open packages to specific modules, allowing them to use reflection
@@ -34,8 +34,6 @@ module eu.lilithmonodia.winestock {
     requires java.sql;
     requires org.jetbrains.annotations;
     requires java.desktop;
-    requires com.google.gson;
-    requires org.apache.commons.io;
     requires org.apache.logging.log4j;
     requires org.postgresql.jdbc;
     requires atlantafx.base;

@@ -20,6 +20,8 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 import java.sql.SQLException;
 import java.time.Year;
@@ -266,13 +268,13 @@ public class WineStockController {
      * @param tableComment The TableColumn representing the comment column.
      * @param <T>          The type of objects contained in the TableView.
      */
-    private <T> void setCellValueFactories(TableColumn<T, ?> tableID,
-                                           TableColumn<T, ?> tableName,
-                                           TableColumn<T, ?> tableYear,
-                                           TableColumn<T, ?> tableVolume,
-                                           TableColumn<T, ?> tableColor,
-                                           TableColumn<T, ?> tablePrice,
-                                           TableColumn<T, ?> tableComment) {
+    private <T> void setCellValueFactories(@NotNull TableColumn<T, ?> tableID,
+                                           @NotNull TableColumn<T, ?> tableName,
+                                           @NotNull TableColumn<T, ?> tableYear,
+                                           @NotNull TableColumn<T, ?> tableVolume,
+                                           @NotNull TableColumn<T, ?> tableColor,
+                                           @NotNull TableColumn<T, ?> tablePrice,
+                                           @NotNull TableColumn<T, ?> tableComment) {
         tableID.setCellValueFactory(new PropertyValueFactory<>("id"));
         tableName.setCellValueFactory(new PropertyValueFactory<>("name"));
         tableYear.setCellValueFactory(new PropertyValueFactory<>("year"));
@@ -289,10 +291,20 @@ public class WineStockController {
     @FXML
     public void login() {
         Task<Void> loginTask = new Task<>() {
+            /**
+             * Executes the method call.
+             * <p>
+             * This method is an overridden implementation of the call() method in the
+             * javafx.concurrent.Task class. It performs the following actions:
+             *    1. Clears previous styles of the text fields on the UI.
+             *    2. Retrieves the values from the hostField, usernameField, and passwordField.
+             *    3. Validates the fields by checking if there are any errors while logging in.
+             *    4. Attempts to establish a connection using the provided host, username, and password.
+             *
+             * @return The method does not return anything.
+             */
             @Override
-            protected Void call() {
-                Platform.runLater(() -> rootPane.getScene().setCursor(Cursor.WAIT)); // Start waiting cursor
-
+            protected @Nullable Void call() {
                 List<TextField> fields = Arrays.asList(hostField, usernameField, passwordField);
 
                 Platform.runLater(() -> clearPreviousStyles(fields)); // UI update
@@ -305,8 +317,6 @@ public class WineStockController {
                     return null;
 
                 attemptToEstablishConnection(fields, host, username, password);
-
-                Platform.runLater(() -> rootPane.getScene().setCursor(Cursor.DEFAULT)); // Reset to default cursor
                 return null;
             }
         };
@@ -314,7 +324,18 @@ public class WineStockController {
         new Thread(loginTask).start();
     }
 
-    private boolean validateFields(List<TextField> fields, String errorMessage, String host, String username, String password) {
+    /**
+     * Validates the specified fields by checking if any of them are empty.
+     * If any field is empty, it displays the specified error message and highlights the fields.
+     *
+     * @param fields        The list of text fields to validate.
+     * @param errorMessage  The error message to display if any field is empty.
+     * @param host          The value of the host field.
+     * @param username      The value of the username field.
+     * @param password      The value of the password field.
+     * @return true if any field is empty, false otherwise.
+     */
+    private boolean validateFields(List<TextField> fields, String errorMessage, @NotNull String host, String username, String password) {
         if (host.isEmpty() || username.isEmpty() || password.isEmpty()) {
             handleErrorAndShow(fields, errorMessage, null);
             return true;
@@ -322,6 +343,24 @@ public class WineStockController {
         return false;
     }
 
+    /**
+     * Attempts to establish a database connection using the specified host, username, and password.
+     * <p>
+     * Retrieves the port using the getPort() method and constructs the URL for the PostgreSQL database.
+     * <p>
+     * Sets the cursor to the waiting state while establishing the connection.
+     * <p>
+     * If the connection is successful, calls the connectToDatabaseAndReflectSuccess() method.
+     * If an SQLException occurs during the connection attempt,
+     * calls the handleErrorAndShow() method with the specified error message and the exception.
+     * <p>
+     * Sets the cursor back to the default state after the connection attempt.
+     *
+     * @param fields        The list of text fields to use for displaying error messages and highlight fields.
+     * @param host          The value of the host field.
+     * @param username      The value of the username field.
+     * @param password      The value of the password field.
+     */
     private void attemptToEstablishConnection(List<TextField> fields, String host, String username, String password) {
         String url = "jdbc:postgresql://" + host + ":" + getPort() + "/winestock?sslmode=disable";
         setCursorToWait();
@@ -335,6 +374,22 @@ public class WineStockController {
         }
     }
 
+    /**
+     * Connects to the database using the specified URL, username, and password and reflects the success of the login.
+     * <p>
+     * Creates a new instance of the PostgreSQLManager class with the specified URL, username, and password.
+     * Calls the connect() method of the PostgreSQLManager instance to establish the database connection.
+     * Enables the importButton.
+     * Logs the successful login message to the LOGGER.
+     * Adds the SUCCESS style class to the loginButton.
+     * Calls the setSuccessfulStyles() method to apply successful styles to the specified fields.
+     *
+     * @param fields        The list of text fields to set successful styles.
+     * @param url           The URL of the database.
+     * @param username      The username for the database connection.
+     * @param password      The password for the database connection.
+     * @throws SQLException If an error occurs while connecting to the database.
+     */
     private void connectToDatabaseAndReflectSuccess(List<TextField> fields, String url, String username, String password) throws SQLException {
         postgreSQLManager = new PostgreSQLManager(url, username, password);
         postgreSQLManager.connect();
@@ -344,12 +399,37 @@ public class WineStockController {
         setSuccessfulStyles(fields);
     }
 
+    /**
+     * Handles an error
+     * and shows it by applying the danger styles to the specified fields
+     * and adding the DANGER style class to the loginButton.
+     * <p>
+     * Calls the handleErrorAndShowStyles()
+     * method to apply the danger styles and show the error message for the specified fields and exception.
+     * Adds the DANGER style class to the loginButton.
+     *
+     * @param fields        The list of text fields to apply danger styles and show the error message.
+     * @param errorMessage  The error message to show.
+     * @param e             The SQLException that occurred.
+     */
     private void handleErrorAndShow(List<TextField> fields, String errorMessage, SQLException e) {
         handleErrorAndShowStyles(fields, errorMessage, e);
         loginButton.getStyleClass().add(Styles.DANGER);
     }
 
-    private void handleErrorAndShowStyles(List<TextField> fields, String title, SQLException e) {
+    /**
+     * Handles an error
+     * and shows it by applying the danger styles to the specified fields.
+     * <p>
+     * Calls the handleError() method to handle the error with the specified title, message, and exception.
+     * Iterates over the list of text fields and applies the danger styles to each field.
+     * Removes the success styles from each field.
+     *
+     * @param fields    The list of text fields to apply danger styles.
+     * @param title     The title of the error.
+     * @param e         The SQLException that occurred.
+     */
+    private void handleErrorAndShowStyles(@NotNull List<TextField> fields, String title, SQLException e) {
         handleError(title, title, e);
         fields.forEach(field -> {
             field.pseudoClassStateChanged(Styles.STATE_DANGER, true);
@@ -357,22 +437,57 @@ public class WineStockController {
         });
     }
 
-    private void setSuccessfulStyles(List<TextField> fields) {
+    /**
+     * Sets the successful styles to the specified fields.
+     * <p>
+     * Iterates over the list of text fields and applies the success styles to each field.
+     * Removes the danger styles from each field.
+     *
+     * @param fields    The list of text fields to apply success styles.
+     */
+    private void setSuccessfulStyles(@NotNull List<TextField> fields) {
         fields.forEach(field -> {
             field.pseudoClassStateChanged(Styles.STATE_DANGER, false);
             field.pseudoClassStateChanged(Styles.STATE_SUCCESS, true);
         });
     }
 
-    private void clearPreviousStyles(List<TextField> fields) {
+    /**
+     * Clears the previous styles applied to the specified fields.
+     * <p>
+     * Removes the danger and success styles from the login button and each field in the list.
+     *
+     * @param fields The list of text fields to clear previous styles.
+     */
+    private void clearPreviousStyles(@NotNull List<TextField> fields) {
         loginButton.getStyleClass().removeAll(Styles.DANGER, Styles.SUCCESS);
         fields.forEach(field -> field.pseudoClassStateChanged(Styles.STATE_DANGER, false));
     }
 
+    /**
+     * Sets the cursor to the wait cursor.
+     *
+     * <p>
+     * This method sets the cursor of the scene to the wait cursor
+     * to indicate that the program is currently busy and the user
+     * should wait for further action.
+     * </p>
+     */
     private void setCursorToWait() {
         rootPane.getScene().setCursor(Cursor.WAIT);
     }
 
+    /**
+     * Sets the cursor of the root pane's scene to the default cursor.
+     *
+     * <p>
+     * This method sets the cursor of the scene associated with the root pane
+     * to the default cursor. The default cursor is the standard cursor that
+     * is used in the user interface to indicate that no specific cursor style
+     * is applied. This method can be used to reset the cursor after a custom
+     * cursor has been set.
+     * </p>
+     */
     private void setCursorToDefault() {
         rootPane.getScene().setCursor(Cursor.DEFAULT);
     }
@@ -396,10 +511,16 @@ public class WineStockController {
     public void refresh() {
         // Creating a new Task for database refresh operation.
         Task<Void> refreshTask = new Task<>() {
+            /**
+             * This method is an overridden implementation of the call() method from the Task class.
+             * It is used to refresh data in the UI.
+             *
+             * @return null
+             */
             @Override
-            protected Void call() {
+            protected @Nullable Void call() {
                 try {
-                    Platform.runLater(() -> rootPane.getScene().setCursor(Cursor.WAIT)); // Start waiting cursor
+                    setCursorToWait();
                     if (postgreSQLManager == null) {
                         Platform.runLater(() -> handleError(ERROR_REFRESHING_DATA, FAILED_TO_REFRESH_DATA_FROM_THE_DATABASE, null));
                         return null;
@@ -425,7 +546,7 @@ public class WineStockController {
                 } catch (Exception e) {
                     Platform.runLater(() -> handleError(ERROR_REFRESHING_DATA, FAILED_TO_REFRESH_DATA_FROM_THE_DATABASE, e));
                 }
-                Platform.runLater(() -> rootPane.getScene().setCursor(Cursor.DEFAULT)); // Reset to default cursor
+                setCursorToDefault();
                 return null;
             }
         };

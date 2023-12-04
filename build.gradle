@@ -14,7 +14,7 @@ plugins {
 
 // Basic Metadata - This section contains basic metadata for your project.
 group = 'eu.lilithmonodia'
-version = '1.2.0'
+version = '1.2.1'
 
 // Indicate where Gradle should look for dependencies
 repositories {
@@ -39,8 +39,6 @@ dependencies {
     // Indicate libraries the project needs to compile and run
     implementation 'org.jetbrains:annotations:24.0.0'
     implementation 'org.postgresql:postgresql:42.6.0'
-    implementation 'com.google.code.gson:gson:2.8.9'
-    implementation 'commons-io:commons-io:2.11.0'
     implementation 'org.apache.logging.log4j:log4j-api:2.20.0'
     implementation 'org.apache.logging.log4j:log4j-core:2.20.0'
     implementation 'io.github.mkpaz:atlantafx-base:2.0.1'

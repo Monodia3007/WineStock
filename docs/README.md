@@ -90,10 +90,8 @@ This project uses the following dependencies:
   through the standard JDBC application program interfaces (APIs) available in Java.
 - **JetBrains Annotations 24.0.0**: An advanced set of annotations used for code inspection support and code
   documentation.
-- **Google Gson 2.8.9**: A Java library that can be used to convert Java Objects into their JSON representation and vice
-  versa.
-- **Apache Commons IO 2.11.0**: Provides utility classes, stream implementations, file filters, and various other APIs
-  for handling IO operations (file manipulations) in Java.
+- Apache Log4j 2.14.1: A Java-based logging utility that provides logging capabilities through a configuration file.
+- AtlantaFX 1.0.0: A JavaFX theme that provides a modern, flat, and clean look and feel for JavaFX applications.
 
 ## Contributing
 
