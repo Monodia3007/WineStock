@@ -27,7 +27,7 @@ wine and assortment data.
 
 Here is the UML class diagram of the application:
 
-![UML Class Diagram](images/uml-diagram-1.2.0.png)
+![UML Class Diagram](images/uml-diagram-1.2.1.png)
 
 ## Description
 
