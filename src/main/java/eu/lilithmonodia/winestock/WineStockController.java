@@ -296,8 +296,8 @@ public class WineStockController {
              * <p>
              * This method is an overridden implementation of the call() method in the
              * javafx.concurrent.Task class. It performs the following actions:
-             *    1. Clears previous styles of the text fields on the UI.
-             *    2. Retrieves the values from the hostField, usernameField, and passwordField.
+             *    1. Clears previous styles of the text fields in the UI.
+             *    2. Retrieve the values from the hostField, usernameField, and passwordField.
              *    3. Validates the fields by checking if there are any errors while logging in.
              *    4. Attempts to establish a connection using the provided host, username, and password.
              *
@@ -350,9 +350,9 @@ public class WineStockController {
      * <p>
      * Sets the cursor to the waiting state while establishing the connection.
      * <p>
-     * If the connection is successful, calls the connectToDatabaseAndReflectSuccess() method.
+     * If the connection is successful, call the connectToDatabaseAndReflectSuccess() method.
      * If an SQLException occurs during the connection attempt,
-     * calls the handleErrorAndShow() method with the specified error message and the exception.
+     *  call the handleErrorAndShow() method with the specified error message and the exception.
      * <p>
      * Sets the cursor back to the default state after the connection attempt.
      *
@@ -378,9 +378,9 @@ public class WineStockController {
      * Connects to the database using the specified URL, username, and password and reflects the success of the login.
      * <p>
      * Creates a new instance of the PostgreSQLManager class with the specified URL, username, and password.
-     * Calls the connect() method of the PostgreSQLManager instance to establish the database connection.
+     * Call the connect() method of the PostgreSQLManager instance to establish the database connection.
      * Enables the importButton.
-     * Logs the successful login message to the LOGGER.
+     * Log the successful login message to the LOGGER.
      * Adds the SUCCESS style class to the loginButton.
      * Calls the setSuccessfulStyles() method to apply successful styles to the specified fields.
      *
