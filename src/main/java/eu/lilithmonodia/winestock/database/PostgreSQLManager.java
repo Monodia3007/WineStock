@@ -40,7 +40,6 @@ public class PostgreSQLManager {
      * @param url      the URL for the database connection
      * @param user     the username for the database connection
      * @param password the password for the database connection
-     *
      * @throws SQLException if there is an error establishing the database connection
      */
     public PostgreSQLManager(String url, String user, String password) throws SQLException {
@@ -55,7 +54,6 @@ public class PostgreSQLManager {
      * Establishes a connection to the PostgreSQL database using the provided credentials.
      *
      * @return the Connection object representing the database connection
-     *
      * @throws SQLException if there is an error establishing the database connection
      */
     public Connection connect() throws SQLException {
@@ -70,10 +68,9 @@ public class PostgreSQLManager {
      * Retrieves all wine records from the database.
      *
      * @return a List of Wine objects representing the wine records
-     *
      * @throws SQLException if an error occurs while retrieving the wine records
      */
-    public List<Wine> getAllWine() throws SQLException{
+    public List<Wine> getAllWine() throws SQLException {
         List<Wine> wines = new ArrayList<>();
         try (Connection conn = connect();
              PreparedStatement pstmt = conn.prepareStatement(WINE_SELECT_SQL);
@@ -96,10 +93,8 @@ public class PostgreSQLManager {
      * Inserts a new wine record into the database.
      *
      * @param wine the Wine object representing the wine to be inserted
-     *
      * @return an Optional Long representing the ID of the newly inserted wine record,
      * or an empty Optional if the insertion failed
-     *
      * @throws SQLException if an error occurs while inserting the wine record
      */
     public Optional<Long> insertWine(Wine wine) throws SQLException {
@@ -110,10 +105,8 @@ public class PostgreSQLManager {
      * Inserts a new wine record into the database.
      *
      * @param wine the Wine object representing the wine to be inserted
-     *
      * @return an Optional Long representing the ID of the newly inserted wine record,
      * or an empty Optional if the insertion failed
-     *
      * @throws SQLException if an error occurs while inserting the wine record
      */
     private Optional<Long> insertWineInternal(Wine wine) throws SQLException {
@@ -136,7 +129,6 @@ public class PostgreSQLManager {
      *
      * @param pstmt the PreparedStatement object to set parameters for
      * @param wine  the Wine object containing the values for the parameters
-     *
      * @throws SQLException if an error occurs while setting the parameters
      */
     private void setParametersInStatement(@NotNull PreparedStatement pstmt, @NotNull Wine wine) throws SQLException {
@@ -152,10 +144,9 @@ public class PostgreSQLManager {
      * Retrieves all Assortments from the database.
      *
      * @return a List of Assortment objects representing all the assortments in the database
-     *
      * @throws SQLException if an error occurs while retrieving the assortments
      */
-    public List<Assortment<Wine>> getAllAssortments() throws SQLException{
+    public List<Assortment<Wine>> getAllAssortments() throws SQLException {
         List<Assortment<Wine>> assortments = new ArrayList<>();
 
         try (Connection conn = connect();
@@ -175,9 +166,7 @@ public class PostgreSQLManager {
      * Fetches an Assortment for a given ResultSet. Reads all wines in the assortment.
      *
      * @param resultSet the ResultSet containing information about the assortment
-     *
      * @return an Assortment object representing the assortment extracted from the ResultSet
-     *
      * @throws SQLException if an error occurs while accessing the ResultSet
      */
     private @NotNull Assortment<Wine> fetchAssortmentByResultSet(@NotNull ResultSet resultSet) throws SQLException {
@@ -197,9 +186,7 @@ public class PostgreSQLManager {
      * Gets a Wine object from a given ResultSet.
      *
      * @param resultSetWines the ResultSet containing information about the wine
-     *
      * @return a Wine object representing the wine extracted from the ResultSet
-     *
      * @throws SQLException if an error occurs while accessing the ResultSet
      */
     private Wine getWineFromResultSet(@NotNull ResultSet resultSetWines) throws SQLException {
@@ -217,7 +204,6 @@ public class PostgreSQLManager {
      * Inserts an Assortment object into the database.
      *
      * @param assortment the Assortment object to be inserted
-     *
      * @return an Optional containing the ID of the inserted Assortment, or an empty Optional if the insertion failed
      */
     public Optional<Long> insertAssortment(Assortment<Wine> assortment) {
@@ -245,9 +231,7 @@ public class PostgreSQLManager {
      * Inserts an Assortment object into the database.
      *
      * @param assortment the Assortment object to be inserted
-     *
      * @return an Optional containing the ID of the inserted Assortment, or an empty Optional if the insertion failed
-     *
      * @throws SQLException if an error occurs while accessing the database
      */
     private Optional<Long> insertAssortmentInternal(@NotNull Assortment<Wine> assortment) throws SQLException {
@@ -262,7 +246,6 @@ public class PostgreSQLManager {
      *
      * @param assortment   the list of wines to insert
      * @param assortmentId the ID of the assortment to insert the wines into
-     *
      * @throws SQLException if an error occurs while accessing the database
      */
     public void insertWinesInAssortment(@NotNull Assortment<Wine> assortment, Long assortmentId) throws SQLException {
@@ -276,10 +259,9 @@ public class PostgreSQLManager {
      *
      * @param wine         the wine to insert
      * @param assortmentId the ID of the assortment to insert the wine into
-     *
      * @throws SQLException if an error occurs while accessing the database
      */
-    public void insertWineInAssortment(@NotNull Wine wine, Long assortmentId) throws SQLException{
+    public void insertWineInAssortment(@NotNull Wine wine, Long assortmentId) throws SQLException {
         try (PreparedStatement pstmtContains = connect().prepareStatement(UPDATE_WINE_IN_ASSORTMENT_SQL)) {
             pstmtContains.setLong(1, assortmentId);
             pstmtContains.setLong(2, wine.getId());
@@ -295,10 +277,8 @@ public class PostgreSQLManager {
      * Updates a wine record in the database.
      *
      * @param wine the Wine object representing the wine to be updated
-     *
      * @return an Optional Long representing the ID of the updated wine record,
      * or an empty Optional if the update failed
-     *
      * @throws SQLException if an error occurs while updating the wine record
      */
     public Optional<Long> updateWine(Wine wine) throws SQLException {
@@ -321,10 +301,8 @@ public class PostgreSQLManager {
      * Deletes a wine record from the database.
      *
      * @param wine the Wine object representing the wine to be deleted
-     *
      * @return an Optional Long representing the ID of the deleted wine record,
      * or an empty Optional if the deletion failed
-     *
      * @throws SQLException if an error occurs while deleting the wine record
      */
     public boolean deleteWine(Wine wine) throws SQLException {
@@ -349,14 +327,12 @@ public class PostgreSQLManager {
      * Deletes an assortment from the database.
      *
      * @param assortment the Assortment object representing the assortment to be deleted
-     *
      * @return an Optional Long representing the ID of the deleted assortment,
      * or an empty Optional if the deletion failed
-     *
      * @throws SQLException if an error occurs while deleting the assortment
      */
-    public Optional<Long> deleteAssortment(Assortment<Wine> assortment) throws SQLException{
-        try(PreparedStatement pstmt = connect().prepareStatement(DELETE_ASSORTMENT_SQL, Statement.RETURN_GENERATED_KEYS)) {
+    public Optional<Long> deleteAssortment(Assortment<Wine> assortment) throws SQLException {
+        try (PreparedStatement pstmt = connect().prepareStatement(DELETE_ASSORTMENT_SQL, Statement.RETURN_GENERATED_KEYS)) {
             pstmt.setInt(1, assortment.getId());
             Optional<Long> longOptional = pstmt.executeUpdate() > 0 ? Optional.of((long) assortment.getId()) : Optional.empty();
             connection.commit();
@@ -374,7 +350,7 @@ public class PostgreSQLManager {
      * @param wine the Wine object representing the wine to be deleted
      * @throws SQLException if an SQL exception occurs while deleting the wine
      */
-    public void deleteWineInAssortment (Wine wine) throws SQLException {
+    public void deleteWineInAssortment(Wine wine) throws SQLException {
         try (PreparedStatement pstmt = connect().prepareStatement(UPDATE_WINE_IN_ASSORTMENT_SQL)) {
             pstmt.setNull(1, Types.INTEGER);
             pstmt.setLong(2, wine.getId());
@@ -388,9 +364,7 @@ public class PostgreSQLManager {
      *
      * @param pstmt      the prepared statement to execute
      * @param idConsumer the consumer to accept the generated ID
-     *
      * @return an Optional containing the generated ID if available, otherwise empty
-     *
      * @throws SQLException if an error occurs while accessing the database
      */
     private Optional<Long> handleResponse(@NotNull PreparedStatement pstmt, LongConsumer idConsumer) throws SQLException {

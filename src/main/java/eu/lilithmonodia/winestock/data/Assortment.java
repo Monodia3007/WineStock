@@ -136,11 +136,11 @@ public class Assortment<W extends Wine> implements List<W> {
     }
 
     // Public class-specific methods
+
     /**
      * Removes a Wine object from the Assortment.
      *
      * @param wine The Wine object to be removed from the Assortment.
-     *
      * @return true if the Wine object is successfully removed from the Assortment, false otherwise.
      */
     public boolean remove(W wine) {
@@ -165,6 +165,7 @@ public class Assortment<W extends Wine> implements List<W> {
     }
 
     // Private class-specific methods
+
     /**
      * Resets the `wineNames` attribute according to the current `wineList`.
      */
@@ -193,7 +194,6 @@ public class Assortment<W extends Wine> implements List<W> {
      * Execute wine removing actions
      *
      * @param wine The Wine object to be updated before removed.
-     *
      * @return true if the Wine object is removed, false otherwise.
      */
     private boolean wineListRemoveActions(@NotNull W wine) {
@@ -205,11 +205,11 @@ public class Assortment<W extends Wine> implements List<W> {
     }
 
     // Methods overridden from interface List
+
     /**
      * Returns the element at the specified position in this list.
      *
      * @param index index of the element to return
-     *
      * @return the element at the specified position in this list
      */
     @Override
@@ -223,7 +223,6 @@ public class Assortment<W extends Wine> implements List<W> {
      *
      * @param index   index of the element to replace
      * @param element element to be stored at the specified position
-     *
      * @return the element previously at the specified position
      */
     @Override
@@ -258,7 +257,6 @@ public class Assortment<W extends Wine> implements List<W> {
      * Returns the element removed from the list.
      *
      * @param index the index of the element to be removed
-     *
      * @return the element previously at the specified position
      */
     @Override
@@ -270,7 +268,6 @@ public class Assortment<W extends Wine> implements List<W> {
      * Returns the index of the first occurrence of the specified element in the Wine list.
      *
      * @param o Element to search for
-     *
      * @return The index of the first occurrence, or -1 if not found
      */
     @Override
@@ -282,7 +279,6 @@ public class Assortment<W extends Wine> implements List<W> {
      * Returns the index of the last occurrence of the specified element in the Wine list.
      *
      * @param o Element to search for
-     *
      * @return The index of the last occurrence, or -1 if not found
      */
     @Override
@@ -305,7 +301,6 @@ public class Assortment<W extends Wine> implements List<W> {
      * Returns a list iterator over the elements in the Wine list, starting at a specified position.
      *
      * @param index Start position for the iterator
-     *
      * @return List iterator starting at specified position
      */
     @NotNull
@@ -319,7 +314,6 @@ public class Assortment<W extends Wine> implements List<W> {
      *
      * @param fromIndex Start index for the sublist
      * @param toIndex   End index for the sublist
-     *
      * @return Sublist from the Wine list within the specified range
      */
     @NotNull
@@ -329,6 +323,7 @@ public class Assortment<W extends Wine> implements List<W> {
     }
 
     // Methods overridden from interface Collection
+
     /**
      * Checks the size of the Wine list.
      *
@@ -353,7 +348,6 @@ public class Assortment<W extends Wine> implements List<W> {
      * Checks if the specified element is in the wineList.
      *
      * @param o the element to be checked
-     *
      * @return `true` if the specified element is in wineList, `false` otherwise
      */
     @Override
@@ -376,7 +370,6 @@ public class Assortment<W extends Wine> implements List<W> {
      * Converts the Wine list into an array.
      *
      * @param a Array into which the elements of the `wineList` are to be stored
-     *
      * @return an array containing all the Wines in `wineList` in a proper sequence
      */
     @NotNull
@@ -389,7 +382,6 @@ public class Assortment<W extends Wine> implements List<W> {
      * Adds a Wine object to the Assortment.
      *
      * @param wine The Wine object to be added to the Assortment.
-     *
      * @return {@code true} if the Wine object is successfully added to the Assortment, {@code false} otherwise.
      */
     public boolean add(W wine) {
@@ -414,7 +406,6 @@ public class Assortment<W extends Wine> implements List<W> {
      * Removes an Object from the Assortment.
      *
      * @param o The Object to be removed from the Assortment.
-     *
      * @return true if the Wine object is successfully removed from the Assortment, false otherwise.
      */
     @Override
@@ -446,7 +437,6 @@ public class Assortment<W extends Wine> implements List<W> {
      * Checks if the collection is contained in the Wine list.
      *
      * @param c Collection to be checked
-     *
      * @return `true` if the collection is in the Wine list, `false` otherwise
      */
     @Override
@@ -458,7 +448,6 @@ public class Assortment<W extends Wine> implements List<W> {
      * Adds all elements in specified collection to the Wine list.
      *
      * @param c Collection whose elements are to be added to the Wine list
-     *
      * @return `true` if the Wine list is modified as a result, `false` otherwise
      */
     @Override
@@ -475,8 +464,7 @@ public class Assortment<W extends Wine> implements List<W> {
      * The operation is undefined if the collection is modified while the operation is in progress.
      *
      * @param index Index at which to insert the first element from the collection
-     * @param c Collection containing elements to be added to this list
-     *
+     * @param c     Collection containing elements to be added to this list
      * @return `true` if this list changed as a result of the call, `false` otherwise
      */
     @Override
@@ -497,13 +485,12 @@ public class Assortment<W extends Wine> implements List<W> {
      * Removes from the Wine list all its elements that are also present in the specified collection.
      *
      * @param c Collection containing elements to be removed from the Wine list
-     *
      * @return `true` if the Wine list is modified as a result, `false` otherwise
      */
     @Override
     public boolean removeAll(@NotNull Collection<?> c) {
         boolean result = true;
-        for (Object obj: c) {
+        for (Object obj : c) {
             result &= remove(obj);
         }
         return result;
@@ -513,7 +500,6 @@ public class Assortment<W extends Wine> implements List<W> {
      * Retains only the elements in the `wineList` that are contained in the specified collection.
      *
      * @param c the collection containing elements to be retained in the `wineList`
-     *
      * @return `true` if `wineList` is modified as a result, `false` otherwise
      */
     @Override
@@ -551,6 +537,7 @@ public class Assortment<W extends Wine> implements List<W> {
     }
 
     // Methods overridden from interface Iterable
+
     /**
      * Creates an Iterator for the Wine list.
      *
@@ -583,6 +570,7 @@ public class Assortment<W extends Wine> implements List<W> {
     }
 
     // Methods overridden from class Object
+
     /**
      * Provides a string version of the Assortment.
      *
@@ -607,7 +595,6 @@ public class Assortment<W extends Wine> implements List<W> {
      * Compares this Assortment to the specified object.
      *
      * @param o Object to be compared
-     *
      * @return `true` if this Assortment is equal to the object, `false` otherwise
      */
     @Override

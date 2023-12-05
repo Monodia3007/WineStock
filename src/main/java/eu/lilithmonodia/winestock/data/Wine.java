@@ -97,7 +97,6 @@ public class Wine implements Comparable<Wine> {
      * Sets the year of an object.
      *
      * @param year the year to be set
-     *
      * @throws InvalidYearException if the year is after the current year
      */
     public void setYear(@NotNull Year year) throws InvalidYearException {
@@ -208,7 +207,6 @@ public class Wine implements Comparable<Wine> {
      * Determines whether the current `Wine` object equals another object.
      *
      * @param o The object to compare against for equality.
-     *
      * @return true if the objects are the same; false otherwise.
      */
     @Override
@@ -264,10 +262,8 @@ public class Wine implements Comparable<Wine> {
      * Compares this `Wine` object with the specified object for order.
      *
      * @param o the `Wine` object to be compared.
-     *
      * @return a negative integer, zero, or a positive integer as this object is less than,
      * equal to, or greater than the specified object.
-     *
      * @throws NullPointerException if the specified object is null.
      */
     @Override
@@ -310,7 +306,6 @@ public class Wine implements Comparable<Wine> {
          * @param volume the volume of the builder
          * @param color  the color of the builder
          * @param price  the price of the builder
-         *
          * @throws IllegalArgumentException if the year is after the current year, or if the color is not one of the predefined wine colors
          */
         public Builder(int id, String name, int year, double volume, String color, double price) {
@@ -342,7 +337,6 @@ public class Wine implements Comparable<Wine> {
          * Adds a comment to the Builder object.
          *
          * @param comment the comment to be added
-         *
          * @return the updated Builder object
          */
         public Builder comment(String comment) {

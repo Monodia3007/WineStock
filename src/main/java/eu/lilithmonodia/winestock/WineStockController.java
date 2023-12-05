@@ -15,9 +15,9 @@ import javafx.collections.FXCollections;
 import javafx.concurrent.Task;
 import javafx.fxml.FXML;
 import javafx.scene.Cursor;
-import javafx.scene.control.*;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -325,11 +325,11 @@ public class WineStockController {
      * Validates the specified fields by checking if any of them are empty.
      * If any field is empty, it displays the specified error message and highlights the fields.
      *
-     * @param fields        The list of text fields to validate.
-     * @param errorMessage  The error message to display if any field is empty.
-     * @param host          The value of the host field.
-     * @param username      The value of the username field.
-     * @param password      The value of the password field.
+     * @param fields       The list of text fields to validate.
+     * @param errorMessage The error message to display if any field is empty.
+     * @param host         The value of the host field.
+     * @param username     The value of the username field.
+     * @param password     The value of the password field.
      * @return true if any field is empty, false otherwise.
      */
     private boolean validateFields(List<TextField> fields, Errors errorMessage, @NotNull String host, String username, String password) {
@@ -349,14 +349,14 @@ public class WineStockController {
      * <p>
      * If the connection is successful, call the connectToDatabaseAndReflectSuccess() method.
      * If an SQLException occurs during the connection attempt,
-     *  call the handleErrorAndShow() method with the specified error message and the exception.
+     * call the handleErrorAndShow() method with the specified error message and the exception.
      * <p>
      * Sets the cursor back to the default state after the connection attempt.
      *
-     * @param fields        The list of text fields to use for displaying error messages and highlight fields.
-     * @param host          The value of the host field.
-     * @param username      The value of the username field.
-     * @param password      The value of the password field.
+     * @param fields   The list of text fields to use for displaying error messages and highlight fields.
+     * @param host     The value of the host field.
+     * @param username The value of the username field.
+     * @param password The value of the password field.
      */
     private void attemptToEstablishConnection(List<TextField> fields, String host, String username, String password) {
         String url = "jdbc:postgresql://" + host + ":" + getPort() + "/winestock?sslmode=disable";
@@ -381,10 +381,10 @@ public class WineStockController {
      * Adds the SUCCESS style class to the loginButton.
      * Calls the setSuccessfulStyles() method to apply successful styles to the specified fields.
      *
-     * @param fields        The list of text fields to set successful styles.
-     * @param url           The URL of the database.
-     * @param username      The username for the database connection.
-     * @param password      The password for the database connection.
+     * @param fields   The list of text fields to set successful styles.
+     * @param url      The URL of the database.
+     * @param username The username for the database connection.
+     * @param password The password for the database connection.
      * @throws SQLException If an error occurs while connecting to the database.
      */
     private void connectToDatabaseAndReflectSuccess(List<TextField> fields, String url, String username, String password) throws SQLException {
@@ -405,9 +405,9 @@ public class WineStockController {
      * method to apply the danger styles and show the error message for the specified fields and exception.
      * Adds the DANGER style class to the loginButton.
      *
-     * @param fields        The list of text fields to apply danger styles and show the error message.
-     * @param errorMessage  The error message to show.
-     * @param e             The SQLException that occurred.
+     * @param fields       The list of text fields to apply danger styles and show the error message.
+     * @param errorMessage The error message to show.
+     * @param e            The SQLException that occurred.
      */
     private void handleErrorAndShow(List<TextField> fields, Errors errorMessage, SQLException e) {
         handleErrorAndShowStyles(fields, errorMessage, e);
@@ -422,9 +422,9 @@ public class WineStockController {
      * Iterates over the list of text fields and applies the danger styles to each field.
      * Removes the success styles from each field.
      *
-     * @param fields    The list of text fields to apply danger styles.
-     * @param title     The title of the error.
-     * @param e         The SQLException that occurred.
+     * @param fields The list of text fields to apply danger styles.
+     * @param title  The title of the error.
+     * @param e      The SQLException that occurred.
      */
     private void handleErrorAndShowStyles(@NotNull List<TextField> fields, Errors title, SQLException e) {
         handleError(title, title, e);
@@ -440,7 +440,7 @@ public class WineStockController {
      * Iterates over the list of text fields and applies the success styles to each field.
      * Removes the danger styles from each field.
      *
-     * @param fields    The list of text fields to apply success styles.
+     * @param fields The list of text fields to apply success styles.
      */
     private void setSuccessfulStyles(@NotNull List<TextField> fields) {
         fields.forEach(field -> {
@@ -774,7 +774,7 @@ public class WineStockController {
 
             this.currentlySelectedAssortment = assortment;
 
-        }catch (DateTimeParseException e) {
+        } catch (DateTimeParseException e) {
             handleError(Errors.INVALID_YEAR_FORMAT, Errors.ERROR_ADDING_ASSORTMENT, e);
         } catch (Exception e) {
             handleError(Errors.ERROR_ADDING_ASSORTMENT, Errors.FAILED_TO_ADD_ASSORTMENT_TO_THE_DATABASE, e);

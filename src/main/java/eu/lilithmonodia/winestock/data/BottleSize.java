@@ -96,9 +96,7 @@ public enum BottleSize {
      * `BottleSize` exists, this method returns null.
      *
      * @param volume the volume to fetch the corresponding `BottleSize` for.
-     *
      * @return the `BottleSize` matching the volume, or null if none match.
-     *
      * @throws InvalidBottleVolumeException if the provided volume is invalid.
      */
     public static @NotNull BottleSize doubleToBottleSize(double volume) throws InvalidBottleVolumeException {
