@@ -974,7 +974,7 @@ public class WineStockController {
     public void toggleTheme() {
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
         alert.setTitle("Changement de thème");
-        alert.setHeaderText("Choisissez le thème");
+        alert.setHeaderText(null);
         alert.setContentText("Choisissez le thème que vous souhaitez utiliser.");
 
         ButtonType darkButton = new ButtonType("Thème sombre");
