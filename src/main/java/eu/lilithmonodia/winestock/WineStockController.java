@@ -28,8 +28,8 @@ import org.jetbrains.annotations.Nullable;
 
 import java.awt.*;
 import java.io.IOException;
-import java.net.URI;
 import java.net.URISyntaxException;
+import java.net.URL;
 import java.sql.SQLException;
 import java.time.Year;
 import java.time.chrono.IsoChronology;
@@ -956,7 +956,7 @@ public class WineStockController {
     public void openLink() {
         try {
             if (Desktop.isDesktopSupported() && Desktop.getDesktop().isSupported(Desktop.Action.BROWSE)) {
-                Desktop.getDesktop().browse(new URI("https://github.com/Monodia3007/WineStock"));
+                Desktop.getDesktop().browse(new URL("https://github.com/Monodia3007/WineStock").toURI());
             } else {
                 handleError(Errors.ERROR_OPENING_LINK, Errors.FAILED_TO_OPEN_LINK, null);
             }
