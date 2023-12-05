@@ -55,20 +55,24 @@ the software is available on every operating system
 
 ### Windows
 
-To install the software download and launch the .exe or .msi file from the release page and to use it just double click on the shortcut on the desktop if you selected create shortcut in the installer
+To install the software download and launch the .exe or .msi file from the release page and to use it,
+ double-click on the shortcut on the desktop if you selected create shortcut in the installer
 
 ### Mac
 
-To install the software download and launch the .dmg or .pkg file from the release page and to use it just click on the icon the application menu
+To install the software download and launch the .dmg or .pkg file from the release page and to use it,
+click on the icon the application menu
 
 ### Linux
 
-To install the software download the latest WineStock-ubuntu-latest.jar in the release page and just double click the jar archive to launch it
+To install the software,
+download the latest WineStock-ubuntu-latest.jar in the release page and double-click the jar archive to launch it
 
 ## Usage
 
 Upon running the application, you will be presented with a user interface containing tabs for managing wine and
-assortment data. To import wine data from the database, click the database url and credentials then click login.
+assortment data.
+To import wine data from the database, click the database url and credentials, then click login.
 Once logged in, click the "Import Database" button to fetch the wine data and display it in the table.
 
 You can switch between tabs to perform various operations on the wine and assortment data.
