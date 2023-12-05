@@ -14,7 +14,7 @@ plugins {
 
 // Basic Metadata - This section contains basic metadata for your project.
 group = 'eu.lilithmonodia'
-version = '1.2.1'
+version = '1.2.2'
 
 // Indicate where Gradle should look for dependencies
 repositories {
