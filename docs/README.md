@@ -45,37 +45,30 @@ wine and assortment data.
 ## Prerequisites
 
 - Java Development Kit (JDK) 17 or higher
-- PostgreSQL database
+- PostgreSQL database with two tables :
+    - wine(wno serial, name varchar, year int, volume numeric, color varchar, price numeric, comment varchar, #ano int)
+    - assortment(ano serial, year int)
 
 ## Getting Started
 
-To run the WineStock application, you can follow these steps:
+the software is available on every operating system
 
-1. Download the latest release from the "Releases" section of the repository.
-2. Extract the contents of the release package.
-3. Open a terminal or command prompt.
-4. Navigate to the directory where the extracted files are located.
-5. Run the following command to execute the application:
-    ```shell
-    java -jar WineStock.jar
-    ```
-6. Replace WineStock.jar with the actual name of the JAR file if it's different.
+### Windows
 
-The WineStock application should start, and you will be able to interact with it through the graphical user interface.
+To install the software download and launch the .exe or .msi file from the release page and to use it just double click on the shortcut on the desktop if you selected create shortcut in the installer
 
-Make sure you have Java Runtime Environment (JRE) 17 or higher installed on your system. If not, you can download and
-install it from the official Oracle website.
+### Mac
 
-Note: The instructions assume that you have a valid database with the necessary credentials and configuration
-file (`config.json`) in the same directory as the JAR file. Make sure to set up the database and provide the correct
-credentials in the configuration file before running the application.
+To install the software download and launch the .dmg or .pkg file from the release page and to use it just click on the icon the application menu
 
-If you encounter any issues or need further assistance, please let me know.
+### Linux
+
+To install the software download the latest WineStock-ubuntu-latest.jar in the release page and just double click the jar archive to launch it
 
 ## Usage
 
 Upon running the application, you will be presented with a user interface containing tabs for managing wine and
-assortment data. To import wine data from the database, click the "Login" button and enter your database credentials.
+assortment data. To import wine data from the database, click the database url and credentials then click login.
 Once logged in, click the "Import Database" button to fetch the wine data and display it in the table.
 
 You can switch between tabs to perform various operations on the wine and assortment data.
