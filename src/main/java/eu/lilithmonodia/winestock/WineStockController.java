@@ -970,6 +970,14 @@ public class WineStockController {
         }
     }
 
+    /**
+     * Toggles the application theme.
+     * <p>
+     * This method displays a confirmation dialog where the user can choose between a dark theme
+     * and a light theme. If the user selects the dark theme, the application theme is set to
+     * the PrimerDark theme. If the user selects the light theme, the application theme is set to
+     * the PrimerLight theme.
+     */
     @FXML
     public void toggleTheme() {
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
