@@ -370,6 +370,9 @@ public class WineStockController {
             connectToDatabaseAndReflectSuccess(fields, url, username, password);
         } catch (SQLException e) {
             handleErrorAndShow(fields, Errors.ERROR_LOGGING_IN, e);
+            importButton.setDisable(true);
+            importButton.getStyleClass().removeAll(Styles.DANGER, Styles.SUCCESS);
+            postgreSQLManager = null;
         } finally {
             setCursorToDefault();
         }
