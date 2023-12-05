@@ -973,12 +973,12 @@ public class WineStockController {
     @FXML
     public void toggleTheme() {
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
-        alert.setTitle("Theme Switch");
-        alert.setHeaderText("Choose a theme");
-        alert.setContentText("Please select the theme you want to apply.");
+        alert.setTitle("Changement de thème");
+        alert.setHeaderText("Choisissez le thème");
+        alert.setContentText("Choisissez le thème que vous souhaitez utiliser.");
 
-        ButtonType darkButton = new ButtonType("Dark Theme");
-        ButtonType lightButton = new ButtonType("Light Theme");
+        ButtonType darkButton = new ButtonType("Thème sombre");
+        ButtonType lightButton = new ButtonType("Thème clair");
 
         alert.getButtonTypes().setAll(darkButton, lightButton);
 
