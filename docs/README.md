@@ -72,7 +72,7 @@ download the latest WineStock-ubuntu-latest.jar in the release page and double-c
 
 Upon running the application, you will be presented with a user interface containing tabs for managing wine and
 assortment data.
-To import wine data from the database, click the database url and credentials, then click login.
+To import wine data from the database, input the database url and credentials, then click login.
 Once logged in, click the "Import Database" button to fetch the wine data and display it in the table.
 
 You can switch between tabs to perform various operations on the wine and assortment data.
