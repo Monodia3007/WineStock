@@ -27,6 +27,7 @@ import org.jetbrains.annotations.Nullable;
 import java.sql.SQLException;
 import java.time.Year;
 import java.time.chrono.IsoChronology;
+import java.time.format.DateTimeParseException;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
@@ -753,10 +754,11 @@ public class WineStockController {
     public void addAssortment() {
         try {
             String yearText = assortmentYearTextField.getText();
-            if (yearText.isEmpty() || !yearText.matches("\\d{4}")) {
+            if (yearText.isEmpty()) {
                 handleError(Errors.YEAR_FIELD_IS_EMPTY, Errors.ERROR_ADDING_ASSORTMENT, null);
                 return;
             }
+
             Assortment<Wine> assortment = new Assortment<>(Year.parse(yearText));
             Optional<Long> id = postgreSQLManager.insertAssortment(assortment);
             if (id.isEmpty()) {
@@ -765,6 +767,9 @@ public class WineStockController {
             }
 
             this.currentlySelectedAssortment = assortment;
+
+        }catch (DateTimeParseException e) {
+            handleError(Errors.INVALID_YEAR_FORMAT, Errors.ERROR_ADDING_ASSORTMENT, e);
         } catch (Exception e) {
             handleError(Errors.ERROR_ADDING_ASSORTMENT, Errors.FAILED_TO_ADD_ASSORTMENT_TO_THE_DATABASE, e);
         }
