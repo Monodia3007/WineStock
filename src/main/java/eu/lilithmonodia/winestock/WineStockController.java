@@ -2,6 +2,8 @@ package eu.lilithmonodia.winestock;
 
 // Importing the necessary libraries
 
+import atlantafx.base.theme.PrimerDark;
+import atlantafx.base.theme.PrimerLight;
 import atlantafx.base.theme.Styles;
 import eu.lilithmonodia.winestock.data.Assortment;
 import eu.lilithmonodia.winestock.data.BottleSize;
@@ -10,6 +12,7 @@ import eu.lilithmonodia.winestock.data.Wine;
 import eu.lilithmonodia.winestock.database.PostgreSQLManager;
 import eu.lilithmonodia.winestock.exceptions.Errors;
 import eu.lilithmonodia.winestock.exceptions.InvalidYearException;
+import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.concurrent.Task;
@@ -330,6 +333,7 @@ public class WineStockController {
      * @param host         The value of the host field.
      * @param username     The value of the username field.
      * @param password     The value of the password field.
+     *
      * @return true if any field is empty, false otherwise.
      */
     private boolean validateFields(List<TextField> fields, Errors errorMessage, @NotNull String host, String username, String password) {
@@ -385,6 +389,7 @@ public class WineStockController {
      * @param url      The URL of the database.
      * @param username The username for the database connection.
      * @param password The password for the database connection.
+     *
      * @throws SQLException If an error occurs while connecting to the database.
      */
     private void connectToDatabaseAndReflectSuccess(List<TextField> fields, String url, String username, String password) throws SQLException {
@@ -962,6 +967,26 @@ public class WineStockController {
             }
         } catch (IOException | URISyntaxException e) {
             handleError(Errors.ERROR_OPENING_LINK, Errors.FAILED_TO_OPEN_LINK, e);
+        }
+    }
+
+    @FXML
+    public void toggleTheme() {
+        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+        alert.setTitle("Theme Switch");
+        alert.setHeaderText("Choose a theme");
+        alert.setContentText("Please select the theme you want to apply.");
+
+        ButtonType darkButton = new ButtonType("Dark Theme");
+        ButtonType lightButton = new ButtonType("Light Theme");
+
+        alert.getButtonTypes().setAll(darkButton, lightButton);
+
+        Optional<ButtonType> result = alert.showAndWait();
+        if (result.isPresent() && result.get() == darkButton) {
+            Application.setUserAgentStylesheet(new PrimerDark().getUserAgentStylesheet());
+        } else if (result.isPresent() && result.get() == lightButton) {
+            Application.setUserAgentStylesheet(new PrimerLight().getUserAgentStylesheet());
         }
     }
 }
