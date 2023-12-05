@@ -29,7 +29,9 @@ public enum Errors {
     FAILED_TO_ADD_WINE_TO_ASSORTMENT("Failed to add wine to assortment in the database."),
     FAILED_TO_DELETE_WINE_FROM_ASSORTMENT("Failed to delete wine from assortment in the database."),
     ERROR_LOADING_ASSORTMENT("Error loading assortment"),
-    INVALID_YEAR_FORMAT("Invalid year format.");
+    INVALID_YEAR_FORMAT("Invalid year format."),
+    ERROR_OPENING_LINK("Error opening link"),
+    FAILED_TO_OPEN_LINK("Failed to open link.");
     private final String value;
 
     Errors(String value) {

@@ -16,6 +16,8 @@ import javafx.concurrent.Task;
 import javafx.fxml.FXML;
 import javafx.scene.Cursor;
 import javafx.scene.control.*;
+import javafx.scene.control.Button;
+import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -24,6 +26,10 @@ import org.apache.logging.log4j.Logger;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
+import java.awt.*;
+import java.io.IOException;
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.sql.SQLException;
 import java.time.Year;
 import java.time.chrono.IsoChronology;
@@ -931,5 +937,31 @@ public class WineStockController {
         wineColorComboBox.setValue(Color.ROUGE);
         winePriceField.setText("");
         wineCommentField.setText("");
+    }
+
+    /**
+     * Opens a link to the WineStock GitHub repository.
+     * <p>
+     * This method checks if the Desktop class is supported and the BROWSE action is supported
+     * by the desktop environment. If supported, it opens the WineStock GitHub repository in the
+     * default web browser.
+     * <p>
+     * If the Desktop class or the BROWSE action is not supported, it calls the handleError method
+     * with the appropriate error codes and messages.
+     * <p>
+     * If an IO exception or a URI syntax exception occurs during the browsing process, it calls
+     * the handleError method with the appropriate error codes and messages, and the exception that occurred.
+     */
+    @FXML
+    public void openLink() {
+        try {
+            if (Desktop.isDesktopSupported() && Desktop.getDesktop().isSupported(Desktop.Action.BROWSE)) {
+                Desktop.getDesktop().browse(new URI("https://github.com/Monodia3007/WineStock"));
+            } else {
+                handleError(Errors.ERROR_OPENING_LINK, Errors.FAILED_TO_OPEN_LINK, null);
+            }
+        } catch (IOException | URISyntaxException e) {
+            handleError(Errors.ERROR_OPENING_LINK, Errors.FAILED_TO_OPEN_LINK, e);
+        }
     }
 }
