@@ -19,8 +19,6 @@ jobs:
         java: [ '17' ]
 
     steps:
-      - name: Set execute permissions for gradlew
-        run: chmod +x gradlew
       - uses: actions/checkout@v3
       - name: Set up JDK ${{ matrix.java }}
         uses: actions/setup-java@v3
@@ -39,6 +37,8 @@ jobs:
           path: ~/.gradle/caches
           key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle') }}
           restore-keys: ${{ runner.os }}-gradle
+      - name: Set execute permissions for gradlew
+        run: chmod +x gradlew
       - name: Build and analyze
         env:
           GITHUB_TOKEN: ${{ secrets.MY_GITHUB_TOKEN }}  # Needed to get PR information, if any
