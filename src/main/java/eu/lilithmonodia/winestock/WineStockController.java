@@ -333,7 +333,6 @@ public class WineStockController {
      * @param host         The value of the host field.
      * @param username     The value of the username field.
      * @param password     The value of the password field.
-     *
      * @return true if any field is empty, false otherwise.
      */
     private boolean validateFields(List<TextField> fields, Errors errorMessage, @NotNull String host, String username, String password) {
@@ -392,7 +391,6 @@ public class WineStockController {
      * @param url      The URL of the database.
      * @param username The username for the database connection.
      * @param password The password for the database connection.
-     *
      * @throws SQLException If an error occurs while connecting to the database.
      */
     private void connectToDatabaseAndReflectSuccess(List<TextField> fields, String url, String username, String password) throws SQLException {
