@@ -19,10 +19,11 @@ jobs:
         with:
           java-version: '17'
           distribution: 'temurin'
-      - name: Build with Gradle
-        uses: gradle/gradle-build-action@v2
-        with:
-          arguments: shadowJar
+      - name: Set execute permissions for gradlew
+        run: chmod +x gradlew
+      - name: Build with Gradle and jpackage
+        run: |
+          ./gradlew clean shadowJar jpackage
       - name: Get the version
         id: get_version
         shell: bash
@@ -38,3 +39,29 @@ jobs:
           asset_path: ./build/libs/WineStock-${{ matrix.os }}.jar
           asset_name: WineStock-${{ matrix.os }}.jar
           asset_content_type: application/java-archive
+      - name: Identify the jpackage output
+        shell: bash
+        run: |
+          if [[ "${{ matrix.os }}" == "windows-latest" ]]; then
+            echo "ASSET_PATH=./build/jpackage/WineStock-${{ env.VERSION }}.msi" >> $GITHUB_ENV
+          elif [[ "${{ matrix.os }}" == "macOS-latest" ]]; then
+            echo "ASSET_PATH=./build/jpackage/WineStock-${{ env.VERSION }}.dmg" >> $GITHUB_ENV
+          else
+            echo "ASSET_PATH=./build/jpackage/winestock_${{ env.VERSION }}-1_amd64.deb" >> $GITHUB_ENV
+          fi
+      - name: Extract filename
+        shell: bash
+        run: |
+          ASSET_NAME=$(basename "${{ env.ASSET_PATH }}")
+          echo "ASSET_NAME=$ASSET_NAME" >> $GITHUB_ENV
+          echo $ASSET_NAME
+
+      - name: Upload the jpackage output
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.MY_GITHUB_TOKEN }}
+        with:
+          upload_url: ${{ github.event.release.upload_url }}
+          asset_path: ${{ env.ASSET_PATH }}
+          asset_name: ${{ env.ASSET_NAME }}
+          asset_content_type: application/octet-stream
