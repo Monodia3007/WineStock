@@ -22,8 +22,8 @@ public class PostgreSQLManager {
     private static final String INSERT_WINE_SQL = "INSERT INTO public.wine(name, year, volume, color, price, comment) VALUES(?, ?, ?, ?, ?, ?)";
     private static final String UPDATE_WINE_SQL = "UPDATE public.wine SET name = ?, year = ?, volume = ?, color = ?, price = ?, comment = ? WHERE wno = ?";
     private static final String DELETE_WINE_SQL = "DELETE FROM public.wine WHERE wno = ?";
-    private static final String ASSORTMENT_SELECT_SQL = "SELECT * FROM public.assortment";
-    private static final String WINE_SELECT_ASSORTMENT_SQL = "SELECT * FROM public.wine WHERE wine.ano IN (SELECT ano FROM public.assortment WHERE ano = ?)";
+    private static final String ASSORTMENT_SELECT_SQL = "SELECT ano, year FROM public.assortment";
+    private static final String WINE_SELECT_ASSORTMENT_SQL = "SELECT wno, name, year, volume, color, price, color, comment, ano FROM public.wine WHERE wine.ano IN (SELECT ano FROM public.assortment WHERE ano = ?)";
     private static final String INSERT_ASSORTMENT_SQL = "INSERT INTO public.assortment(year) VALUES(?)";
     private static final String DELETE_ASSORTMENT_SQL = "DELETE FROM public.assortment WHERE ano = ?";
     private static final String UPDATE_WINE_IN_ASSORTMENT_SQL = "UPDATE public.wine SET ano = ? WHERE wno = ?";
