@@ -50,4 +50,6 @@ bin/
 # --- VS Code files ---
 .vscode/
 
+.sonarlint/
+
 # Created by https://www.gitignore.io/api/intellij
