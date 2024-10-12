@@ -125,13 +125,13 @@ class AssortmentTest {
 
     @Test
     void testNotEqualToNull() {
-        assertNotEquals(null, assortment);  // Should not be equal to null
+        assertNotEquals(null, assortment);  // Shouldn't be equal to null
     }
 
     @Test
     void testNotEqualToDifferentObject() {
         Object obj = new Object();
-        assertNotEquals(assortment, obj);  // Should not be equal to another type of object
+        assertNotEquals(assortment, obj);  // Shouldn't be equal to another type of object
     }
 
     @Test
@@ -200,12 +200,12 @@ class AssortmentTest {
     @Test
     void testConstructorWithId() {
         int id = 12345;
-        Assortment<Wine> assortment = new Assortment<>(id);
+        assortment = new Assortment<>(id);
 
         assertEquals(id, assortment.getId()); // test setId
         assertEquals(0, assortment.getTotalPrice(), 0.01); // test setting totalPrice to 0
         assertEquals("", assortment.getWineNames()); // test setting wineNames to an empty string
-        assertEquals(0, assortment.size()); // test that wineList is initialized and empty
+        assertEquals(0, assortment.size()); // test that wineList is initialised and empty
         assertNull(assortment.getYear());  // test that year is null
     }
 
@@ -290,7 +290,7 @@ class AssortmentTest {
     //Testing contains(Object o) method
     @Test
     void testContains() {
-        assertFalse(assortment.contains(wine1)); // Does not contain wine1 yet
+        assertFalse(assortment.contains(wine1)); // Doesn't contain wine1 yet
         assortment.add(wine1);
         assertTrue(assortment.contains(wine1));
     }
@@ -421,24 +421,24 @@ class AssortmentTest {
     void testConstructorWithIdAndYear() {
         int id = 12345;
         Year year = Year.of(2024);
-        Assortment<Wine> assortment = new Assortment<>(id, year);
+        assortment = new Assortment<>(id, year);
 
         assertEquals(id, assortment.getId()); // test setId
         assertEquals(year, assortment.getYear()); // test setYear
         assertEquals(0, assortment.getTotalPrice(), 0.01); // test setting totalPrice to 0
         assertEquals("", assortment.getWineNames()); // test setting wineNames to an empty string
-        assertEquals(0, assortment.size()); // test that wineList is initialized and empty
+        assertEquals(0, assortment.size()); // test that wineList is initialised and empty
     }
 
     @Test
     void testConstructorWithYear() {
         Year year = Year.of(2024);
-        Assortment<Wine> assortment = new Assortment<>(year);
+        assortment = new Assortment<>(year);
 
         assertEquals(-1, assortment.getId()); // test default setId
         assertEquals(year, assortment.getYear()); // test setYear
         assertEquals(0, assortment.getTotalPrice(), 0.01); // test setting totalPrice to 0
         assertEquals("", assortment.getWineNames()); // test setting wineNames to an empty string
-        assertEquals(0, assortment.size()); // test that wineList is initialized and empty
+        assertEquals(0, assortment.size()); // test that wineList is initialised and empty
     }
 }
