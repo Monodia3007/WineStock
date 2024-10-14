@@ -1,7 +1,7 @@
 /**
  * The 'eu.lilithmonodia.winestock' module defines the main module for the WineStock application.
  * <p>
- * It declares dependencies on other needed modules and specifies which packages are opened
+ * It declares dependencies on other necessary modules and specifies which packages are opened
  * and exported for use by other modules.
  * <p>
  * Dependencies for this module include:
@@ -35,7 +35,6 @@ module eu.lilithmonodia.winestock {
     requires org.jetbrains.annotations;
     requires java.desktop;
     requires org.apache.logging.log4j;
-    requires org.postgresql.jdbc;
     requires atlantafx.base;
 
     opens eu.lilithmonodia.winestock to javafx.fxml;

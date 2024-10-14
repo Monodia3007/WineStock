@@ -22,7 +22,7 @@ import static javafx.application.Platform.exit;
 
 /**
  * The WineStock class is the entry point of the application. It extends the Application class
- * and overrides the start method. It is responsible for initializing and showing the primary stage
+ * and overrides the start method. It is responsible for initialising and showing the primary stage
  * with the loaded FXML scene and setting the application icon.
  */
 public class WineStock extends Application {
@@ -59,9 +59,9 @@ public class WineStock extends Application {
      * <p>
      * This method attempts to set the application's dock icon by reading the "icon.png" file from the
      * application's resource folder. If the icon file is found, it will be used to set the dock icon.
-     * If the platform does not support setting the dock icon, this method does nothing.
+     * If the platform doesn't support setting the dock icon, this method does nothing.
      *
-     * @throws IOException If the "icon.png" file is not found or cannot be read.
+     * @throws IOException If the "icon.png" file is not found or can't be read.
      */
     private static void setDockIcon() throws IOException {
         InputStream stream = WineStock.class.getResourceAsStream("icon.png");
@@ -76,7 +76,7 @@ public class WineStock extends Application {
     }
 
     /**
-     * Starts the application by initializing the primary stage and loading the WineStock.fxml
+     * Starts the application by initialising the primary stage and loading the WineStock.fxml
      * file.
      * <p>
      * The primary stage is then set with the loaded scene and the application title is set

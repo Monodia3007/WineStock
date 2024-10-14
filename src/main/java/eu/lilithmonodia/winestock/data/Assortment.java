@@ -71,8 +71,8 @@ public class Assortment<W extends Wine> implements List<W> {
     /**
      * Overloaded constructor for the Assortment class.
      * <p>
-     * Initializes an Assortment with a default ID of -1 and the given year.
-     * The constructor also initializes an empty Wine list, total price of zero,
+     * Initialises an Assortment with a default ID of -1 and the given year.
+     * The constructor also initialises an empty Wine list, total price of zero,
      * and an empty wine names string.
      *
      * @param year The Year for the Assortment
@@ -232,8 +232,8 @@ public class Assortment<W extends Wine> implements List<W> {
 
     /**
      * Inserts the specified element at the specified position in this list.
-     * Shifts the element currently at that position (if any) and any subsequent elements to the right
-     * (adds one to their indices).
+     * Shifts the element currently at that position (if any) and any following elements to the right
+     * (adds one to their indexes).
      *
      * @param index   index at which the specified element is to be inserted
      * @param element element to be inserted
@@ -253,7 +253,7 @@ public class Assortment<W extends Wine> implements List<W> {
 
     /**
      * Removes the element at the specified position in this list.
-     * Shifts any subsequent elements to the left (subtracts one from their indices).
+     * Shifts any following elements to the left (subtracts one from their indexes).
      * Returns the element removed from the list.
      *
      * @param index the index of the element to be removed
@@ -421,8 +421,8 @@ public class Assortment<W extends Wine> implements List<W> {
                 throw new WineNotInAssortmentException(WINE_IS_NOT_IN_THE_ASSORTMENT);
             }
 
-            // The unchecked warning here cannot be removed because of type erasure in Java generics.
-            // It is safe as we have already verified that o instanceof Wine.
+            // The unchecked warning here can't be removed because of type erasure in Java generics.
+            // It is safe as we've already verified that an instance of Wine.
             @SuppressWarnings("unchecked")
             W wine = (W) o;
 

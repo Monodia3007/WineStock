@@ -12,14 +12,14 @@ import java.util.Objects;
 /**
  * This class represents a specific type of wine which encapsulates various
  * attributes of the wine such as its name, production year, bottle size,
- * color, price, and user comments.
+ * colour, price, and user comments.
  * <p>
  * The wine can also be part of an assortment (collection of wines).
  */
 public class Wine implements Comparable<Wine> {
     /**
      * Represents a constant variable for an invalid year.
-     * Provides a message indicating that the year must not be after the current year.
+     * Provides a message indicating that the year mustn't be after the current year.
      */
     private static final String YEAR_AFTER_CURRENT_YEAR_INVALID = "Invalid year. The year must not be after the current year.";
     private static final Logger LOGGER = LogManager.getLogger(Wine.class);
@@ -133,7 +133,7 @@ public class Wine implements Comparable<Wine> {
     /**
      * Gets color.
      *
-     * @return the color
+     * @return the colour
      */
     public Color getColor() {
         return color;
@@ -142,7 +142,7 @@ public class Wine implements Comparable<Wine> {
     /**
      * Sets color.
      *
-     * @param color the color
+     * @param color the colour
      */
     public void setColor(Color color) {
         this.color = color;
@@ -290,7 +290,7 @@ public class Wine implements Comparable<Wine> {
          * @param name   the name of the builder
          * @param year   the year of the builder
          * @param volume the volume of the builder
-         * @param color  the color of the builder
+         * @param color  the colour of the builder
          * @param price  the price of the builder
          */
         public Builder(String name, int year, double volume, String color, double price) {
@@ -304,9 +304,9 @@ public class Wine implements Comparable<Wine> {
          * @param name   the name of the builder
          * @param year   the year of the builder
          * @param volume the volume of the builder
-         * @param color  the color of the builder
+         * @param color  the colour of the builder
          * @param price  the price of the builder
-         * @throws IllegalArgumentException if the year is after the current year, or if the color is not one of the predefined wine colors
+         * @throws IllegalArgumentException if the year is after the current year, or if the colour is not one of the predefined wine colours
          */
         public Builder(int id, String name, int year, double volume, String color, double price) {
             BottleSize volume1;

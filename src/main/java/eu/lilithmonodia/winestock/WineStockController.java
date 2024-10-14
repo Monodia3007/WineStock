@@ -193,7 +193,7 @@ public class WineStockController {
     /**
      * Imports the database by setting cell value factories and refreshing the view.
      * <p>
-     * This method initializes a new Task to perform the database import asynchronously,
+     * This method initialises a new Task to perform the database import asynchronously,
      * logging the progress and handling any exceptions that may occur. The import process
      * includes setting the cell value factories and refreshing the view. Upon successful
      * completion, the method logs that the database has been successfully imported.
@@ -263,7 +263,7 @@ public class WineStockController {
      * @param tableName    The TableColumn representing the name column.
      * @param tableYear    The TableColumn representing the year column.
      * @param tableVolume  The TableColumn representing the volume column.
-     * @param tableColor   The TableColumn representing the color column.
+     * @param tableColor   The TableColumn representing the colour column.
      * @param tablePrice   The TableColumn representing the price column.
      * @param tableComment The TableColumn representing the comment column.
      * @param <T>          The type of objects contained in the TableView.
@@ -301,7 +301,7 @@ public class WineStockController {
              *    3. Validates the fields by checking if there are any errors while logging in.
              *    4. Attempts to establish a connection using the provided host, username, and password.
              *
-             * @return The method does not return anything.
+             * @return The method doesn't return anything.
              */
             @Override
             protected @Nullable Void call() {
@@ -670,7 +670,7 @@ public class WineStockController {
     /**
      * Modifies the currently selected wine in the database.
      * <p>
-     * If there is a wine currently selected, it updates the wine's name, year, volume, color, price, and comment
+     * If there is a wine currently selected, it updates the wine's name, year, volume, colour, price, and comment
      * based on the values entered in the corresponding UI fields.
      * It then calls the updateWine method of the PostgreSQLManager class,
      * passing the currentlySelectedWine as the parameter,
@@ -706,7 +706,7 @@ public class WineStockController {
     }
 
     /**
-     * Updates the currently selected wine with the values entered in the UI fields.
+     * Updates the currently selected wine with the values entered the UI fields.
      *
      * @throws InvalidYearException If the entered year is invalid.
      */
