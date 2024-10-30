@@ -2,6 +2,7 @@ package eu.lilithmonodia.winestock.data;
 
 import eu.lilithmonodia.winestock.exceptions.InvalidBottleVolumeException;
 import eu.lilithmonodia.winestock.exceptions.InvalidYearException;
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
 import org.apache.logging.log4j.LogManager;
@@ -9,7 +10,6 @@ import org.apache.logging.log4j.Logger;
 import org.jetbrains.annotations.NotNull;
 
 import java.time.Year;
-import java.util.Objects;
 
 /**
  * This class represents a specific type of wine which encapsulates various
@@ -18,7 +18,7 @@ import java.util.Objects;
  * <p>
  * The wine can also be part of an assortment (collection of wines).
  */
-@Getter
+@Getter @EqualsAndHashCode
 public class Wine implements Comparable<Wine> {
     /**
      * Represents a constant variable for an invalid year.
@@ -83,44 +83,6 @@ public class Wine implements Comparable<Wine> {
         } catch (InvalidBottleVolumeException e) {
             this.volume = BottleSize.BOUTEILLE;
         }
-    }
-
-    /**
-     * Determines whether the current `Wine` object equals another object.
-     *
-     * @param o The object to compare against for equality.
-     * @return true if the objects are the same; false otherwise.
-     */
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (!(o instanceof Wine wine)) return false;
-        return getId() == wine.getId() &&
-                Double.compare(getPrice(), wine.getPrice()) == 0 &&
-                isInAssortment() == wine.isInAssortment() &&
-                Objects.equals(getName(), wine.getName()) && Objects.equals(getYear(), wine.getYear()) &&
-                getVolume() == wine.getVolume() &&
-                getColor() == wine.getColor() &&
-                Objects.equals(getComment(), wine.getComment());
-    }
-
-    /**
-     * Generates a hash code for the `Wine` object.
-     *
-     * @return the hash code.
-     */
-    @Override
-    public int hashCode() {
-        return Objects.hash(
-                getId(),
-                getName(),
-                getYear(),
-                getVolume(),
-                getColor(),
-                getPrice(),
-                getComment(),
-                isInAssortment()
-        );
     }
 
     /**

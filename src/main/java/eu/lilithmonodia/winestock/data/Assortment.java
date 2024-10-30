@@ -2,6 +2,7 @@ package eu.lilithmonodia.winestock.data;
 
 import eu.lilithmonodia.winestock.exceptions.WineAlreadyInAssortmentException;
 import eu.lilithmonodia.winestock.exceptions.WineNotInAssortmentException;
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
 import org.apache.logging.log4j.LogManager;
@@ -19,6 +20,7 @@ import java.util.function.Consumer;
  * The class maintains the properties such as ID, total price, and wine names in the Assortment.
  */
 @Getter
+@EqualsAndHashCode
 public class Assortment<W extends Wine> implements List<W> {
     private static final Logger LOGGER = LogManager.getLogger(Assortment.class);
     private static final String WINE_IS_NOT_IN_THE_ASSORTMENT = "Wine is not in the assortment";
@@ -539,37 +541,5 @@ public class Assortment<W extends Wine> implements List<W> {
         sb.append("\t}\n\ttotalPrice=").append(totalPrice).append("\n}");
 
         return sb.toString();
-    }
-
-    /**
-     * Compares this Assortment to the specified object.
-     *
-     * @param o Object to be compared
-     * @return `true` if this Assortment is equal to the object, `false` otherwise
-     */
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (!(o instanceof Assortment<?> that)) return false;
-        return getId() == that.getId() &&
-                Double.compare(getTotalPrice(), that.getTotalPrice()) == 0 &&
-                Objects.equals(getWineList(), that.getWineList()) &&
-                Objects.equals(getYear(), that.getYear()) &&
-                Objects.equals(getWineNames(), that.getWineNames());
-    }
-
-    /**
-     * Returns the hash code for this Assortment.
-     *
-     * @return the hash code for this Assortment
-     */
-    @Override
-    public int hashCode() {
-        return Objects.hash(
-                getWineList(),
-                getId(),
-                getYear(),
-                getTotalPrice(),
-                getWineNames());
     }
 }
