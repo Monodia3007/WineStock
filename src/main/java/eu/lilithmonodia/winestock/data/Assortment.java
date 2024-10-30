@@ -18,18 +18,15 @@ import java.util.function.Consumer;
  * It allows for various operations including addition, removal, and retrieval of wines.
  * The class maintains the properties such as ID, total price, and wine names in the Assortment.
  */
+@Getter
 public class Assortment<W extends Wine> implements List<W> {
     private static final Logger LOGGER = LogManager.getLogger(Assortment.class);
     private static final String WINE_IS_NOT_IN_THE_ASSORTMENT = "Wine is not in the assortment";
     private final List<W> wineList;
     @Setter
-    @Getter
     private int id;
-    @Getter
     private Year year;
-    @Getter
     private double totalPrice;
-    @Getter
     private String wineNames;
 
     /**
@@ -86,15 +83,6 @@ public class Assortment<W extends Wine> implements List<W> {
      */
     public Assortment(Year year) {
         this(-1, year);
-    }
-
-    /**
-     * Retrieves the list of Wine objects in the Assortment.
-     *
-     * @return List of Wine objects in the Assortment
-     */
-    private List<W> getWineList() {
-        return wineList;
     }
 
     // Public class-specific methods
