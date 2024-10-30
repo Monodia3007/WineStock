@@ -42,9 +42,13 @@ dependencies {
     implementation 'org.apache.logging.log4j:log4j-api:2.20.0'
     implementation 'org.apache.logging.log4j:log4j-core:2.20.0'
     implementation 'io.github.mkpaz:atlantafx-base:2.0.1'
+    compileOnly 'org.projectlombok:lombok:1.18.26'
+    annotationProcessor 'org.projectlombok:lombok:1.18.26'
     // Indicate libraries needed for testing this project
     testImplementation "org.junit.jupiter:junit-jupiter-api:${junitVersion}"
     testRuntimeOnly "org.junit.jupiter:junit-jupiter-engine:${junitVersion}"
+    testCompileOnly 'org.projectlombok:lombok:1.18.28'
+    testAnnotationProcessor 'org.projectlombok:lombok:1.18.28'
 }
 
 // Jar Config - Configurations for the `Jar` tasks.
@@ -119,70 +123,9 @@ task sourcesJar(type: Jar) {
     from sourceSets.main.allSource
 }
 
-afterEvaluate {
-    signing {
-        sign publishing.publications.mavenJava
-    }
-}
-
 // Artifacts to be produced by the build
 artifacts {
     archives javadocJar, sourcesJar, jar, shadowJar
-}
-
-// Configure publishing to publish to OSSRH or Sonatype
-publishing {
-    repositories {
-        maven {
-            name = "OSSRH" // Setting repository name
-            url = uri("https://s01.oss.sonatype.org/service/local/staging/deploy/maven2/")
-            // Maven repository URL where the artifacts will be published
-            credentials {
-                // The Maven credentials for publishing are pulled from environment variables
-                username = System.getenv("MAVEN_USERNAME")
-                password = System.getenv("MAVEN_PASSWORD")
-            }
-        }
-    }
-    publications {
-        mavenJava(MavenPublication) {
-            from components.java
-            artifact sourcesJar // Specifies that the source code should be published
-            artifact javadocJar // Specifies that the Javadoc should be published
-
-            // Configuration to generate a Project Object Model (POM) file for publishing
-            pom {
-                name = 'WineStock'
-                packaging 'jar'
-                description = 'WineStock is a JavaFX application for managing wine inventory using a PostgreSQL database. It supports viewing and managing wine details.'
-                url = 'https://github.com/Monodia3007/WineStock'
-
-                // Source code management related information
-                scm {
-                    connection = 'scm:git:https://github.com/Monodia3007/WineStock.git'
-                    developerConnection = 'scm:git:https://github.com/Monodia3007/WineStock.git'
-                    url = 'https://github.com/Monodia3007/WineStock'
-                }
-
-                // Licencing details for the project
-                licenses {
-                    license {
-                        name = 'MIT License'
-                        url = 'https://opensource.org/license/mit/'
-                    }
-                }
-
-                // Developer contact details
-                developers {
-                    developer {
-                        id = 'monodia'
-                        name = 'Lilith Camplin'
-                        email = 'lilith.camplin@gmail.com'
-                    }
-                }
-            }
-        }
-    }
 }
 
 javadoc {

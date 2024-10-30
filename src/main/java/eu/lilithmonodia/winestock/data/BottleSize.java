@@ -1,6 +1,7 @@
 package eu.lilithmonodia.winestock.data;
 
 import eu.lilithmonodia.winestock.exceptions.InvalidBottleVolumeException;
+import lombok.Getter;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
@@ -14,6 +15,7 @@ import java.util.List;
  * This enum provides a static method `doubleToBottleSize`, which takes a double representing
  * a volume, and returns the corresponding `BottleSize` instance.
  */
+@Getter
 public enum BottleSize {
     /**
      * Piccola, or 'small' size. Corresponds to a volume of 20 cl.
@@ -107,12 +109,4 @@ public enum BottleSize {
         throw new InvalidBottleVolumeException("Invalid bottle volume");
     }
 
-    /**
-     * Gets the volume associated with this `BottleSize`.
-     *
-     * @return the volume of the bottle size.
-     */
-    public double getVolume() {
-        return volume;
-    }
 }

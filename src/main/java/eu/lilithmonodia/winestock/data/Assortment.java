@@ -2,6 +2,8 @@ package eu.lilithmonodia.winestock.data;
 
 import eu.lilithmonodia.winestock.exceptions.WineAlreadyInAssortmentException;
 import eu.lilithmonodia.winestock.exceptions.WineNotInAssortmentException;
+import lombok.Getter;
+import lombok.Setter;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.jetbrains.annotations.NotNull;
@@ -20,9 +22,14 @@ public class Assortment<W extends Wine> implements List<W> {
     private static final Logger LOGGER = LogManager.getLogger(Assortment.class);
     private static final String WINE_IS_NOT_IN_THE_ASSORTMENT = "Wine is not in the assortment";
     private final List<W> wineList;
+    @Setter
+    @Getter
     private int id;
+    @Getter
     private Year year;
+    @Getter
     private double totalPrice;
+    @Getter
     private String wineNames;
 
     /**
@@ -82,57 +89,12 @@ public class Assortment<W extends Wine> implements List<W> {
     }
 
     /**
-     * Returns the ID of the Assortment.
-     *
-     * @return the ID of the Assortment
-     */
-    public int getId() {
-        return id;
-    }
-
-    /**
-     * Sets the ID for the Assortment.
-     *
-     * @param id the new ID of the Assortment
-     */
-    public void setId(int id) {
-        this.id = id;
-    }
-
-    /**
      * Retrieves the list of Wine objects in the Assortment.
      *
      * @return List of Wine objects in the Assortment
      */
     private List<W> getWineList() {
         return wineList;
-    }
-
-    /**
-     * Gets the total price of all Wine objects in the Assortment.
-     *
-     * @return total price of all Wine objects in the Assortment
-     */
-    public double getTotalPrice() {
-        return this.totalPrice;
-    }
-
-    /**
-     * Retrieves the names of all wine objects in the assortment.
-     *
-     * @return a string containing the names of all wine objects in the assortment
-     */
-    public String getWineNames() {
-        return wineNames;
-    }
-
-    /**
-     * Retrieves the year of this Assortment.
-     *
-     * @return the year of this Assortment
-     */
-    public Year getYear() {
-        return year;
     }
 
     // Public class-specific methods

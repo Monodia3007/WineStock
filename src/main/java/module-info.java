@@ -36,6 +36,7 @@ module eu.lilithmonodia.winestock {
     requires java.desktop;
     requires org.apache.logging.log4j;
     requires atlantafx.base;
+    requires static lombok;
 
     opens eu.lilithmonodia.winestock to javafx.fxml;
     opens eu.lilithmonodia.winestock.data to java.base, javafx.base;

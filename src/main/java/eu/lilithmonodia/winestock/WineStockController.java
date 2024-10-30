@@ -24,6 +24,7 @@ import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import lombok.Setter;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.jetbrains.annotations.NotNull;
@@ -51,6 +52,7 @@ public class WineStockController {
     private static final Logger LOGGER = LogManager.getLogger(WineStockController.class);
     // Manager for PostgreSQL Database
 
+    @Setter
     @FXML
     private TabPane rootPane;
     private PostgreSQLManager postgreSQLManager;
@@ -162,15 +164,6 @@ public class WineStockController {
     private TableColumn<Wine, String> notAssortmentWinesTableComment;
     @FXML
     private Button loginButton;
-
-    /**
-     * Sets the root pane of the application.
-     *
-     * @param rootPane the root pane of the application
-     */
-    public void setRootPane(TabPane rootPane) {
-        this.rootPane = rootPane;
-    }
 
     /**
      * Initializes the controller, setting the icon image and disabling the import button.

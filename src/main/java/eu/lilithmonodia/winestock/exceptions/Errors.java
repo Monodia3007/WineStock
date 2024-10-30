@@ -1,9 +1,12 @@
 package eu.lilithmonodia.winestock.exceptions;
 
+import lombok.Getter;
+
 /**
  * The Errors enum represents a list of error messages that can be used throughout the application.
  * Each enum value represents a specific error message.
  */
+@Getter
 public enum Errors {
     /**
      * Represents an error when no wine is selected.
@@ -172,12 +175,4 @@ public enum Errors {
         this.value = value;
     }
 
-    /**
-     * Returns the error message of the Errors instance.
-     *
-     * @return The error message of the Errors instance.
-     */
-    public String getValue() {
-        return value;
-    }
 }
