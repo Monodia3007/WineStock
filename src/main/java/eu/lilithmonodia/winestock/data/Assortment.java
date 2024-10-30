@@ -141,7 +141,7 @@ public class Assortment<W extends Wine> implements List<W> {
     }
 
     /**
-     * Execute wine removing actions
+     * Execute wine-removing actions
      *
      * @param wine The Wine object to be updated before removed.
      * @return true if the Wine object is removed, false otherwise.
@@ -215,7 +215,7 @@ public class Assortment<W extends Wine> implements List<W> {
     }
 
     /**
-     * Returns the index of the first occurrence of the specified element in the Wine list.
+     * Returns the index out of the first occurrence of the specified element in the Wine list.
      *
      * @param o Element to search for
      * @return The index of the first occurrence, or -1 if not found
@@ -251,7 +251,7 @@ public class Assortment<W extends Wine> implements List<W> {
      * Returns a list iterator over the elements in the Wine list, starting at a specified position.
      *
      * @param index Start position for the iterator
-     * @return List iterator starting at specified position
+     * @return List iterator starting at a specified position
      */
     @NotNull
     @Override
@@ -285,7 +285,7 @@ public class Assortment<W extends Wine> implements List<W> {
     }
 
     /**
-     * Checks if wineList is empty.
+     * Checks if the wineList is empty.
      *
      * @return `true` if wineList is empty, `false` otherwise
      */
@@ -395,7 +395,7 @@ public class Assortment<W extends Wine> implements List<W> {
     }
 
     /**
-     * Adds all elements in specified collection to the Wine list.
+     * Adds all elements in a specified collection to the Wine list.
      *
      * @param c Collection whose elements are to be added to the Wine list
      * @return `true` if the Wine list is modified as a result, `false` otherwise

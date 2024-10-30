@@ -1,10 +1,10 @@
 package eu.lilithmonodia.winestock.data;
 
 /**
- * This `Color` enum represents the possible colors of the wine.
+ * This `Colour` enum represents the possible colours of the wine.
  * <p>
  * The values for this enum are ROUGE, BLANC, ROSE, and CHAMPAGNE,
- * which are different color variants that a specific type of wine can have.
+ * which are different colour variants that a specific type of wine can have.
  * <ul>
  *     <li>`ROUGE` : Represents red wine</li>
  *     <li>`BLANC` : Represents white wine</li>
@@ -14,15 +14,15 @@ package eu.lilithmonodia.winestock.data;
  */
 public enum Color {
     /**
-     * Rouge color represents red wine.
+     * Rouge colour represents red wine.
      */
     ROUGE,
     /**
-     * Blanc color represents white wine.
+     * Blanc colour represents white wine.
      */
     BLANC,
     /**
-     * Rosé color represents rosé wine.
+     * Rosé colour represents rosé wine.
      */
     ROSE,
     /**

@@ -2,7 +2,7 @@ package eu.lilithmonodia.winestock.exceptions;
 
 /**
  * Exception thrown when the year provided for a wine is not valid.
- * For example, year is in the future or far in the past.
+ * For example, a year is in the future or far in the past.
  */
 public class InvalidYearException extends Exception {
     /**

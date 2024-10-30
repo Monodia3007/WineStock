@@ -167,7 +167,7 @@ public enum Errors {
     private final String value;
 
     /**
-     * Initializes a new instance of the Errors class with the specified value.
+     * Initialises a new instance of the Errors class with the specified value.
      *
      * @param value The error message to be assigned to the Errors instance.
      */

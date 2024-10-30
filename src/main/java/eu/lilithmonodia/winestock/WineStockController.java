@@ -166,7 +166,7 @@ public class WineStockController {
     private Button loginButton;
 
     /**
-     * Initializes the controller, setting the icon image and disabling the import button.
+     * Initialises the controller, setting the icon image and disabling the import button.
      */
     @FXML
     public void initialize() {
@@ -501,7 +501,7 @@ public class WineStockController {
     }
 
     /**
-     * Refreshes the TableView by replacing the items with data from PostgreSQL database.
+     * Refreshes the TableView by replacing the items with data from the PostgreSQL database.
      * If an exception occurs, a suitable error handling approach may be applied.
      */
     @FXML
@@ -533,7 +533,7 @@ public class WineStockController {
                         }
                     });
 
-                    // Since refresh() is a UI related operation, it must be run on JavaFX thread.
+                    // Since refresh() is a UI related operation, it must be run on a JavaFX thread.
                     Platform.runLater(() -> {
                         wineTable.refresh();
                         assortmentsTable.refresh();
@@ -567,11 +567,11 @@ public class WineStockController {
     }
 
     /**
-     * Shows an error dialog with a specific title and message.
+     * Shows an error dialogue with a specific title and message.
      * If an exception object is provided, it will also display the exception stack trace.
      *
-     * @param title   the title of the error dialog
-     * @param message the message to be displayed in the error dialog
+     * @param title   the title of the error dialogue
+     * @param message the message to be displayed in the error dialogue
      * @param ex      the exception object (nullable) to display its stack trace
      */
     private void showErrorDialog(@NotNull Errors title, @NotNull Errors message, Exception ex) {
@@ -587,14 +587,14 @@ public class WineStockController {
     /**
      * Adds a new wine to the database.
      * <p>
-     * It first constructs a Wine object using the provided inputs (name, year, volume, color, price, and comment),
+     * It first constructs a Wine object using the provided inputs (name, year, volume, colour, price, and comment),
      * then calls the insertWine method of the PostgreSQLManager class to insert the wine into the database.
      * If the insertion is successful, it updates the currentlySelectedWine variable to the newly added wine,
      * refreshes the wine table, and loads the selected wine.
      * If the insertion fails,
-     * it logs an error message and displays an error dialog with the corresponding error message.
+     * it logs an error message and displays an error dialogue with the corresponding error message.
      * If an exception occurs during the process, it logs an error message with the exception stack trace and displays
-     * an error dialog showing the error message and the exception stack trace.
+     * an error dialogue showing the error message and the exception stack trace.
      */
     @FXML
     public void addWine() {
@@ -640,7 +640,7 @@ public class WineStockController {
      * After deletion, it refreshes the wine table and sets the currentlySelectedWine
      * to null.
      * If an exception occurs during the deletion process, it logs an error message with the exception stack trace
-     * and displays an error dialog showing the error message and the exception stack trace.
+     * and displays an error dialogue showing the error message and the exception stack trace.
      */
     @FXML
     public void deleteWine() {
@@ -670,10 +670,10 @@ public class WineStockController {
      * to update the wine in the database.
      * After the update, it refreshes the wine table to reflect the changes.
      * If an exception occurs during the modification process, it logs an error message with the exception stack trace
-     * and displays an error dialog showing the error message and the exception stack trace.
+     * and displays an error dialogue showing the error message and the exception stack trace.
      * <p>
      * If no wine is currently selected,
-     * it logs an error message and displays an error dialog stating that no wine is selected.
+     * it logs an error message and displays an error dialogue stating that no wine is selected.
      */
     @FXML
     public void modifyWine() {
@@ -716,10 +716,10 @@ public class WineStockController {
      * Loads the selected wine into the UI fields.
      * <p>
      * Retrieves the currently selected wine from the wine table.
-     * If a wine is selected, it sets the currentlySelectedWine variable to the selected wine,
-     * and populates the UI fields with the wine's name, year, volume, color, price, and comment.
+     * If a wine is selected, it sets the currentlySelectedWine variable to the selected wine
+     * and populates the UI fields with the wine's name, year, volume, colour, price, and comment.
      * <p>
-     * If no wine is selected, it logs an error message and displays an error dialog stating that no wine is selected.
+     * If no wine is selected, it logs an error message and displays an error dialogue stating that no wine is selected.
      */
     @FXML
     public void loadSelectedWine() {
@@ -742,10 +742,10 @@ public class WineStockController {
      * Adds an assortment to the database and updates the UI.
      * <p>
      * Retrieves the year from the assortmentYearTextField and validates it.
-     * If the year is empty or not in the format "yyyy", it logs an error message and displays an error dialog.
+     * If the year is empty or not in the format "yyyy", it logs an error message and displays an error dialogue.
      * <p>
      * Inserts the assortment into the database using the postgreSQLManager.
-     * If the insertion is unsuccessful, it logs an error message and displays an error dialog.
+     * If the insertion is unsuccessful, it logs an error message and displays an error dialogue.
      * <p>
      * Retrieves the newly added assortment from the assortmentsTable and sets it as the currently selected assortment.
      * <p>
@@ -753,7 +753,7 @@ public class WineStockController {
      * <p>
      * Calls the loadSelectedAssortment() method to load the selected assortment into the UI fields.
      * <p>
-     * If an exception occurs during the process, it logs an error message and displays an error dialog.
+     * If an exception occurs during the process, it logs an error message and displays an error dialogue.
      */
     @FXML
     public void addAssortment() {
@@ -793,7 +793,7 @@ public class WineStockController {
      * <p>
      * Sets the currentlySelectedAssortment to null.
      * <p>
-     * If an exception occurs during the process, it logs an error message and displays an error dialog.
+     * If an exception occurs during the process, it logs an error message and displays an error dialogue.
      */
     @FXML
     public void deleteAssortment() {
@@ -822,7 +822,7 @@ public class WineStockController {
      * <p>
      * Refreshes the UI to reflect the changes made in the database.
      * <p>
-     * If an exception occurs during the process, it logs an error message and displays an error dialog.
+     * If an exception occurs during the process, it logs an error message and displays an error dialogue.
      */
     @FXML
     public void addWineToAssortment() {
@@ -861,7 +861,7 @@ public class WineStockController {
      * <p>
      * Refreshes the UI to reflect the changes made in the database.
      * <p>
-     * If an exception occurs during the process, it logs an error message and displays an error dialog.
+     * If an exception occurs during the process, it logs an error message and displays an error dialogue.
      */
     @FXML
     public void deleteWineFromAssortment() {
@@ -894,7 +894,7 @@ public class WineStockController {
      * <p>
      * Sets the items of assortmentWinesTable to an observableArrayList containing the selected assortment.
      * <p>
-     * If no assortment is selected, logs an error message and displays an error dialog.
+     * If no assortment is selected, logs an error message and displays an error dialogue.
      */
     @FXML
     public void loadSelectedAssortment() {
@@ -967,7 +967,7 @@ public class WineStockController {
     /**
      * Toggles the application theme.
      * <p>
-     * This method displays a confirmation dialog where the user can choose between a dark theme
+     * This method displays a confirmation dialogue where the user can choose between a dark theme
      * and a light theme. If the user selects the dark theme, the application theme is set to
      * the PrimerDark theme. If the user selects the light theme, the application theme is set to
      * the PrimerLight theme.

@@ -79,7 +79,7 @@ public class WineStock extends Application {
      * Starts the application by initialising the primary stage and loading the WineStock.fxml
      * file.
      * <p>
-     * The primary stage is then set with the loaded scene and the application title is set
+     * The primary stage is then set with the loaded scene, and the application title is set
      * as "WineStock".
      * The primary stage is made non-resizable.
      * Finally, the application icon is set

@@ -13,7 +13,7 @@ import java.util.List;
  * The volume for each bottle size is provided in centiliters.
  * <p>
  * This enum provides a static method `doubleToBottleSize`, which takes a double representing
- * a volume, and returns the corresponding `BottleSize` instance.
+ * a volume and returns the corresponding `BottleSize` instance.
  */
 @Getter
 public enum BottleSize {
