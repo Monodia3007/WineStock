@@ -22,7 +22,7 @@ repositories {
 }
 
 ext {
-    junitVersion = '5.9.2'
+    junitVersion = '5.11.3'
 }
 
 // Source & Target Java Version
