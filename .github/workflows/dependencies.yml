@@ -1,16 +1,22 @@
-name: Gradle Dependency Submission
+name: Dependency Submission
 
-on: push
+on:
+  push:
+    branches: ['main']
+
+permissions:
+  contents: write
 
 jobs:
-  build:
+  dependency-submission:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v2
-      - name: Set execute permissions for gradlew
-        run: chmod +x gradlew
-      - name: Gradle Dependency Submission
-        uses: mikepenz/gradle-dependency-submission@v0.9.0
-        with:
-          token: ${{ secrets.MY_GITHUB_TOKEN }}
+    - name: Checkout sources
+      uses: actions/checkout@v4
+    - name: Setup Java
+      uses: actions/setup-java@v4
+      with:
+        distribution: 'temurin'
+        java-version: 17
+    - name: Generate and submit dependency graph
+      uses: gradle/actions/dependency-submission@v4
