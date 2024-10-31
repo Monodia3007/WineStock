@@ -2,6 +2,7 @@ package eu.lilithmonodia.winestock.data;
 
 import eu.lilithmonodia.winestock.exceptions.InvalidBottleVolumeException;
 import eu.lilithmonodia.winestock.exceptions.InvalidYearException;
+import lombok.Builder;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
@@ -18,7 +19,9 @@ import java.time.Year;
  * <p>
  * The wine can also be part of an assortment (collection of wines).
  */
-@Getter @EqualsAndHashCode
+@Builder
+@Getter
+@EqualsAndHashCode
 public class Wine implements Comparable<Wine> {
     /**
      * Represents a constant variable for an invalid year.
@@ -40,22 +43,6 @@ public class Wine implements Comparable<Wine> {
     private String comment;
     @Setter
     private boolean inAssortment;
-
-    /**
-     * Private constructor used by the Builder class to create a Wine object.
-     *
-     * @param builder the builder object containing the wine details
-     */
-    private Wine(@NotNull Builder builder) {
-        this.id = builder.id;
-        this.name = builder.name;
-        this.year = Year.of(builder.year);
-        this.volume = builder.volume;
-        this.comment = builder.comment;
-        this.color = builder.color;
-        this.price = builder.price;
-        this.inAssortment = false;
-    }
 
     /**
      * Sets the year of an object.
@@ -113,89 +100,5 @@ public class Wine implements Comparable<Wine> {
     @Override
     public int compareTo(@NotNull Wine o) {
         return Integer.compare(this.id, o.id);
-    }
-
-    /**
-     * The Builder class is responsible for building instances of the Wine class.
-     * It provides a convenient way to construct Wine objects with optional parameters.
-     */
-    public static class Builder {
-        private final int id;
-        private final String name;
-        private final int year;
-        private final BottleSize volume;
-        private final Color color;
-        private final double price;
-        private String comment;
-
-        /**
-         * Constructs a new Builder object with the specified parameters.
-         *
-         * @param name   the name of the builder
-         * @param year   the year of the builder
-         * @param volume the volume of the builder
-         * @param color  the colour of the builder
-         * @param price  the price of the builder
-         */
-        public Builder(String name, int year, double volume, String color, double price) {
-            this(-1, name, year, volume, color, price);
-        }
-
-        /**
-         * Constructs a new Builder object with the given parameters and checks the validity of parameters.
-         *
-         * @param id     the id of the builder
-         * @param name   the name of the builder
-         * @param year   the year of the builder
-         * @param volume the volume of the builder
-         * @param color  the colour of the builder
-         * @param price  the price of the builder
-         * @throws IllegalArgumentException if the year is after the current year, or if the colour is not one of the predefined wine colours
-         */
-        public Builder(int id, String name, int year, double volume, String color, double price) {
-            BottleSize volume1;
-            if (year > Year.now().getValue()) {
-                throw new IllegalArgumentException(YEAR_AFTER_CURRENT_YEAR_INVALID);
-            }
-
-            try {
-                volume1 = BottleSize.doubleToBottleSize(volume);
-            } catch (InvalidBottleVolumeException e) {
-                throw new IllegalArgumentException("Invalid Volume");
-            }
-
-            this.volume = volume1;
-            try {
-                this.color = Color.valueOf(color.toUpperCase());
-            } catch (IllegalArgumentException e) {
-                throw new IllegalArgumentException("Invalid color. The color must be one of the predefined wine colors.");
-            }
-            this.id = id;
-            this.name = name;
-            this.year = year;
-            this.price = price;
-            this.comment = "";
-        }
-
-        /**
-         * Adds a comment to the Builder object.
-         *
-         * @param comment the comment to be added
-         * @return the updated Builder object
-         */
-        public Builder comment(String comment) {
-            this.comment = comment;
-            return this;
-        }
-
-        /**
-         * Builds a new Wine object based on the current state of the Builder object.
-         *
-         * @return a new Wine object
-         */
-        public Wine build() {
-            LOGGER.info("Wine instance created with name: {}", this.name);
-            return new Wine(this);
-        }
     }
 }

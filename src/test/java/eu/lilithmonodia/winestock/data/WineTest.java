@@ -13,7 +13,12 @@ class WineTest {
 
     @BeforeEach
     void initialisation() {
-        wine = new Wine.Builder("Cabernet", 2019, 75.0, "ROUGE", 150.0).build();
+        wine = Wine.builder().name("Cabernet")
+                .year(Year.of(2019))
+                .volume(BottleSize.BOUTEILLE)
+                .color(Color.ROUGE)
+                .price(150.0)
+                .comment("").build();
         wine.setId(0);
     }
 
@@ -120,7 +125,12 @@ class WineTest {
     @Test
     void testEqualsAndHashCode() {
         // otherWine
-        Wine otherWine = new Wine.Builder("Cabernet", 2019, 75.0, "ROUGE", 150.0).build();
+        Wine otherWine = Wine.builder().name("Cabernet")
+                .year(Year.of(2019))
+                .volume(BottleSize.BOUTEILLE)
+                .color(Color.ROUGE)
+                .price(150.0)
+                .comment("").build();
         assertNotEquals(wine, otherWine); // They are not equal because wine.setVolume(150.0) will set the volume to BottleSize.BOUTEILLE and not MAGNUM
         assertNotEquals(wine.hashCode(), otherWine.hashCode());
     }
@@ -134,45 +144,6 @@ class WineTest {
     }
 
     @Test
-    void builderCreatesCorrectWineObject() {
-        assertEquals("Cabernet", wine.getName());
-        assertEquals(Year.of(2019), wine.getYear());
-        assertEquals(BottleSize.BOUTEILLE, wine.getVolume());  // Test the volume with 75.0 which corresponds to BOUTEILLE
-        assertEquals(Color.ROUGE, wine.getColor());
-        assertEquals(150.0, wine.getPrice());
-        assertEquals("", wine.getComment());  // Default comment value
-        assertFalse(wine.isInAssortment());  // Default assortment value
-    }
-
-    @Test
-    void builderSetCommentCreatesCorrectWineObject() {
-        Wine wineWithComment = new Wine.Builder("Pinot Noir", 2021, 75.0, "ROUGE", 120.0).comment("Excellent").build();  // Use 75.0 instead of 150.0
-
-        assertEquals("Pinot Noir", wineWithComment.getName());
-        assertEquals(Year.of(2021), wineWithComment.getYear());
-        assertEquals(BottleSize.BOUTEILLE, wineWithComment.getVolume());  // Test the volume with 75.0 which corresponds to BOUTEILLE
-        assertEquals(Color.ROUGE, wineWithComment.getColor());
-        assertEquals(120.0, wineWithComment.getPrice());
-        assertEquals("Excellent", wineWithComment.getComment());
-        assertFalse(wineWithComment.isInAssortment());  // Default assortment value
-    }
-
-    @Test
-    void testInvalidColor() {
-        assertThrows(IllegalArgumentException.class, () -> new Wine.Builder("Cabernet", 2018, 75.0, "INVALID_COLOR", 150.0).build());
-    }
-
-    @Test
-    void testInvalidBottleSize() {
-        assertThrows(IllegalArgumentException.class, () -> new Wine.Builder("Cabernet", 2018, 999, "ROUGE", 150.0).build());
-    }
-
-    @Test
-    void testInvalidYearInFutureInBuilder() {
-        assertThrows(IllegalArgumentException.class, () -> new Wine.Builder("Cabernet", Year.now().getValue() + 1, 75.0, "ROUGE", 150.0).build());
-    }
-
-    @Test
     void testSetVolumeInvalid() {
         assertDoesNotThrow(() -> {
             wine.setVolume(999);
@@ -182,7 +153,11 @@ class WineTest {
 
     @Test
     void testCompareTo() {
-        Wine otherWine = new Wine.Builder("Cabernet", 2019, 75.0, "ROUGE", 150.0).build();
+        Wine otherWine = Wine.builder().name("Cabernet")
+                .year(Year.of(2019))
+                .volume(BottleSize.BOUTEILLE)
+                .color(Color.ROUGE)
+                .price(150.0).build();
         otherWine.setId(1); // This ID is greater than wine's ID, which is 0.
 
         assertTrue(wine.compareTo(otherWine) < 0); // wine's ID is less than otherWine's ID.

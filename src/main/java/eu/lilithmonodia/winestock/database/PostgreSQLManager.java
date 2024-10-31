@@ -1,7 +1,10 @@
 package eu.lilithmonodia.winestock.database;
 
 import eu.lilithmonodia.winestock.data.Assortment;
+import eu.lilithmonodia.winestock.data.BottleSize;
+import eu.lilithmonodia.winestock.data.Color;
 import eu.lilithmonodia.winestock.data.Wine;
+import eu.lilithmonodia.winestock.exceptions.InvalidBottleVolumeException;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.jetbrains.annotations.NotNull;
@@ -76,15 +79,16 @@ public class PostgreSQLManager {
              PreparedStatement pstmt = conn.prepareStatement(WINE_SELECT_SQL);
              ResultSet resultSet = pstmt.executeQuery()) {
             while (resultSet.next()) {
-                wines.add(new Wine.Builder(
-                        resultSet.getInt("wno"),
-                        resultSet.getString("name"),
-                        resultSet.getInt("year"),
-                        resultSet.getDouble("volume"),
-                        resultSet.getString("color"),
-                        resultSet.getDouble("price")
-                ).comment(resultSet.getString("comment")).build());
+                wines.add(Wine.builder().id(resultSet.getInt("wno"))
+                        .name(resultSet.getString("name"))
+                        .year(Year.of(resultSet.getInt("year")))
+                        .volume(BottleSize.doubleToBottleSize(resultSet.getDouble("volume")))
+                        .color(Color.valueOf(resultSet.getString("color")))
+                        .price(resultSet.getDouble("price"))
+                        .comment(resultSet.getString("comment")).build());
             }
+        } catch (InvalidBottleVolumeException e) {
+            throw new RuntimeException(e);
         }
         return wines;
     }
@@ -158,6 +162,8 @@ public class PostgreSQLManager {
                 Assortment<Wine> assortment = fetchAssortmentByResultSet(resultSet);
                 assortments.add(assortment);
             }
+        } catch (InvalidBottleVolumeException e) {
+            throw new RuntimeException(e);
         }
         return assortments;
     }
@@ -169,7 +175,7 @@ public class PostgreSQLManager {
      * @return an Assortment object representing the assortment extracted from the ResultSet
      * @throws SQLException if an error occurs while accessing the ResultSet
      */
-    private @NotNull Assortment<Wine> fetchAssortmentByResultSet(@NotNull ResultSet resultSet) throws SQLException {
+    private @NotNull Assortment<Wine> fetchAssortmentByResultSet(@NotNull ResultSet resultSet) throws SQLException, InvalidBottleVolumeException {
         Assortment<Wine> assortment = new Assortment<>(resultSet.getInt("ano"), Year.of(resultSet.getInt("year")));
         try (PreparedStatement pstmtWines = connect().prepareStatement(WINE_SELECT_ASSORTMENT_SQL)) {
             pstmtWines.setInt(1, resultSet.getInt("ano"));
@@ -189,15 +195,14 @@ public class PostgreSQLManager {
      * @return a Wine object representing the wine extracted from the ResultSet
      * @throws SQLException if an error occurs while accessing the ResultSet
      */
-    private Wine getWineFromResultSet(@NotNull ResultSet resultSetWines) throws SQLException {
-        return new Wine.Builder(
-                resultSetWines.getInt("wno"),
-                resultSetWines.getString("name"),
-                resultSetWines.getInt("year"),
-                resultSetWines.getDouble("volume"),
-                resultSetWines.getString("color"),
-                resultSetWines.getDouble("price")
-        ).comment(resultSetWines.getString("comment")).build();
+    private Wine getWineFromResultSet(@NotNull ResultSet resultSetWines) throws SQLException, InvalidBottleVolumeException {
+        return Wine.builder().id(resultSetWines.getInt("wno"))
+                .name(resultSetWines.getString("name"))
+                .year(Year.of(resultSetWines.getInt("year")))
+                .volume(BottleSize.doubleToBottleSize(resultSetWines.getDouble("volume")))
+                .color(Color.valueOf(resultSetWines.getString("color")))
+                .price(resultSetWines.getDouble("price"))
+                .comment(resultSetWines.getString("comment")).build();
     }
 
     /**

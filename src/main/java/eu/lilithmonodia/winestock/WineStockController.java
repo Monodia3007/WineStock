@@ -622,13 +622,14 @@ public class WineStockController {
         String yearFieldText = wineYearField.getText();
         int year = yearFieldText.isEmpty() ? 0 : Integer.parseInt(yearFieldText);
 
-        return new Wine.Builder(
-                wineNameField.getText(),
-                year,
-                wineVolumeComboBox.getValue().getVolume(),
-                wineColorComboBox.getValue().name(),
-                Double.parseDouble(winePriceField.getText())
-        ).comment(wineCommentField.getText()).build();
+        return Wine.builder().id(-1)
+                .name(wineNameField.getText())
+                .year(Year.of(year))
+                .volume(wineVolumeComboBox.getValue())
+                .color(wineColorComboBox.getValue())
+                .price(Double.parseDouble(winePriceField.getText()))
+                .comment(wineCommentField.getText())
+                .inAssortment(false).build();
     }
 
     /**

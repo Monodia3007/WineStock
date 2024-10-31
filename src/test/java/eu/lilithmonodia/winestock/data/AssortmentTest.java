@@ -1,5 +1,6 @@
 package eu.lilithmonodia.winestock.data;
 
+import eu.lilithmonodia.winestock.exceptions.InvalidBottleVolumeException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -16,10 +17,20 @@ class AssortmentTest {
     private Wine wine2;
 
     @BeforeEach
-    void setUp() {
+    void setUp() throws InvalidBottleVolumeException {
         assortment = new Assortment<>();
-        wine1 = new Wine.Builder("Wine1", 2020, 75, "ROUGE", 50.0).build();
-        wine2 = new Wine.Builder("Wine2", 2020, 75, "BLANC", 100.0).build();
+        wine1 = Wine.builder().id(-1)
+                .name("Wine1")
+                .year(Year.of(2020))
+                .volume(BottleSize.doubleToBottleSize(75))
+                .color(Color.valueOf("ROUGE"))
+                .price(50.0).comment("").build();
+        wine2 = Wine.builder().id(-1)
+                .name("Wine2")
+                .year(Year.of(2020))
+                .volume(BottleSize.doubleToBottleSize(75))
+                .color(Color.valueOf("BLANC"))
+                .price(100.0).comment("").build();
     }
 
     @Test
@@ -110,14 +121,22 @@ class AssortmentTest {
             Assortment<Wine> otherAssortment = new Assortment<>();
             assertNotEquals(assortment, otherAssortment);
 
-            Wine wine1InOtherAssortment = new Wine.Builder("Wine1", 2020, 75,
-                    "ROUGE", 50.0).build();
+            Wine wine1InOtherAssortment = Wine.builder().id(-1)
+                    .name("Wine1")
+                    .year(Year.of(2020))
+                    .volume(BottleSize.doubleToBottleSize(75))
+                    .color(Color.valueOf("ROUGE"))
+                    .price(50.0).comment("").build();
             otherAssortment.add(wine1InOtherAssortment);
 
             assertEquals(assortment, otherAssortment);
 
-            Wine wine2InOtherAssortment = new Wine.Builder("Wine2", 2020, 75,
-                    "BLANC", 100.0).build();
+            Wine wine2InOtherAssortment = Wine.builder().id(-1)
+                    .name("Wine2")
+                    .year(Year.of(2020))
+                    .volume(BottleSize.doubleToBottleSize(75))
+                    .color(Color.valueOf("BLANC"))
+                    .price(100.0).comment("").build();
             otherAssortment.add(wine2InOtherAssortment);
             assertNotEquals(assortment, otherAssortment);
         });
