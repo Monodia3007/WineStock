@@ -127,7 +127,7 @@ class WineTest {
         // otherWine
         Wine otherWine = Wine.builder().name("Cabernet")
                 .year(Year.of(2019))
-                .volume(BottleSize.BOUTEILLE)
+                .volume(BottleSize.MAGNUM)
                 .color(Color.ROUGE)
                 .price(150.0)
                 .comment("").build();
