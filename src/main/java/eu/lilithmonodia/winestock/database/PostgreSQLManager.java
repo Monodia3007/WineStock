@@ -88,7 +88,7 @@ public class PostgreSQLManager {
                         .comment(resultSet.getString("comment")).build());
             }
         } catch (InvalidBottleVolumeException e) {
-            throw new RuntimeException(e);
+            throw new IllegalArgumentException(e);
         }
         return wines;
     }
@@ -163,7 +163,7 @@ public class PostgreSQLManager {
                 assortments.add(assortment);
             }
         } catch (InvalidBottleVolumeException e) {
-            throw new RuntimeException(e);
+            throw new IllegalArgumentException(e);
         }
         return assortments;
     }
