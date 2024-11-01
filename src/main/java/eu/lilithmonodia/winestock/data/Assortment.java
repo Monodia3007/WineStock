@@ -25,8 +25,7 @@ public class Assortment<W extends Wine> implements List<W> {
     private static final Logger LOGGER = LogManager.getLogger(Assortment.class);
     private static final String WINE_IS_NOT_IN_THE_ASSORTMENT = "Wine is not in the assortment";
     private final List<W> wineList;
-    @Setter
-    private int id;
+    private @Setter int id;
     private Year year;
     private double totalPrice;
     private String wineNames;

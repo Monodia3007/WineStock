@@ -29,20 +29,14 @@ public class Wine implements Comparable<Wine> {
      */
     private static final String YEAR_AFTER_CURRENT_YEAR_INVALID = "Invalid year. The year must not be after the current year.";
     private static final Logger LOGGER = LogManager.getLogger(Wine.class);
-    @Setter
-    private int id;
-    @Setter
-    private String name;
+    private @Setter int id;
+    private @Setter String name;
     private Year year;
     private BottleSize volume;
-    @Setter
-    private Color color;
-    @Setter
-    private double price;
-    @Setter
-    private String comment;
-    @Setter
-    private boolean inAssortment;
+    private @Setter Color color;
+    private @Setter double price;
+    private @Setter String comment;
+    private @Setter boolean inAssortment;
 
     /**
      * Sets the year of an object.
