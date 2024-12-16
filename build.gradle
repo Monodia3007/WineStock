@@ -38,7 +38,7 @@ repositories {
 dependencies {
     // Indicate libraries the project needs to compile and run
     implementation 'org.jetbrains:annotations:26.0.1'
-    implementation 'org.apache.logging.log4j:log4j-api:2.24.1'
+    implementation 'org.apache.logging.log4j:log4j-api:2.24.3'
     implementation 'org.postgresql:postgresql:42.7.4'
     implementation 'org.apache.logging.log4j:log4j-core:2.24.1'
     implementation 'io.github.mkpaz:atlantafx-base:2.0.1'
