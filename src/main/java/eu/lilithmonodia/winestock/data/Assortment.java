@@ -216,28 +216,6 @@ public class Assortment<W extends Wine> extends AbstractList<W> implements List<
     }
 
     /**
-     * Returns the index out of the first occurrence of the specified element in the Wine list.
-     *
-     * @param o Element to search for
-     * @return The index of the first occurrence, or -1 if not found
-     */
-    @Override
-    public int indexOf(Object o) {
-        return this.wineList.indexOf(o);
-    }
-
-    /**
-     * Returns the index of the last occurrence of the specified element in the Wine list.
-     *
-     * @param o Element to search for
-     * @return The index of the last occurrence, or -1 if not found
-     */
-    @Override
-    public int lastIndexOf(Object o) {
-        return this.wineList.lastIndexOf(o);
-    }
-
-    /**
      * Returns a list iterator over the elements in the Wine list.
      *
      * @return List iterator over the elements
@@ -488,17 +466,6 @@ public class Assortment<W extends Wine> extends AbstractList<W> implements List<
     }
 
     // Methods overridden from interface Iterable
-
-    /**
-     * Creates an Iterator for the Wine list.
-     *
-     * @return an Iterator for the Wine list
-     */
-    @NotNull
-    @Override
-    public Iterator<W> iterator() {
-        return wineList.iterator();
-    }
 
     /**
      * Performs the provided action for each Wine in the list.
