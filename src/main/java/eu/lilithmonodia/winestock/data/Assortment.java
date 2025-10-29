@@ -313,6 +313,7 @@ public class Assortment<W extends Wine> extends AbstractList<W> implements List<
      * @param wine The Wine object to be added to the Assortment.
      * @return {@code true} if the Wine object is successfully added to the Assortment, {@code false} otherwise.
      */
+    @Override
     public boolean add(W wine) {
         try {
             if ((year != null && !wine.getYear().equals(year)) || wine.isInAssortment()) {
