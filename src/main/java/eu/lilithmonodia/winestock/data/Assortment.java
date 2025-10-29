@@ -20,8 +20,8 @@ import java.util.function.Consumer;
  * The class maintains the properties such as ID, total price, and wine names in the Assortment.
  */
 @Getter
-@EqualsAndHashCode
-public class Assortment<W extends Wine> implements List<W> {
+@EqualsAndHashCode(callSuper = false)
+public class Assortment<W extends Wine> extends AbstractList<W> implements List<W> {
     private static final Logger LOGGER = LogManager.getLogger(Assortment.class);
     private static final String WINE_IS_NOT_IN_THE_ASSORTMENT = "Wine is not in the assortment";
     private final List<W> wineList;
@@ -33,7 +33,7 @@ public class Assortment<W extends Wine> implements List<W> {
     /**
      * Default constructor for the Assortment class.
      * <p>
-     * Initializes an Assortment with a default ID of -1, an empty Wine list,
+     * Initialises an Assortment with a default ID of -1, an empty Wine list,
      * null year, total price of zero, and an empty wine names string.
      */
     public Assortment() {
@@ -43,7 +43,7 @@ public class Assortment<W extends Wine> implements List<W> {
     /**
      * Overloaded constructor for the Assortment class.
      * <p>
-     * Initializes an Assortment with the given ID, an empty Wine list,
+     * Initialises an Assortment with the given ID, an empty Wine list,
      * null year, total price of zero, and an empty wine names string.
      *
      * @param id The ID for the Assortment
@@ -59,7 +59,7 @@ public class Assortment<W extends Wine> implements List<W> {
     /**
      * Overloaded constructor for the Assortment class.
      * <p>
-     * Initializes an Assortment with the given ID, an empty Wine list,
+     * Initialises an Assortment with the given ID, an empty Wine list,
      * the specified year, total price of zero, and an empty wine names string.
      *
      * @param id   The ID for the Assortment
@@ -516,7 +516,7 @@ public class Assortment<W extends Wine> implements List<W> {
      * @return a Spliterator over the Wine list
      */
     @Override
-    public Spliterator<W> spliterator() {
+    public @NotNull Spliterator<W> spliterator() {
         return wineList.spliterator();
     }
 
